@@ -28,10 +28,10 @@ function AboutAndi() {
         </div>
 
         <div className="flex mt-6 space-x-4">
-          <a href="#" className="text-blue-700 hover:text-blue-900">
+          <a href="https://www.linkedin.com/company/learn-with-andi" target="_blank" className="text-blue-700 hover:text-blue-900">
             <i className="fab fa-linkedin fa-2x"></i>
           </a>
-          <a href="#" className="text-pink-500 hover:text-pink-700">
+          <a href="https://www.instagram.com/learnwithandi" target="_blank" className="text-pink-500 hover:text-pink-700">
             <i className="fab fa-instagram fa-2x"></i>
           </a>
         </div>

@@ -1,4 +1,5 @@
 import Button from '../elements/Button';
+import Nav from '../elements/nav';
 
 function Header() {
   return (
@@ -7,23 +8,14 @@ function Header() {
         <a href="/">
           <img src="/logo.png" alt="Logo" className="h-8 md:h-14" />
         </a>
-        <div className="flex justify-center space-x-1 md:space-x-6">
-          <a href="" className="hover:text-gray-500">
-            Beranda
-          </a>
-          <a href="" className="hover:text-gray-500">
-            Services
-          </a>
-          <a href="" className="hover:text-gray-500">
-            Testimoni
-          </a>
-          <a href="" className="hover:text-gray-500">
-            About
-          </a>
+        <div>
+          <Nav></Nav>
         </div>
-        <Button variant="white" variantHover="black" textHover="white" textColor="black">
-          Booking konsultasi
-        </Button>
+        <a href="/login">
+          <Button variant="white" variantHover="black" textHover="white" textColor="black">
+            Booking konsultasi
+          </Button>
+        </a>
       </nav>
     </header>
   );

@@ -16,7 +16,9 @@ function LandingPage() {
       <LayananKonsultasi></LayananKonsultasi>
       <Testimoni></Testimoni>
       <div className=" flex justify-center mb-10">
-        <Button>Konsultasi Sekarang</Button>
+        <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+          Konsultasi Sekarang
+        </button>
       </div>
       <AboutAndi></AboutAndi>
       <Footer></Footer>
