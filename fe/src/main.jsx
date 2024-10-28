@@ -4,6 +4,7 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './components/pages/landingPage.jsx';
 import LoginUser from './components/pages/loginUser.jsx';
+import Booking from './components/pages/booking.jsx';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginUser />,
+  },
+  {
+    path: '/booking',
+    element: <Booking />,
   },
 ]);
 

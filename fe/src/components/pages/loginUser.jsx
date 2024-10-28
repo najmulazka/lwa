@@ -7,16 +7,16 @@ function LoginUser() {
           <img src="/logo.png" alt="" className="h-8 md:h-14 mb-10 md:mb-14" />
         </a>
 
-          <div className="text-3xl md:text-4xl font-bold mb-20 md:mb-14">
-            <span>Yuk, Masuk dan Lanjutkan Perjalanan Kariermu dengan LearnWithAndi!</span>
-          </div>
+        <div className="text-3xl md:text-4xl font-bold mb-20 md:mb-14">
+          <span>Yuk, Masuk dan Lanjutkan Perjalanan Kariermu dengan LearnWithAndi!</span>
+        </div>
 
-          <a href="#">
-            <div className="inline-flex font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white">
-              <i className="fa-brands fa-google text-pink-500"></i>
-              <span>Masuk Dengan Google</span>
-            </div>
-          </a>
+        <a href="/booking">
+          <div className="inline-flex font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white">
+            <i className="fa-brands fa-google text-pink-500"></i>
+            <span>Masuk Dengan Google</span>
+          </div>
+        </a>
 
         <div className="md:fixed bottom-10 text-semibold absolute">
           <Nav></Nav>
