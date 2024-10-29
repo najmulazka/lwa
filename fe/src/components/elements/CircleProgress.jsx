@@ -1,0 +1,25 @@
+function CircleProgress(props) {
+  const { percentage } = props;
+  const radius = 80; // Perbesar radius lingkaran
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="flex items-center justify-center">
+      <svg width="180" height="180" className="rotate-90">
+        <circle
+          stroke="#e6e6e6"
+          strokeWidth="20"
+          fill="transparent"
+          r={radius}
+          cx="90" // Sesuaikan posisi tengah
+          cy="90"
+        />
+        <circle stroke="#4caf50" strokeWidth="20" fill="transparent" r={radius} cx="90" cy="90" strokeDasharray={circumference} strokeDashoffset={offset} />
+      </svg>
+      <div className="absolute text-2xl font-bold">{percentage}%</div>
+    </div>
+  );
+}
+
+export default CircleProgress;
