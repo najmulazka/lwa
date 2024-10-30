@@ -30,7 +30,9 @@ function Branding() {
 
         <div className="w-full md:w-1/2 h-[360px] md:h-[530px] flex flex-col relative">
           <div className="flex flex-row">
-            <img src="/branding1.png" alt="branding1" className="w-1/2 rounded-xl ml-4 md:ml-6 " />
+            <div className="w-1/2 rounded-xl ml-4 md:ml-6 bg-orange-300">
+              <img src="/ilustration1.png" alt="branding1" />
+            </div>
             <div className="w-1/2">
               <div className="bg-white px-3 py-1 rounded-md shadow-md mt-10 md:mt-14 inline-flex items-center md:ml-6">
                 <i className="fa-duotone fa-solid fa-square mr-2 text-gray-500"></i>
@@ -45,7 +47,9 @@ function Branding() {
                 <span>Roasting CV & Linkedin</span>
               </div>
             </div>
-            <img src="/branding1.png" alt="branding1" className="w-1/2 rounded-xl mr-4 md:mr-10" />
+            <div className="w-1/2 rounded-xl mr-4 md:mr-10 bg-blue-300">
+              <img src="/ilustration2.png" alt="branding1" />
+            </div>
           </div>
         </div>
       </div>

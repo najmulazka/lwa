@@ -1,7 +1,7 @@
 function Nav() {
   return (
     <div className="flex justify-between md:justify-start space-x-1 md:space-x-6">
-      <a href="#branding" className="hover:text-gray-500">
+      <a href="/" className="hover:text-gray-500">
         Beranda
       </a>
       <a href="#services" className="hover:text-gray-500">

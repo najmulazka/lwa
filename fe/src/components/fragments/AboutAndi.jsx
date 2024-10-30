@@ -1,6 +1,6 @@
 function AboutAndi() {
   return (
-    <div id="about" className="flex flex-col md:flex-row items-center md:items-start py-6 md:py-14 px-8 md:px-24 border">
+    <div id="about" className="flex flex-col md:flex-row items-center md:items-start py-6 md:py-14 px-8 md:px-24">
       <div className="w-full md:w-1/2 flex md:flex-col flex-col-reverse justify-center md:justify-start mb-4 md:mb-0">
         <img src="/branding1.png" alt="Andi Satriawan Lubis" className="rounded-lg w-full object-cover shadow-lg" />
 
