@@ -2,7 +2,7 @@ import Button from '../elements/Button';
 
 function Branding() {
   return (
-    <div className="py-6 md:py-14 px-8 md:px-24 border">
+    <div id="branding" className="py-6 md:py-14 px-8 md:px-24 border">
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 mb-6 md:mb-0">
           <div className="mb-3 flex items-center">
@@ -20,9 +20,11 @@ function Branding() {
             <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
               Konsultasi Sekarang
             </button>
-            <Button variant="white" variantHover="black" textHover="white" textColor="black">
-              Siapa Andi?
-            </Button>
+            <a href="#about">
+              <Button variant="white" variantHover="black" textHover="white" textColor="black">
+                Siapa Andi?
+              </Button>
+            </a>
           </div>
         </div>
 

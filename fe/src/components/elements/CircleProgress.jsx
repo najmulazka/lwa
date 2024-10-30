@@ -15,9 +15,9 @@ function CircleProgress(props) {
           cx="90" // Sesuaikan posisi tengah
           cy="90"
         />
-        <circle stroke="#4caf50" strokeWidth="20" fill="transparent" r={radius} cx="90" cy="90" strokeDasharray={circumference} strokeDashoffset={offset} />
+        <circle stroke="#4ade80" strokeWidth="20" fill="transparent" r={radius} cx="90" cy="90" strokeDasharray={circumference} strokeDashoffset={offset} />
       </svg>
-      <div className="absolute text-2xl font-bold">{percentage}%</div>
+      <div className="absolute text-3xl font-bold text-blue-500">{percentage}%</div>
     </div>
   );
 }
