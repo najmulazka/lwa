@@ -9,6 +9,7 @@ function Button(props) {
   );
 }
 
+// Validation
 Button.propTypes = {
   variant: PropTypes.string.isRequired,
   textColor: PropTypes.string.isRequired,
@@ -17,7 +18,7 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// Menambahkan default props jika diperlukan
+// Optional
 Button.defaultProps = {
   variant: 'white',
   textColor: 'black',

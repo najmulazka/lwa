@@ -37,9 +37,11 @@ function LandingPage() {
         </TestimoniItem>
       </Testimoni>
       <div className=" flex justify-center mb-10">
-        <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
-          Konsultasi Sekarang
-        </button>
+        <a href="/booking">
+          <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+            Konsultasi Sekarang
+          </button>
+        </a>
       </div>
       <AboutAndi></AboutAndi>
       <Faq>

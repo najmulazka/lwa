@@ -11,6 +11,7 @@ import LinkedinProfileUser from './components/pages/linkedinProfileUser.jsx';
 import DashboardAdmin from './components/pages/dashboardAdmin.jsx';
 import TestimoniAdmin from './components/pages/testimoniAdmin.jsx';
 import FaqAdmin from './components/pages/faqAdmin.jsx';
+import LoginAdmin from './components/pages/loginAdmin.jsx';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: '/user/linkedin-profile',
     element: <LinkedinProfileUser />,
+  },
+  {
+    path: '/login-admin',
+    element: <LoginAdmin />,
   },
   {
     path: '/admin',

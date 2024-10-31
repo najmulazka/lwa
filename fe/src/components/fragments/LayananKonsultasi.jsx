@@ -12,7 +12,7 @@ function LayananKonsultasi() {
           </div>
         </div>
         <div className="mt-5 md:mt-0">
-          <img src="/branding1.png" alt="image" className="rounded-xl" />
+          <img src="/services.png" alt="image" className="rounded-xl" />
         </div>
       </div>
     </div>

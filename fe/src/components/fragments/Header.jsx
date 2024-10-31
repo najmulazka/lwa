@@ -12,8 +12,8 @@ function Header() {
           <Nav></Nav>
         </div>
         <a href="/login">
-          <Button variant="white" variantHover="black" textHover="white" textColor="black">
-            Booking konsultasi
+          <Button variant="black" variantHover="white" textHover="black" textColor="white">
+            Login
           </Button>
         </a>
       </nav>

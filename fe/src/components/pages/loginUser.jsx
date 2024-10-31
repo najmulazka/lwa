@@ -11,7 +11,7 @@ function LoginUser() {
           <span>Yuk, Masuk dan Lanjutkan Perjalanan Kariermu dengan LearnWithAndi!</span>
         </div>
 
-        <a href="/booking">
+        <a href="/user">
           <div className="inline-flex font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white">
             <i className="fa-brands fa-google text-pink-500"></i>
             <span>Masuk Dengan Google</span>
@@ -23,7 +23,7 @@ function LoginUser() {
         </div>
       </div>
       <div className="hidden md:flex md:w-1/2">
-        <img src="/branding1.png" alt="image" className=" md:h-screen w-full" />
+        <img src="/login.png" alt="image" className=" md:h-screen w-full" />
       </div>
     </div>
   );

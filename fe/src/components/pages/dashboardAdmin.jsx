@@ -4,7 +4,7 @@ import SidebarAdmin from '../fragments/SidebarAdmin';
 function DashboardAdmin() {
   return (
     <div>
-      <SidebarAdmin/>
+      <SidebarAdmin />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
@@ -24,6 +24,7 @@ function DashboardAdmin() {
                 </tr>
               </thead>
               <tbody>
+                {/* Looping data */}
                 <tr>
                   <td className="text-left">01.</td>
                   <td className="text-left">28 Oct 2024</td>

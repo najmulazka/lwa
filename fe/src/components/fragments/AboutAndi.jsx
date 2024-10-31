@@ -2,7 +2,7 @@ function AboutAndi() {
   return (
     <div id="about" className="flex flex-col md:flex-row items-center md:items-start py-6 md:py-14 px-8 md:px-24">
       <div className="w-full md:w-1/2 flex md:flex-col flex-col-reverse justify-center md:justify-start mb-4 md:mb-0">
-        <img src="/branding1.png" alt="Andi Satriawan Lubis" className="rounded-lg w-full object-cover shadow-lg" />
+        <img src="/about.png" alt="Andi Satriawan Lubis" className="rounded-lg w-full object-cover shadow-lg" />
 
         <div className="mt-6">
           <p className="text-lg font-bold">Andi Satriawan Lubis</p>
@@ -17,7 +17,7 @@ function AboutAndi() {
           of learners and industry experts. Reach out for advice or collaboration opportunities. Together, let's inspire success!
         </p>
         <div className="space-y-4">
-          <div className="flex space-x-2 border shadow-md p-2 font-semibold  rounded-lg ">
+          <div className="flex space-x-2 border shadow-md p-2 font-semibold rounded-lg ">
             <i className="fas fa-check-circle text-blue-500 mt-1"></i>
             <span className="text-gray-700">7 years experience on Tech Education, Recruitment, and Career Support</span>
           </div>

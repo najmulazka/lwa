@@ -17,9 +17,12 @@ function Branding() {
           <p className="text-sm md:text-lg">Elevating Career Consultation Services for the Modern</p>
           <p className="mb-8 text-xs md:text-lg">Professional</p>
           <div className="flex space-x-2">
-            <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
-              Konsultasi Sekarang
-            </button>
+            <a href="/booking">
+              <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+                Konsultasi Sekarang
+              </button>
+            </a>
+
             <a href="#about">
               <Button variant="white" variantHover="black" textHover="white" textColor="black">
                 Siapa Andi?

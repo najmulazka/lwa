@@ -4,13 +4,13 @@ function Nav() {
       <a href="/" className="hover:text-gray-500">
         Beranda
       </a>
-      <a href="#services" className="hover:text-gray-500">
+      <a href="/#services" className="hover:text-gray-500">
         Services
       </a>
-      <a href="#testimoni" className="hover:text-gray-500">
+      <a href="/#testimoni" className="hover:text-gray-500">
         Testimoni
       </a>
-      <a href="#about" className="hover:text-gray-500">
+      <a href="/#about" className="hover:text-gray-500">
         About
       </a>
     </div>
