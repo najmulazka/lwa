@@ -33,6 +33,29 @@ module.exports = {
     }
   },
 
+  faqDetail: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      let faq = await prisma.faq.findUnique({ where: { id: Number(id) } });
+
+      if (!faq) {
+        return res.status(404).json({
+          status: false,
+          message: 'Not Found',
+          data: null,
+        });
+      }
+
+      res.status(200).json({
+        status: true,
+        message: 'Get Faq Successfull',
+        data: faq,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   updateFaq: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -43,9 +66,9 @@ module.exports = {
       });
 
       if (!existFaq) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
-          message: 'Faq Does Not Exist',
+          message: 'Not Found',
           data: null,
         });
       }
@@ -77,9 +100,9 @@ module.exports = {
       });
 
       if (!existFaq) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
-          message: 'Faq Does Not Exist',
+          message: 'Not Found',
           data: null,
         });
       }

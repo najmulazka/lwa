@@ -35,6 +35,29 @@ module.exports = {
     }
   },
 
+  testimoniDetail: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      let testimoni = await prisma.testimonials.findUnique({ where: { id: Number(id) } });
+
+      if (!testimoni) {
+        return res.status(404).json({
+          status: false,
+          message: 'Not Found',
+          data: null,
+        });
+      }
+
+      res.status(200).json({
+        status: true,
+        message: 'Get Testimoni Successfull',
+        data: testimoni,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   updateTestimoni: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -45,9 +68,9 @@ module.exports = {
       });
 
       if (!existTestimoni) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
-          message: 'Testimoni Does Not Exist',
+          message: 'Not Found',
           data: null,
         });
       }
@@ -81,9 +104,9 @@ module.exports = {
       });
 
       if (!existTestimoni) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
-          message: 'Testimoni Does Not Exist',
+          message: 'Not Found',
           data: null,
         });
       }

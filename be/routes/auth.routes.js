@@ -1,6 +1,8 @@
 const router = require('express').Router();
-const { googleOauth2 } = require('../controllers/auth.controllers');
+const { googleOauth2, loginAdmin } = require('../controllers/auth.controllers');
 const passport = require('../libs/passport.libs');
+
+router.get('/login', loginAdmin);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get(
