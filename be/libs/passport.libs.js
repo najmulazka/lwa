@@ -12,6 +12,8 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
+        const taskLandingJobs = await prisma.taskLandingJob.findMany();
+
         let user = await prisma.users.upsert({
           where: { email: profile.emails[0].value },
           update: { name: profile.displayName, profilePicture: profile.photos[0].value, googleId: profile.id },
@@ -22,6 +24,23 @@ passport.use(
             googleId: profile.id,
           },
         });
+
+        const existSelfCheckLandingJob = await prisma.selfCheckLandingJob.findMany({
+          where: {
+            userId: user.id,
+          },
+        });
+
+        if (existSelfCheckLandingJob.length === 0) {
+          await prisma.selfCheckLandingJob.createMany({
+            data: taskLandingJobs.map((task) => ({
+              userId: user.id,
+              taskId: task.id,
+              status: false,
+            })),
+          });
+        }
+
         done(null, user);
       } catch (err) {
         done(err, null);
