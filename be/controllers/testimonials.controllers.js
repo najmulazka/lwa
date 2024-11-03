@@ -5,10 +5,12 @@ module.exports = {
     try {
       const { name, image, position, description } = req.body;
       let testimoni = await prisma.testimonials.create({
-        name,
-        image,
-        position,
-        description,
+        data: {
+          name,
+          image,
+          position,
+          description,
+        },
       });
 
       res.status(201).json({

@@ -23,7 +23,7 @@ module.exports = {
       });
     }
 
-    const token = jwt.sign({ email: existUser.email }, JWT_SECRET_KEY);
+    const token = jwt.sign({ id: existUser.id }, JWT_SECRET_KEY);
 
     res.status(200).json({
       status: true,

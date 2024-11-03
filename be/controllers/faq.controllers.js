@@ -5,8 +5,10 @@ module.exports = {
     try {
       const { question, description } = req.body;
       let faq = await prisma.faq.create({
-        question,
-        description,
+        data: {
+          question,
+          description,
+        },
       });
 
       res.status(201).json({
