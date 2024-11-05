@@ -8,8 +8,26 @@ import Footer from '../fragments/Footer';
 import Faq from '../fragments/Faq';
 import FaqItem from '../elements/FaqItem';
 import TestimoniItem from '../elements/TestimoniItem';
+import { useEffect, useState } from 'react';
+import { getTestimonials } from '../../services/testimoni.service';
+import { getFaq } from '../../services/faq.service';
 
 function LandingPage() {
+  const [testimonials, setTestimonials] = useState([]);
+  const [faq, setFaq] = useState([]);
+
+  useEffect(() => {
+    getTestimonials((data) => {
+      setTestimonials(data.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    getFaq((data) => {
+      setFaq(data.data);
+    });
+  }, []);
+
   return (
     <div>
       <Header></Header>
@@ -17,24 +35,12 @@ function LandingPage() {
       <StartConseling></StartConseling>
       <LayananKonsultasi></LayananKonsultasi>
       <Testimoni>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
-        <TestimoniItem image="branding1.png" name="Anton" position="Backend Engineer">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio et quas quia nemo eos similique alias voluptatum laboriosam eaque. Libero a numquam reiciendis, incidunt nesciunt atque doloremque quis nobis repellat!
-        </TestimoniItem>
+        {testimonials.length > 0 &&
+          testimonials.map((testimoni) => (
+            <TestimoniItem key={testimoni.id} image={testimoni.image} name={testimoni.name} position={testimoni.position}>
+              {testimoni.description}
+            </TestimoniItem>
+          ))}
       </Testimoni>
       <div className=" flex justify-center mb-10">
         <a href="/booking">
@@ -44,11 +50,7 @@ function LandingPage() {
         </a>
       </div>
       <AboutAndi></AboutAndi>
-      <Faq>
-        <FaqItem question="qergdf" description="asdfsdlkjfdhahja" />
-        <FaqItem question="qergdf" description="asdfsdlkjfdhahja" />
-        <FaqItem question="qergdf" description="asdfsdlkjfdhahja" />
-      </Faq>
+      <Faq>{faq.length > 0 && faq.map((faq) => <FaqItem key={faq.id} question={faq.question} description={faq.description} />)}</Faq>
       <Footer></Footer>
     </div>
   );

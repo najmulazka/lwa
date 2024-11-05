@@ -19,11 +19,11 @@ Button.propTypes = {
 };
 
 // Optional
-Button.defaultProps = {
-  variant: 'white',
-  textColor: 'black',
-  variantHover: 'black',
-  textHover: 'white',
-};
+// Button.defaultProps = {
+//   variant: 'white',
+//   textColor: 'black',
+//   variantHover: 'black',
+//   textHover: 'white',
+// };
 
 export default Button;
