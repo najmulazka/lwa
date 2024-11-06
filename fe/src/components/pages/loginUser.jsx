@@ -1,5 +1,9 @@
 import Nav from '../elements/nav';
 function LoginUser() {
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_URL}/auth/google`;
+  };
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="flex flex-col px-10 md:px-24 pt-5 md:pt-10 md:w-1/2 h-screen">
@@ -11,12 +15,13 @@ function LoginUser() {
           <span>Yuk, Masuk dan Lanjutkan Perjalanan Kariermu dengan LearnWithAndi!</span>
         </div>
 
-        <a href="/user">
-          <div className="inline-flex font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white">
-            <i className="fa-brands fa-google text-pink-500"></i>
-            <span>Masuk Dengan Google</span>
-          </div>
-        </a>
+        {/* <a href="/user"> */}
+        <button className="inline font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
+          <i className="fa-brands fa-google text-pink-500"></i>
+          <span>Masuk Dengan Google</span>
+        </button>
+
+        {/* </a> */}
 
         <div className="md:fixed bottom-10 text-semibold absolute">
           <Nav></Nav>

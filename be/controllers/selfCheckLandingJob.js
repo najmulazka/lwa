@@ -7,6 +7,10 @@ module.exports = {
         where: {
           userId: req.user.id,
         },
+        include: {
+          users: true,
+          taskLandingJob: true,
+        },
       });
 
       res.status(200).json({

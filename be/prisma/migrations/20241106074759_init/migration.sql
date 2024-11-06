@@ -26,6 +26,7 @@ CREATE TABLE "SelfCheckLandingJob" (
     "taskId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "status" BOOLEAN NOT NULL DEFAULT false,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "SelfCheckLandingJob_pkey" PRIMARY KEY ("id")
 );
@@ -54,7 +55,7 @@ CREATE TABLE "Faq" (
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- AddForeignKey
-ALTER TABLE "SelfCheckLandingJob" ADD CONSTRAINT "SelfCheckLandingJob_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "TaskLandingJob"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SelfCheckLandingJob" ADD CONSTRAINT "SelfCheckLandingJob_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "TaskLandingJob"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SelfCheckLandingJob" ADD CONSTRAINT "SelfCheckLandingJob_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SelfCheckLandingJob" ADD CONSTRAINT "SelfCheckLandingJob_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;

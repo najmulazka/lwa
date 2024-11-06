@@ -27,12 +27,6 @@ module.exports = {
     try {
       let testimonials = await prisma.testimonials.findMany();
 
-      res.cookie('mycookie', 'value', {
-        sameSite: 'Strict',
-        secure: true, // Pastikan secure: true hanya jika server Anda berjalan di HTTPS
-        httpOnly: true, // Tambahan untuk keamanan agar cookie tidak bisa diakses oleh JavaScript di browser
-      });
-
       res.status(200).json({
         status: true,
         message: 'Get All Testimonials Successfull',

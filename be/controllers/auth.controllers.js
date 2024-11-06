@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const prisma = require('../libs/prisma.libs');
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, URL } = process.env;
 
 module.exports = {
   loginAdmin: async (req, res, next) => {
@@ -37,11 +37,22 @@ module.exports = {
     const token = jwt.sign({ id: req.user.id }, JWT_SECRET_KEY);
 
     let path = `${req.protocol}://${req.get('host')}`;
-    res.status(200).json({
-      status: true,
-      message: 'OK',
-      err: null,
-      data: { user: req.user, token },
-    });
+
+    // res.cookie('token', token, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   samSite: 'strict',
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
+
+    const redirectUrl = `${URL}/callback?token=${token}`;
+    console.log(redirectUrl)
+    res.redirect(redirectUrl);
+    // res.status(200).json({
+    //   status: true,
+    //   message: 'OK',
+    //   err: null,
+    //   data: { user: req.user, token },
+    // });
   },
 };

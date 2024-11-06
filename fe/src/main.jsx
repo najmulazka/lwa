@@ -12,6 +12,7 @@ import DashboardAdmin from './components/pages/dashboardAdmin.jsx';
 import TestimoniAdmin from './components/pages/testimoniAdmin.jsx';
 import FaqAdmin from './components/pages/faqAdmin.jsx';
 import LoginAdmin from './components/pages/loginAdmin.jsx';
+import CallbackPage from './components/pages/callbackPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginUser />,
+  },
+  {
+    path: '/callback',
+    element: <CallbackPage />,
   },
   {
     path: '/booking',
