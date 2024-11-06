@@ -69,7 +69,7 @@ module.exports = {
       };
 
       // Mengurutkan events berdasarkan startTime
-      inviteesData.sort((a, b) => parseStartTime(a.startTime) - parseStartTime(b.startTime));
+      inviteesData.sort((a, b) => parseStartTime(b.startTime) - parseStartTime(a.startTime));
 
       // Mendapatkan waktu saat ini
       const now = new Date();

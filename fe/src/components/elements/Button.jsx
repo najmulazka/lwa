@@ -18,12 +18,4 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// Optional
-// Button.defaultProps = {
-//   variant: 'white',
-//   textColor: 'black',
-//   variantHover: 'black',
-//   textHover: 'white',
-// };
-
 export default Button;

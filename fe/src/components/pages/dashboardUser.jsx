@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../elements/BarProgress';
 import CircleProgress from '../elements/CircleProgress';
 import Table from '../elements/Table';
@@ -9,16 +10,22 @@ import { getSelfCheckLandingJob } from '../../services/selfCheckLandingJob.servi
 
 function DashboardUser() {
   const [landingJobs, setLandingJobs] = useState([]);
+  const navigate = useNavigate();
   console.log(landingJobs);
   let index = 1;
   const addPercentage = (1 / landingJobs.length) * 100;
   const percent = (landingJobs.filter((data) => data.status === true).length / landingJobs.length) * 100;
 
   useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+
     getSelfCheckLandingJob((data) => {
       setLandingJobs(data.data);
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

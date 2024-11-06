@@ -1,12 +1,35 @@
+import { useNavigate } from 'react-router-dom';
 import Overview from '../fragments/Overview';
 import SidebarAdmin from '../fragments/SidebarAdmin';
+import { useEffect, useState } from 'react';
+import { getBooking } from '../../services/booking.service';
 
 function DashboardAdmin() {
+  const [booking, setBooking] = useState([]);
+  const navigate = useNavigate();
+  let index = 1;
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/login-admin');
+    }
+
+    getBooking((status, res) => {
+      if (status) {
+        setBooking(res);
+        console.log(booking);
+      } else {
+        console.log(res.response.data.message);
+      }
+    });
+  }, [navigate]);
+
   return (
     <div>
       <SidebarAdmin />
       <div className="bg-gray-100 ml-80">
-        <Overview />
+        <Overview name="" image="" />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">List Booking</div>
@@ -18,22 +41,28 @@ function DashboardAdmin() {
                 <tr className="text-blue-300">
                   <th className="w-2 pb-2 pr-4 text-left">No</th>
                   <th className="w-1/5 pb-2 text-left">Booking Date</th>
+                  <th className="pb-2 text-left">Status</th>
                   <th className="pb-2 text-left">Name</th>
                   <th className="1/5 pb-2 text-left">Email</th>
                   <th className="1/5 pb-2 text-left">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {/* Looping data */}
-                <tr>
-                  <td className="text-left">01.</td>
-                  <td className="text-left">28 Oct 2024</td>
-                  <td className="text-left">Budi Pambudi</td>
-                  <td className="text-left">budipambudi@gmail.com</td>
-                  <td className="text-left">
-                    <button className="w-full bg-green-400 rounded-full py-1 text-white">GoogleMeet</button>
-                  </td>
-                </tr>
+              <tbody className="space-y-4">
+                {booking.length > 0 &&
+                  booking.map((booking) => (
+                    <tr key={booking.id}>
+                      <td className="text-left pb-2">{index++}.</td>
+                      <td className="text-left pb-2">{booking.startTime}</td>
+                      <td className="text-left pb-2">{booking.status}</td>
+                      <td className="text-left pb-2">{booking.name}</td>
+                      <td className="text-left pb-2">{booking.email}</td>
+                      <td className="text-left pb-2">
+                        <a href={booking.linkMeet} target="_blank">
+                          <button className="w-full bg-green-400 rounded-full py-1 text-white">GoogleMeet</button>
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

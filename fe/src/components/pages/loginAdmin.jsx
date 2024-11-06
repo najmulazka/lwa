@@ -1,5 +1,30 @@
+import { useState } from 'react';
+import { loginAdmin } from '../../services/auth.service';
 import Nav from '../elements/nav';
+import { useNavigate } from 'react-router-dom';
+
 function LoginAdmin() {
+  const [loginFailed, setLoginFailed] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const data = {
+      email: event.target.email?.value,
+      password: event.target.password?.value,
+    };
+
+    loginAdmin(data, (status, res) => {
+      if (status) {
+        sessionStorage.setItem('token', res.data.token);
+
+        navigate('/admin')
+      } else {
+        setLoginFailed(res.response.data.message);
+        console.log(res.response.data.message);
+      }
+    });
+  };
   return (
     <div className="flex flex-col md:flex-row">
       <div className="px-10 md:px-24 pt-5 md:pt-10 md:w-1/2 h-screen">
@@ -11,7 +36,8 @@ function LoginAdmin() {
           <span>Admin LWA Login</span>
         </div>
 
-        <form action="" method="post">
+        <form action="" method="post" onSubmit={handleLogin}>
+          {loginFailed && <p className="text-red-500">{loginFailed}</p>}
           <div className="flex flex-col">
             <label htmlFor="email" className="mb-2">
               Alamat Email
@@ -22,13 +48,10 @@ function LoginAdmin() {
             </label>
             <input type="password" name="password" id="password" placeholder="**********" className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
           </div>
-        </form>
-
-        <a href="/admin">
-          <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+          <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="submit">
             Login Admin
           </button>
-        </a>
+        </form>
 
         <div className="md:fixed bottom-10 text-semibold absolute">
           <Nav></Nav>

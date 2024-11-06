@@ -16,7 +16,7 @@ function CallbackPage() {
     } else if (!sessionStorage.getItem('token')) {
       navigate('/login');
     }
-  }, []);
+  }, [navigate]);
 
   return <div>loading...</div>;
 }
