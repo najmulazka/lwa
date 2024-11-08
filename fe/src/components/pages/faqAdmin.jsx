@@ -1,7 +1,39 @@
+import { useEffect, useState } from 'react';
 import Overview from '../fragments/Overview';
 import SidebarAdmin from '../fragments/SidebarAdmin';
+import { getFaq } from '../../services/faq.service';
+import { useNavigate } from 'react-router-dom';
+import { whoami } from '../../services/whoami.service';
 
 function FaqAdmin() {
+  const [faq, setFaq] = useState([]);
+  const navigate = useNavigate();
+  let index = 1;
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/login-admin');
+    }
+
+    whoami((status, res) => {
+      if (status) {
+        getFaq((status, res) => {
+          if (status) {
+            setFaq(res.data.data);
+          } else {
+            console.log(res);
+          }
+        });
+      } else {
+        if (res.status === 401) {
+          navigate('/login-admin');
+        } else {
+          console.log(res);
+        }
+      }
+    });
+  }, [navigate]);
   return (
     <div>
       <SidebarAdmin />
@@ -25,13 +57,14 @@ function FaqAdmin() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="text-left">01.</td>
-                  <td className="text-left">loremm</td>
-                  <td className="text-left">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum porro quos neque ipsam adipisci numquam sit harum, consequuntur quod doloribus expedita eos. Provident animi magnam aspernatur non, nostrum quaerat odio.
-                  </td>
-                </tr>
+                {faq.length > 0 &&
+                  faq.map((faq) => (
+                    <tr key={faq.id}>
+                      <td className="text-left">{`${index++}.`}</td>
+                      <td className="text-left">{faq.question}</td>
+                      <td className="text-left">{faq.description}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

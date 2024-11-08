@@ -4,9 +4,9 @@ export const getTestimonials = (callback) => {
   axios
     .get(`${import.meta.env.VITE_URL}/testimoni`)
     .then((res) => {
-      callback(res.data);
+      callback(true, res);
     })
     .catch((err) => {
-      console.log(err);
+      callback(false, err)
     });
 };

@@ -33,6 +33,15 @@ module.exports = {
     });
   },
 
+  whoami: async (req, res, next) => {
+    res.status(200).json({
+      status: true,
+      message: 'OK',
+      err: null,
+      data: { user: req.user},
+    });
+  },
+  
   googleOauth2: async (req, res, next) => {
     const token = jwt.sign({ id: req.user.id }, JWT_SECRET_KEY);
 

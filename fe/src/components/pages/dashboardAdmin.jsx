@@ -7,7 +7,7 @@ import { getBooking } from '../../services/booking.service';
 function DashboardAdmin() {
   const [booking, setBooking] = useState([]);
   const navigate = useNavigate();
-  let index = 1;
+  let numbering = 1;
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -16,11 +16,15 @@ function DashboardAdmin() {
     }
 
     getBooking((status, res) => {
+      console.log(res);
       if (status) {
-        setBooking(res);
-        console.log(booking);
+        setBooking(res.data);
       } else {
-        console.log(res.response.data.message);
+        if (res.status === 401 || res.status === 400) {
+          navigate('/login-admin');
+        } else {
+          console.log(res);
+        }
       }
     });
   }, [navigate]);
@@ -49,9 +53,9 @@ function DashboardAdmin() {
               </thead>
               <tbody className="space-y-4">
                 {booking.length > 0 &&
-                  booking.map((booking) => (
-                    <tr key={booking.id}>
-                      <td className="text-left pb-2">{index++}.</td>
+                  booking.map((booking, index) => (
+                    <tr key={index}>
+                      <td className="text-left pb-2">{numbering++}.</td>
                       <td className="text-left pb-2">{booking.startTime}</td>
                       <td className="text-left pb-2">{booking.status}</td>
                       <td className="text-left pb-2">{booking.name}</td>

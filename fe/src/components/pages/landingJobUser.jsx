@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
@@ -7,14 +8,22 @@ import { getSelfCheckLandingJob } from '../../services/selfCheckLandingJob.servi
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
-  console.log(landingJobs);
+  const navigate = useNavigate;
   let index = 1;
 
   useEffect(() => {
-    getSelfCheckLandingJob((data) => {
-      setLandingJobs(data.data);
+    getSelfCheckLandingJob((status, res) => {
+      if (status) {
+        setLandingJobs(res.data.data);
+      } else {
+        if (res.status === 401) {
+          navigate('/login');
+        } else {
+          console.log(res.response.data.message);
+        }
+      }
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

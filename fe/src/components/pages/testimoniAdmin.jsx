@@ -1,7 +1,39 @@
+import { useEffect, useState } from 'react';
 import Overview from '../fragments/Overview';
 import SidebarAdmin from '../fragments/SidebarAdmin';
+import { getTestimonials } from '../../services/testimoni.service';
+import { useNavigate } from 'react-router-dom';
+import { whoami } from '../../services/whoami.service';
 
 function TestimoniAdmin() {
+  const [testimonials, setTestimonials] = useState([]);
+  const navigate = useNavigate();
+  let index = 1;
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/login-admin');
+    }
+
+    whoami((status, res) => {
+      if (status) {
+        getTestimonials((status, res) => {
+          if (status) {
+            setTestimonials(res.data.data);
+          } else {
+            console.log(res);
+          }
+        });
+      } else {
+        if (res.status === 401) {
+          navigate('/login-admin');
+        } else {
+          console.log(res);
+        }
+      }
+    });
+  }, [navigate]);
   return (
     <div>
       <SidebarAdmin />
@@ -26,14 +58,15 @@ function TestimoniAdmin() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="text-left">01.</td>
-                  <td className="text-left">Budi Pambudi</td>
-                  <td className="text-left">Backend Developer</td>
-                  <td className="text-left">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum porro quos neque ipsam adipisci numquam sit harum, consequuntur quod doloribus expedita eos. Provident animi magnam aspernatur non, nostrum quaerat odio.
-                  </td>
-                </tr>
+                {testimonials.length > 0 &&
+                  testimonials.map((testimoni) => (
+                    <tr key={testimoni.id}>
+                      <td className="text-left">{`${index++}.`}</td>
+                      <td className="text-left">{testimoni.name}</td>
+                      <td className="text-left">{testimoni.position}</td>
+                      <td className="text-left">{testimoni.description}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

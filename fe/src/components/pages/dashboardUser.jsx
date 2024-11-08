@@ -22,8 +22,16 @@ function DashboardUser() {
       navigate('/login');
     }
 
-    getSelfCheckLandingJob((data) => {
-      setLandingJobs(data.data);
+    getSelfCheckLandingJob((status, res) => {
+      if (status) {
+        setLandingJobs(res.data.data);
+      } else {
+        if (res.status === 401) {
+          navigate('/login');
+        } else {
+          console.log(res.response.data.message);
+        }
+      }
     });
   }, [navigate]);
 

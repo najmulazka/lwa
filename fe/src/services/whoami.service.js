@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { http } from '../utils/http';
 
-export const getFaq = (callback) => {
-  axios
-    .get(`${import.meta.env.VITE_URL}/faq`)
+export const whoami = (callback) => {
+  http
+    .get('/auth/whoami')
     .then((res) => {
       callback(true, res);
     })

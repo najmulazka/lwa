@@ -1,19 +1,13 @@
-import axios from 'axios';
+import { http } from '../utils/http';
 
 export const getSelfCheckLandingJob = (callback) => {
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_URL,
-    headers: {
-      Authorization: `${sessionStorage.getItem('token')}`,
-    },
-  });
 
-  api
+  http
     .get(`/self-check-landing-job`)
     .then((res) => {
-      callback(res.data);
+      callback(true, res);
     })
     .catch((err) => {
-      console.log(err);
+      callback(false, err);
     });
 };
