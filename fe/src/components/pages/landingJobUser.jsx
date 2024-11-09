@@ -4,10 +4,12 @@ import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
-import { getSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
+import { getSelfCheckLandingJob, updateSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+
   const navigate = useNavigate();
   let index = 1;
   const token = sessionStorage.getItem('token');
@@ -25,14 +27,28 @@ function LandingJobUser() {
         }
       }
     });
-  }, [navigate]);
+  }, [navigate, refresh]);
 
   const handleClick = (id, status) => {
     const newStatus = !status;
 
     const updateLandingJobs = landingJobs.map((landingJob) => (landingJob.id === id ? { ...landingJob, status: newStatus } : landingJob));
     setLandingJobs(updateLandingJobs);
-    console.log(updateLandingJobs)
+
+    const data = {
+      id: id,
+      status: newStatus,
+    };
+
+    try {
+      updateSelfCheckLandingJob(data, (status) => {
+        status ? setRefresh(!refresh) : console.log('update gagal');
+      });
+    } catch (err) {
+      console.log(err);
+      const updateLandingJobs = landingJobs.map((landingJob) => (landingJob.id === id ? { ...landingJob, status: status } : landingJob));
+      setLandingJobs(updateLandingJobs);
+    }
   };
 
   return (
@@ -48,16 +64,18 @@ function LandingJobUser() {
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
           </div>
           <Table th1="NO" th2="To-do List" th3="Description" th4="Progress">
-            {landingJobs.map(
-              (landingJob) =>
-                landingJob.taskLandingJob.taskName === 'CV' && (
-                  <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.taskName} td3={landingJob.taskLandingJob.description}>
-                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                      {landingJob.status == true ? 'Done' : 'Nope'}
-                    </button>
-                  </TableRow>
-                )
-            )}
+            {landingJobs
+              .sort((a, b) => a.id - b.id)
+              .map(
+                (landingJob) =>
+                  landingJob.taskLandingJob.taskName === 'CV' && (
+                    <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.taskName} td3={landingJob.taskLandingJob.description}>
+                      <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                        {landingJob.status == true ? 'Done' : 'Nope'}
+                      </button>
+                    </TableRow>
+                  )
+              )}
           </Table>
         </div>
       </div>

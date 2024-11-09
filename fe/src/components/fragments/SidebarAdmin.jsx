@@ -7,6 +7,8 @@ function SidebarAdmin() {
     return location.pathname === path ? 'text-blue-500' : 'text-black';
   };
 
+  const handleClick = () => sessionStorage.clear();
+
   return (
     <div className="md:w-80 h-screen md:py-4 md:px-16 border-r-2 border-gray-200 bg-white fixed left-0">
       <div className="mb-6">
@@ -28,6 +30,11 @@ function SidebarAdmin() {
         <Link to={`/admin/faq`} className={isActive(`/admin/faq`)}>
           FAQ
         </Link>
+      </div>
+      <div className="fixed bottom-4">
+        <button className="text-blue-500" onClick={handleClick}>
+          <Link to="/login-admin">Logout</Link>
+        </button>
       </div>
     </div>
   );

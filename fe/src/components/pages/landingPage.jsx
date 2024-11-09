@@ -13,13 +13,13 @@ function LandingPage() {
   const [faq, setFaq] = useState([]);
 
   useEffect(() => {
-    getTestimonials((res) => {
+    getTestimonials((status, res) => {
       setTestimonials(res.data.data);
     });
   }, []);
 
   useEffect(() => {
-    getFaq((res) => {
+    getFaq((status, res) => {
       setFaq(res.data.data);
     });
   }, []);

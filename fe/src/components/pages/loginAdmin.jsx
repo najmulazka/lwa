@@ -14,11 +14,11 @@ function LoginAdmin() {
       password: event.target.password?.value,
     };
 
-    loginAdmin(data, (status, res) => {
+    loginAdmin(data, async (status, res) => {
       if (status) {
-        sessionStorage.setItem('token', res.data.token);
+        await sessionStorage.setItem('token', res.data.token);
 
-        navigate('/admin')
+        navigate('/admin');
       } else {
         setLoginFailed(res.response.data.message);
         console.log(res.response.data.message);

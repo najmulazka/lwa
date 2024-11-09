@@ -25,26 +25,21 @@ module.exports = {
 
   updateSelfCheckLandingJob: async (req, res, next) => {
     try {
-      const { data } = req.body;
+      const { id, status } = req.body;
 
-      const selfCheckLandingJobs = await Promise.all(
-        data.map((item) =>
-          prisma.selfCheckLandingJob.updateMany({
-            where: {
-              taskId: Number(item.taskId),
-              userId: req.user.id,
-            },
-            data: {
-              status: item.status,
-            },
-          })
-        )
-      );
+      const selfCheckLandingJob = await prisma.selfCheckLandingJob.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          status,
+        },
+      });
 
       res.status(200).json({
         status: true,
         message: 'Update Self Check Landing Jobs Successfull',
-        data: data,
+        data: selfCheckLandingJob,
       });
     } catch (err) {
       next(err);
