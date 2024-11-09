@@ -41,7 +41,7 @@ function LandingPage() {
       <div className=" flex justify-center mb-10">
         <a href="/booking">
           <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
-            Konsultasi Sekarang
+            Consult Now!
           </button>
         </a>
       </div>
@@ -65,19 +65,19 @@ function Branding() {
             </a>
           </div>
 
-          <p className="text-3xl md:text-5xl font-bold mb-3 w-4/5 leading-tight md:leading-tight">Raih Potensi Karier Kamu dengan LearnWithAndi</p>
+          <p className="text-3xl md:text-5xl font-bold mb-3 w-4/5 leading-tight md:leading-tight">Land Your Dream Job in 90 Days with LearnWithAndi</p>
           <p className="text-sm md:text-lg">Elevating Career Consultation Services for the Modern</p>
           <p className="mb-8 text-xs md:text-lg">Professional</p>
           <div className="flex space-x-2">
             <a href="/booking">
               <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
-                Konsultasi Sekarang
+                Consult Now!
               </button>
             </a>
 
             <a href="#about">
               <Button variant="white" variantHover="black" textHover="white" textColor="black">
-                Siapa Andi?
+                Who is Andi?
               </Button>
             </a>
           </div>
@@ -115,9 +115,8 @@ function Branding() {
 function StartConseling() {
   return (
     <div className="bg-gray-200 py-6 md:py-14 px-8 md:px-24 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-3">Cara Memulai Konseling </h1>
-      <p className="text-center">Memulai perjalanan karier Anda bersama Andi sangat mudah, ikuti langkah-langkah</p>
-      <p className="text-center mb-10">berikut untuk memesan sesi konseling yang dipersnalisasi, kapan saja dan dimana saja.</p>
+      <h1 className="text-3xl font-bold mb-3">How To Start Counseling</h1>
+      <p className="text-center mb-10 md:w-3/5">Starting your career journey with LearnWithAndi is simple. Follow these steps to book a personalized counseling session, anytime and anywhere.</p>
 
       <div className="md:grid grid-cols-3 space-x-3">
         <div className="flex flex-col items-center md:mb-0 mb-10">
@@ -125,15 +124,15 @@ function StartConseling() {
             <img src="/startConseling1.png" alt="image" className="h-60" />
           </div>
           <h1 className="text-xl text-center mb-2">Book a session</h1>
-          <p className="text-center text-sm">Pilih waktu yang sesuai untuk anda melalui jadwal online</p>
+          <p className="text-center text-sm">Choose a time that works best for you through the online schedule, with IDR 150,000 per session</p>
         </div>
 
         <div className="flex flex-col items-center md:mb-0 mb-10">
           <div className="bg-indigo-300  rounded-lg">
             <img src="/startConseling2.png" alt="image" className="h-60" />
           </div>
-          <h1 className="text-xl text-center mb-2">Upload CV Kamu Melalui Form Booking</h1>
-          <p className="text-center text-sm">Kirimkan CV dan informasi pentingmu untuk lebih memahami latar belakang dan situasi</p>
+          <h1 className="text-xl text-center mb-2">Drop Your CV Via LinkdIn Chat</h1>
+          <p className="text-center text-sm">Send your CV and essential information to provide a better understanding of your background and situation</p>
         </div>
 
         <div className="flex flex-col items-center md:mb-0 mb-10">
@@ -141,7 +140,7 @@ function StartConseling() {
             <img src="/startConseling3.png" alt="image" className="h-60" />
           </div>
           <h1 className="text-xl text-center mb-2">Join Video Call Session</h1>
-          <p className="text-center text-sm">Ikuti pertemuan one on one melalui panggilan video untuk mendiskusikan tujuan dan tantangan karier kamu</p>
+          <p className="text-center text-sm">Join a one-on-one video call with andi to discuss your career goals and challenges</p>
         </div>
       </div>
     </div>
@@ -151,14 +150,14 @@ function StartConseling() {
 function LayananKonsultasi() {
   return (
     <div id="services" className="py-6 md:py-14 px-8 md:px-24 flex flex-col">
-      <h1 className="text-3xl font-bold w-full md:w-1/2 leading-tight">Tingkatkan Karier Kamu dengan Layanan Konsultasi yang Menyeluruh dari LearnWithAndi</h1>
+      <h1 className="text-3xl font-bold w-full md:w-1/2 leading-tight">Boost Your Career with Comprehensive Consulting Services from LearnWithAndi</h1>
       <div className="flex flex-col-reverse md:flex-row ">
         <div className=" flex flex-col mt-14">
           <div className="w-full md:w-4/5">
-            <ListLayanan title="Train Your Students">Bimbing siswa dengan strategi yang terbukti untuk mempersiapkan mereka menghadapi tantangan karier di masa depan.</ListLayanan>
-            <ListLayanan title="Konsultasi Karier yang Dipersonalisasi">Bimbingan karier yang dirancang untuk membantu Kamu merancang strategi dan mencapai tujuan karier Kamu.</ListLayanan>
-            <ListLayanan title="Optimalkan CV Kamu untuk Perekrut">Dapatkan bantuan untuk menonjolkan pengalaman dan keterampilan Anda dengan cara yang paling efektif.</ListLayanan>
-            <ListLayanan title="Konsultasi Persiapan Wawancara Kerja">Dapatkan bantuan untuk menonjolkan pengalaman dan keterampilan Anda dengan cara yang paling efektif.</ListLayanan>
+            <ListLayanan title="Train Your Students">Guide students with proven strategies to prepare them for future career challenges.</ListLayanan>
+            <ListLayanan title="Personalized Career Consultation">Career guidance designed to help you craft strategies and achieve your career goals.</ListLayanan>
+            <ListLayanan title="Optimize Your CV for Recruiters">Get support to highlight your experience and skills in the most effective way.</ListLayanan>
+            <ListLayanan title="Job Interview Preparation Consultation">Get tailored support to confidently showcase your skills and experience in the best possible way.</ListLayanan>
           </div>
         </div>
         <div className="mt-5 md:mt-0">
@@ -188,7 +187,7 @@ function Testimoni(props) {
   const { children } = props;
   return (
     <div className="flex flex-col py-6 md:py-14">
-      <div className="text-3xl font-bold mb-10 text-center">Kata Mereka Tentang Konsultasi LearnWithAndi</div>
+      <div className="text-3xl font-bold mb-10 text-center">What They Say About LearnWithAndi</div>
       <div className="flex justify-center overflow-x-auto space-x-4">{children}</div>
     </div>
   );
@@ -240,9 +239,9 @@ function Faq(props) {
   const { children } = props;
   return (
     <div className="py-6 md:py-14 px-8 md:px-24 flex flex-col items-center text-center">
-      <h1 className="text-3xl font-bold mb-3">Pertanyaan yang Sering Diajukan (FAQ)</h1>
+      <h1 className="text-3xl font-bold mb-3">Frequently Asked Questions (FAQ)</h1>
       <div className="md:w-3/5 md:mb-20 mb-10">
-        <p className="text-center">Kamu mungkin memiliki beberapa pertanyaan sebelum memulai. Berikut adalah jawaban untuk beberapa pertanyaan yang sering diajukan mengenai layanan LearnWithAndi:</p>
+        <p className="text-center">You may have some questions before getting started. Here are answers to some frequently asked questions about LearnWithAndi&apos;s services</p>
       </div>
 
       <div className="w-full md:grid md:grid-cols-2">{children}</div>

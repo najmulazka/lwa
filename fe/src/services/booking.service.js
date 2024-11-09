@@ -1,7 +1,14 @@
 import axiosRetry from 'axios-retry';
-import { http } from '../utils/http';
+import axios from 'axios';
 
-axiosRetry(http, {
+const api = axios.create({
+  baseURL: import.meta.env.VITE_URL,
+  headers: {
+    Authorization: `${sessionStorage.getItem('token')}`,
+  },
+});
+
+axiosRetry(api, {
   retries: 3,
   retryDelay: (retryCount) => {
     return retryCount * 2000;
@@ -13,7 +20,7 @@ axiosRetry(http, {
 
 export const getBooking = async (callback) => {
   try {
-    const res = await http.get(`/booking`);
+    const res = await api.get(`/booking`);
     callback(true, res);
   } catch (err) {
     callback(false, err);

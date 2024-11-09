@@ -12,13 +12,13 @@ function LoginUser() {
         </a>
 
         <div className="text-3xl md:text-4xl font-bold mb-20 md:mb-14">
-          <span>Yuk, Masuk dan Lanjutkan Perjalanan Kariermu dengan LearnWithAndi!</span>
+          <span>Login and Continue Your Career Journey with LearnWithAndi!</span>
         </div>
 
         {/* <a href="/user"> */}
         <button className="inline font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
           <i className="fa-brands fa-google text-pink-500"></i>
-          <span>Masuk Dengan Google</span>
+          <span>Sign In With Google</span>
         </button>
 
         {/* </a> */}

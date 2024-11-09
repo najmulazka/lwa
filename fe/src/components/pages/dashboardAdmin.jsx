@@ -16,7 +16,7 @@ function DashboardAdmin() {
     }
 
     getBooking((status, res) => {
-      console.log(res);
+      console.log(res.status);
       if (status) {
         setBooking(res.data);
       } else {

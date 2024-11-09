@@ -8,8 +8,10 @@ import { getSelfCheckLandingJob } from '../../services/selfCheckLandingJob.servi
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   let index = 1;
+  const token = sessionStorage.getItem('token');
+  !token ? navigate('/login') : '';
 
   useEffect(() => {
     getSelfCheckLandingJob((status, res) => {
@@ -24,6 +26,14 @@ function LandingJobUser() {
       }
     });
   }, [navigate]);
+
+  const handleClick = (id, status) => {
+    const newStatus = !status;
+
+    const updateLandingJobs = landingJobs.map((landingJob) => (landingJob.id === id ? { ...landingJob, status: newStatus } : landingJob));
+    setLandingJobs(updateLandingJobs);
+    console.log(updateLandingJobs)
+  };
 
   return (
     <div>
@@ -42,7 +52,9 @@ function LandingJobUser() {
               (landingJob) =>
                 landingJob.taskLandingJob.taskName === 'CV' && (
                   <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.taskName} td3={landingJob.taskLandingJob.description}>
-                    <button className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>{landingJob.status == true ? 'Done' : 'Nope'}</button>
+                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {landingJob.status == true ? 'Done' : 'Nope'}
+                    </button>
                   </TableRow>
                 )
             )}

@@ -4,9 +4,11 @@ import SidebarAdmin from '../fragments/SidebarAdmin';
 import { getTestimonials } from '../../services/testimoni.service';
 import { useNavigate } from 'react-router-dom';
 import { whoami } from '../../services/whoami.service';
+import ModalPopUp from '../elements/ModalPopUp';
 
 function TestimoniAdmin() {
   const [testimonials, setTestimonials] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const navigate = useNavigate();
   let index = 1;
 
@@ -34,8 +36,13 @@ function TestimoniAdmin() {
       }
     });
   }, [navigate]);
+
+  const toggleModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
   return (
     <div>
+      <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal} />
       <SidebarAdmin />
       <div className="bg-gray-100 ml-80">
         <Overview />
@@ -44,7 +51,9 @@ function TestimoniAdmin() {
             <div className="text-blue-900 font-bold">List Testimoni</div>
             <div className="space-x-2">
               <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
-              <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold">Input Testimoni</button>
+              <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>
+                Input Testimoni
+              </button>
             </div>
           </div>
           <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">

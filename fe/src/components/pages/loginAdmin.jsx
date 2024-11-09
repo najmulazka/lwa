@@ -33,14 +33,14 @@ function LoginAdmin() {
         </a>
 
         <div className="text-3xl md:text-4xl font-bold mb-20 md:mb-14">
-          <span>Admin LWA Login</span>
+          <span>Sign In Admin LWA</span>
         </div>
 
         <form action="" method="post" onSubmit={handleLogin}>
           {loginFailed && <p className="text-red-500">{loginFailed}</p>}
           <div className="flex flex-col">
             <label htmlFor="email" className="mb-2">
-              Alamat Email
+              Email Address
             </label>
             <input type="email" name="email" id="email" placeholder="example@gmail.com" className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
             <label htmlFor="password" className="mb-2">
@@ -49,7 +49,7 @@ function LoginAdmin() {
             <input type="password" name="password" id="password" placeholder="**********" className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
           </div>
           <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="submit">
-            Login Admin
+            Sign In Admin
           </button>
         </form>
 
