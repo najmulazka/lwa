@@ -3,6 +3,7 @@ import Overview from '../fragments/Overview';
 import SidebarAdmin from '../fragments/SidebarAdmin';
 import { useEffect, useState } from 'react';
 import { getBooking } from '../../services/booking.service';
+import { whoami } from '../../services/whoami.service';
 
 function DashboardAdmin() {
   const [booking, setBooking] = useState([]);
@@ -15,18 +16,37 @@ function DashboardAdmin() {
       navigate('/login-admin');
     }
 
-    getBooking((status, res) => {
-      console.log(res.status);
+    whoami((status, res) => {
       if (status) {
-        setBooking(res.data);
+        getBooking((status, res) => {
+          if (status) {
+            setBooking(res.data);
+          } else {
+            console.log(res);
+          }
+        });
       } else {
-        if (res.status === 401 || res.status === 400) {
+        if (res.status === 401) {
           navigate('/login-admin');
         } else {
           console.log(res);
         }
       }
     });
+
+    // getBooking((status, res) => {
+    //   console.log(res.status);
+    //   if (status) {
+    //     setBooking(res.data);
+    //   } else {
+    //     // if (res.status === 401 || res.status === 400) {
+    //     //   navigate('/login-admin');
+    //     // } else {
+    //     //   console.log(res);
+    //     // }
+    //     console.log(res);
+    //   }
+    // });
   }, [navigate]);
 
   return (
