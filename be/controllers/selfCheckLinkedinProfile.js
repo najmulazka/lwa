@@ -1,17 +1,17 @@
 const prisma = require('../libs/prisma.libs');
 
 module.exports = {
-  selfCheckLandingJobs: async (req, res, next) => {
+  selfCheckLinkedinProfile: async (req, res, next) => {
     try {
-      const selfCheckLandingJobs = await prisma.selfCheckLandingJob.findMany({
+      const selfCheckLinkedinProfile = await prisma.selfCheckLinkedinProfile.findMany({
         where: {
           userId: req.user.id,
         },
         include: {
           users: true,
-          taskLandingJob: {
+          taskLinkedinProfile: {
             include: {
-              categoryLandingJob: true,
+              categoryLinkedinProfile: true,
             },
           },
         },
@@ -20,18 +20,18 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: 'Get All Self Check Landing Job Successfull',
-        data: selfCheckLandingJobs,
+        data: selfCheckLinkedinProfile,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  updateSelfCheckLandingJob: async (req, res, next) => {
+  updateSelfCheckLinkedinProfile: async (req, res, next) => {
     try {
       const { id, status } = req.body;
 
-      const selfCheckLandingJob = await prisma.selfCheckLandingJob.update({
+      const selfCheckLinkedinProfile = await prisma.selfCheckLinkedinProfile.update({
         where: {
           id: Number(id),
         },
@@ -43,7 +43,7 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: 'Update Self Check Landing Jobs Successfull',
-        data: selfCheckLandingJob,
+        data: selfCheckLinkedinProfile,
       });
     } catch (err) {
       next(err);

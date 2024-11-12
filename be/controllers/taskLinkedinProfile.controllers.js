@@ -1,10 +1,10 @@
 const prisma = require('../libs/prisma.libs');
 
 module.exports = {
-  createTaskLandingJob: async (req, res, next) => {
+  createTaskLinkedinProfile: async (req, res, next) => {
     try {
       const { categoryId, description } = req.body;
-      const taskLandingJob = await prisma.taskLandingJob.create({
+      const taskLinkedinProfile = await prisma.taskLinkedinProfile.create({
         data: {
           categoryId: Number(categoryId),
           description,
@@ -14,42 +14,42 @@ module.exports = {
       res.status(201).json({
         status: true,
         message: 'Created',
-        data: taskLandingJob,
+        data: taskLinkedinProfile,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  taskLandingJobs: async (req, res, next) => {
+  taskLinkedinProfiles: async (req, res, next) => {
     try {
-      let taskLandingJobs = await prisma.taskLandingJob.findMany({
+      let taskLinkedinProfile = await prisma.taskLinkedinProfile.findMany({
         include: {
-          categoryLandingJob: true,
+          categoryLinkedinProfile: true,
         },
       });
 
       res.status(200).json({
         status: true,
         message: 'Get All Task Landing Job Successfull',
-        data: taskLandingJobs,
+        data: taskLinkedinProfile,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  taskLandingJobDetail: async (req, res, next) => {
+  taskLinkedinProfileDetail: async (req, res, next) => {
     try {
       const { id } = req.params;
-      let taskLandingJob = await prisma.taskLandingJob.findUnique({
+      let taskLinkedinProfile = await prisma.taskLinkedinProfile.findUnique({
         where: { id: Number(id) },
         include: {
-          categoryLandingJob: true,
+          categoryLinkedinProfile: true,
         },
       });
 
-      if (!taskLandingJob) {
+      if (!taskLinkedinProfile) {
         return res.status(404).json({
           status: false,
           message: 'Not Found',
@@ -60,23 +60,23 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: 'Get Task Landing Job Successfull',
-        data: taskLandingJob,
+        data: taskLinkedinProfile,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  updateTaskLandingJob: async (req, res, next) => {
+  updateTaskLinkedinProfile: async (req, res, next) => {
     try {
       const { id } = req.params;
       const { categoryId, description } = req.body;
 
-      const existTaskLandingJob = await prisma.taskLandingJob.findUnique({
+      const existTaskLinkedinProfile = await prisma.taskLinkedinProfile.findUnique({
         where: { id: Number(id) },
       });
 
-      if (!existTaskLandingJob) {
+      if (!existTaskLinkedinProfile) {
         return res.status(400).json({
           status: false,
           message: 'Not Found',
@@ -84,33 +84,33 @@ module.exports = {
         });
       }
 
-      let taskLandingJob = await prisma.taskLandingJob.update({
+      let taskLinkedinProfile = await prisma.taskLinkedinProfile.update({
         where: { id: Number(id) },
         data: {
-          categoryId: categoryId || existTaskLandingJob.categoryId,
-          description: description || existTaskLandingJob.description,
+          categoryId: categoryId || existTaskLinkedinProfile.categoryId,
+          description: description || existTaskLinkedinProfile.description,
         },
       });
 
       res.status(200).json({
         status: true,
         message: 'Update Task Landing Job Sucessfull',
-        data: taskLandingJob,
+        data: taskLinkedinProfile,
       });
     } catch (err) {
       next(err);
     }
   },
 
-  deleteTaskLandingJob: async (req, res, next) => {
+  deleteTaskLinkedinProfile: async (req, res, next) => {
     try {
       const { id } = req.params;
 
-      const existTaskLandingJob = await prisma.taskLandingJob.findUnique({
+      const existTaskLinkedinProfile = await prisma.taskLinkedinProfile.findUnique({
         where: { id: Number(id) },
       });
 
-      if (!existTaskLandingJob) {
+      if (!existTaskLinkedinProfile) {
         return res.status(404).json({
           status: false,
           message: 'Not Found',
@@ -118,7 +118,7 @@ module.exports = {
         });
       }
 
-      await prisma.taskLandingJob.delete({
+      await prisma.taskLinkedinProfile.delete({
         where: { id: Number(id) },
       });
 

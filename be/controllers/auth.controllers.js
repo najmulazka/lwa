@@ -38,12 +38,13 @@ module.exports = {
       status: true,
       message: 'OK',
       err: null,
-      data: { user: req.user},
+      data: { user: req.user },
     });
   },
-  
+
   googleOauth2: async (req, res, next) => {
     const token = jwt.sign({ id: req.user.id }, JWT_SECRET_KEY);
+    console.log(token);
 
     let path = `${req.protocol}://${req.get('host')}`;
 
@@ -55,7 +56,7 @@ module.exports = {
     // });
 
     const redirectUrl = `${URL}/callback?token=${token}`;
-    console.log(redirectUrl)
+    console.log(redirectUrl);
     res.redirect(redirectUrl);
     // res.status(200).json({
     //   status: true,
