@@ -1,10 +1,57 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getSelfCheckLinkedinProfile, updateSelfCheckLinkedinProfile } from '../../services/selfCheckLinkedinProfile.service';
 import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
 
 function LinkedinProfileUser() {
-  const progress = 'Nope';
+  const [linkedinProfiles, setLinkedinProfiles] = useState([]);
+  console.log(linkedinProfiles);
+  const [refresh, setRefresh] = useState(true);
+
+  const navigate = useNavigate();
+  let index = 1;
+  const token = sessionStorage.getItem('token');
+  !token ? navigate('/login') : '';
+
+  useEffect(() => {
+    getSelfCheckLinkedinProfile((status, res) => {
+      if (status) {
+        setLinkedinProfiles(res.data.data);
+      } else {
+        if (res.status === 401) {
+          navigate('/login');
+        } else {
+          console.log(res.response.data.message);
+        }
+      }
+    });
+  }, [navigate, refresh]);
+
+  const handleClick = (id, status) => {
+    const newStatus = !status;
+
+    const updateLinkedinProfile = linkedinProfiles.map((linkedinProfile) => (linkedinProfile.id === id ? { ...linkedinProfile, status: newStatus } : linkedinProfile));
+    setLinkedinProfiles(updateLinkedinProfile);
+
+    const data = {
+      id: id,
+      status: newStatus,
+    };
+
+    try {
+      updateSelfCheckLinkedinProfile(data, (status) => {
+        status ? setRefresh(!refresh) : console.log('update gagal');
+      });
+    } catch (err) {
+      console.log(err);
+      const updateLinkedinProfiles = linkedinProfiles.map((linkedinProfile) => (linkedinProfile.id === id ? { ...linkedinProfile, status: status } : linkedinProfile));
+      setLinkedinProfiles(updateLinkedinProfiles);
+    }
+  };
+
   return (
     <div>
       <Sidebar role="user" />
@@ -15,13 +62,17 @@ function LinkedinProfileUser() {
             <div className="text-blue-900 font-bold">Progress</div>
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
           </div>
-          <Table th1="NO" th2="To-do List" th3="Description" th4="Progress">
-            <TableRow td1="01." td2="CV" td3="lorem ipsum">
-              <button className={`w-full ${progress == 'Done' ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>{progress}</button>
-            </TableRow>
-            <TableRow td1="01." td2="CV" td3="Lorem">
-              <button className={`w-full ${progress == 'Done' ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>{progress}</button>
-            </TableRow>
+          <Table th1="No" th2="To-do List" th3="Description" th4="Action">
+            {linkedinProfiles.length > 0 &&
+              linkedinProfiles
+                .sort((a, b) => a.id - b.id)
+                .map((linkedinProfile) => (
+                  <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
+                    <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {linkedinProfile.status == true ? 'Done' : 'Nope'}
+                    </button>
+                  </TableRow>
+                ))}
           </Table>
         </div>
       </div>

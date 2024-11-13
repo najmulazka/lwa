@@ -31,6 +31,11 @@ function SidebarAdmin() {
           FAQ
         </Link>
       </div>
+      <div className="py-2">
+        <Link to={`/admin/landing-job`} className={isActive(`/admin/landing-job`)}>
+          Landing a Job
+        </Link>
+      </div>
       <div className="fixed bottom-4">
         <button className="text-blue-500" onClick={handleClick}>
           <Link to="/login-admin">Logout</Link>

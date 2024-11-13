@@ -4,6 +4,21 @@ module.exports = {
   createCategoryLandingJob: async (req, res, next) => {
     try {
       const { name } = req.body;
+
+      const existCategoryLandingJob = await prisma.categoryLandingJob.findUnique({
+        where: {
+          name,
+        },
+      });
+
+      if (existCategoryLandingJob) {
+        return res.status(400).json({
+          status: false,
+          message: 'Category Name Already',
+          data: null,
+        });
+      }
+
       const categoryLandingJob = await prisma.categoryLandingJob.create({
         data: {
           name,
@@ -84,7 +99,7 @@ module.exports = {
           id: Number(id),
         },
         data: {
-          name: name || existCategoryLandingJob.name,
+          name,
         },
       });
 

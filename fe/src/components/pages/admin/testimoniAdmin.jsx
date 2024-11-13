@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import Overview from '../fragments/Overview';
-import SidebarAdmin from '../fragments/SidebarAdmin';
-import { createTestimoni, deleteTestimoni, getTestimonials, updateTestimoni } from '../../services/testimoni.service';
+import Overview from '../../fragments/Overview';
+import SidebarAdmin from '../../fragments/SidebarAdmin';
+import { createTestimoni, deleteTestimoni, getTestimonials, updateTestimoni } from '../../../services/testimoni.service';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../services/whoami.service';
-import ModalPopUp from '../elements/ModalPopUp';
+import { whoami } from '../../../services/whoami.service';
+import ModalPopUp from '../../elements/ModalPopUp';
 
 function TestimoniAdmin() {
   const [testimonials, setTestimonials] = useState([]);
@@ -54,7 +54,11 @@ function TestimoniAdmin() {
         description: editData.description,
       });
     }
-  }, [editData]);
+    if (!isOpenModal) {
+      setEditData(null);
+      setFormData({});
+    }
+  }, [editData, isOpenModal]);
 
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);

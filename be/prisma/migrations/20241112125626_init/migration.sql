@@ -90,6 +90,12 @@ CREATE TABLE "Faq" (
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "CategoryLandingJob_name_key" ON "CategoryLandingJob"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CategoryLinkedinProfile_name_key" ON "CategoryLinkedinProfile"("name");
+
 -- AddForeignKey
 ALTER TABLE "TaskLandingJob" ADD CONSTRAINT "TaskLandingJob_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "CategoryLandingJob"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 

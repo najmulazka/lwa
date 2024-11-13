@@ -31,7 +31,7 @@ module.exports = {
 
       res.status(200).json({
         status: true,
-        message: 'Get All Task Landing Job Successfull',
+        message: 'Get All Task Linkedin Profile Successfull',
         data: taskLinkedinProfile,
       });
     } catch (err) {
@@ -59,7 +59,7 @@ module.exports = {
 
       res.status(200).json({
         status: true,
-        message: 'Get Task Landing Job Successfull',
+        message: 'Get Task Linkedin Profile Successfull',
         data: taskLinkedinProfile,
       });
     } catch (err) {
@@ -77,7 +77,7 @@ module.exports = {
       });
 
       if (!existTaskLinkedinProfile) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
           message: 'Not Found',
           data: null,
@@ -87,18 +87,31 @@ module.exports = {
       let taskLinkedinProfile = await prisma.taskLinkedinProfile.update({
         where: { id: Number(id) },
         data: {
-          categoryId: categoryId || existTaskLinkedinProfile.categoryId,
-          description: description || existTaskLinkedinProfile.description,
+          categoryId: Number(categoryId),
+          description,
         },
       });
 
+      if (!taskLinkedinProfile) {
+        return res.status(400).json({
+          status: false,
+          message: 'Bad Request',
+          data: null,
+        });
+      }
+
       res.status(200).json({
         status: true,
-        message: 'Update Task Landing Job Sucessfull',
+        message: 'Update Task Linkedin Profile Sucessfull',
         data: taskLinkedinProfile,
       });
     } catch (err) {
-      next(err);
+      return res.status(400).json({
+        status: false,
+        message: err.message,
+        data: null,
+      });
+      // next(err);
     }
   },
 

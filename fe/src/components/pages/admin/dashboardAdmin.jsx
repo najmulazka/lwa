@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import Overview from '../fragments/Overview';
-import SidebarAdmin from '../fragments/SidebarAdmin';
+import Overview from '../../fragments/Overview';
+import SidebarAdmin from '../../fragments/SidebarAdmin';
 import { useEffect, useState } from 'react';
-import { getBooking } from '../../services/booking.service';
-import { whoami } from '../../services/whoami.service';
+import { getBooking } from '../../../services/booking.service';
+import { whoami } from '../../../services/whoami.service';
 
 function DashboardAdmin() {
   const [booking, setBooking] = useState([]);

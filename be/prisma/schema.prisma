@@ -27,7 +27,7 @@ model Users {
 
 model CategoryLandingJob {
   id             Int              @id @default(autoincrement())
-  name           String
+  name           String           @unique
   TaskLandingJob TaskLandingJob[]
 }
 
@@ -51,7 +51,7 @@ model SelfCheckLandingJob {
 
 model CategoryLinkedinProfile {
   id                  Int                   @id @default(autoincrement())
-  name                String
+  name                String                @unique
   TaskLinkedinProfile TaskLinkedinProfile[]
 }
 

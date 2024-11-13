@@ -4,6 +4,20 @@ module.exports = {
   createTaskLandingJob: async (req, res, next) => {
     try {
       const { categoryId, description } = req.body;
+      const categoryLandingJob = await prisma.categoryLandingJob.findUnique({
+        where: {
+          id: Number(categoryId),
+        },
+      });
+
+      if (!categoryLandingJob) {
+        return res.status(400).json({
+          status: false,
+          message: 'Error selected category',
+          data: null,
+        });
+      }
+
       const taskLandingJob = await prisma.taskLandingJob.create({
         data: {
           categoryId: Number(categoryId),
@@ -17,7 +31,11 @@ module.exports = {
         data: taskLandingJob,
       });
     } catch (err) {
-      next(err);
+      return res.status(400).json({
+        status: false,
+        message: err.message,
+        data: null,
+      });
     }
   },
 
@@ -77,7 +95,7 @@ module.exports = {
       });
 
       if (!existTaskLandingJob) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: false,
           message: 'Not Found',
           data: null,
@@ -87,10 +105,18 @@ module.exports = {
       let taskLandingJob = await prisma.taskLandingJob.update({
         where: { id: Number(id) },
         data: {
-          categoryId: categoryId || existTaskLandingJob.categoryId,
-          description: description || existTaskLandingJob.description,
+          categoryId: Number(categoryId),
+          description,
         },
       });
+
+      if (!taskLandingJob) {
+        return res.status(400).json({
+          status: false,
+          message: 'Bad Request',
+          data: null,
+        });
+      }
 
       res.status(200).json({
         status: true,

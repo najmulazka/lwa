@@ -4,6 +4,20 @@ module.exports = {
   createCategoryLinkedinProfile: async (req, res, next) => {
     try {
       const { name } = req.body;
+      const existCategoryLinkedinProfile = await prisma.categoryLinkedinProfile.findUnique({
+        where: {
+          name,
+        },
+      });
+
+      if (existCategoryLinkedinProfile) {
+        return res.status(400).json({
+          status: false,
+          message: 'Category Name Already',
+          data: null,
+        });
+      }
+
       const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.create({
         data: {
           name,
@@ -60,7 +74,7 @@ module.exports = {
   updateCategoryLinkedinProfile: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const { name } = req.params;
+      const { name } = req.body;
       const existCategoryLinkedinProfile = await prisma.categoryLinkedinProfile.findUnique({ where: { id: Number(id) } });
 
       if (!existCategoryLinkedinProfile) {
@@ -76,13 +90,13 @@ module.exports = {
           id: Number(id),
         },
         data: {
-          name: name || existCategoryLinkedinProfile.name,
+          name,
         },
       });
 
       res.status(200).json({
         status: true,
-        message: 'Get Category Linkedin Profile Successfull',
+        message: 'Update Linkedin Profile Successfull',
         data: categoryLinkedinProfile,
       });
     } catch (err) {

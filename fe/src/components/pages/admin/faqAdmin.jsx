@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import Overview from '../fragments/Overview';
-import SidebarAdmin from '../fragments/SidebarAdmin';
-import { createFaq, deleteFaq, getFaq, updateFaq } from '../../services/faq.service';
+import Overview from '../../fragments/Overview';
+import SidebarAdmin from '../../fragments/SidebarAdmin';
+import { createFaq, deleteFaq, getFaq, updateFaq } from '../../../services/faq.service';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../services/whoami.service';
-import ModalPopUp from '../elements/ModalPopUp';
+import { whoami } from '../../../services/whoami.service';
+import ModalPopUp from '../../elements/ModalPopUp';
 
 function FaqAdmin() {
   const [faq, setFaq] = useState([]);
@@ -50,7 +50,11 @@ function FaqAdmin() {
         description: editData.description,
       });
     }
-  }, [editData]);
+    if (!isOpenModal) {
+      setEditData(null);
+      setFormData({});
+    }
+  }, [editData, isOpenModal]);
 
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);

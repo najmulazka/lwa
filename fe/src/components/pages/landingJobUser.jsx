@@ -8,6 +8,7 @@ import { getSelfCheckLandingJob, updateSelfCheckLandingJob } from '../../service
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
+  console.log(landingJobs);
   const [refresh, setRefresh] = useState(true);
 
   const navigate = useNavigate();
@@ -55,27 +56,36 @@ function LandingJobUser() {
     <div>
       <Sidebar role="user" />
       <div className="bg-gray-100 ml-80">
-        {landingJobs.slice(0, 1).map((landingJob) => (
-          <Overview key={landingJob.id} name={landingJob.users.name} image={landingJob.users.profilePicture} />
-        ))}
+        <Overview />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">Progress</div>
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
           </div>
-          <Table th1="NO" th2="To-do List" th3="Description" th4="Progress">
-            {landingJobs
-              .sort((a, b) => a.id - b.id)
-              .map(
-                (landingJob) =>
-                  landingJob.taskLandingJob.taskName === 'CV' && (
-                    <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.taskName} td3={landingJob.taskLandingJob.description}>
-                      <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                        {landingJob.status == true ? 'Done' : 'Nope'}
-                      </button>
-                    </TableRow>
-                  )
-              )}
+          <Table
+            th1="No"
+            th2={
+              <select name="category" id="category">
+                <option value="0" selected>
+                  Category
+                </option>
+                <option value="1">Cats</option>
+                <option value="2">fCats</option>
+                <option value="3">Csdats</option>
+              </select>
+            }
+            th3="To-do List"
+            th4="Action">
+            {landingJobs.length > 0 &&
+              landingJobs
+                .sort((a, b) => a.id - b.id)
+                .map((landingJob) => (
+                  <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
+                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {landingJob.status == true ? 'Done' : 'Nope'}
+                    </button>
+                  </TableRow>
+                ))}
           </Table>
         </div>
       </div>
