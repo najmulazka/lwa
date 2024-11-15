@@ -16,9 +16,16 @@ function LoginAdmin() {
 
     loginAdmin(data, async (status, res) => {
       if (status) {
-        await sessionStorage.setItem('token', res.data.token);
+        try {
+          await new Promise((resolve) => {
+            sessionStorage.setItem('token', res.data.token);
+            resolve();
+          });
 
-        navigate('/admin');
+          navigate('/admin');
+        } catch (error) {
+          console.error('Error saving token:', error);
+        }
       } else {
         setLoginFailed(res.response.data.message);
         console.log(res.response.data.message);

@@ -23,6 +23,7 @@ function DashboardUser() {
       navigate('/login');
     }
 
+    console.log(token);
     getSelfCheckLandingJob((status, res) => {
       if (status) {
         setLandingJobs(res.data.data);

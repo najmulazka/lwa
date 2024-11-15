@@ -8,10 +8,10 @@ function CallbackPage() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
-    console.log(token);
 
     if (token) {
       sessionStorage.setItem('token', token);
+      console.log(token);
       navigate('/user');
     } else if (!sessionStorage.getItem('token')) {
       navigate('/login');

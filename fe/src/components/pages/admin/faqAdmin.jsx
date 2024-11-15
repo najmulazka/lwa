@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Overview from '../../fragments/Overview';
-import SidebarAdmin from '../../fragments/SidebarAdmin';
+import Sidebar from '../../fragments/Sidebar';
 import { createFaq, deleteFaq, getFaq, updateFaq } from '../../../services/faq.service';
 import { useNavigate } from 'react-router-dom';
 import { whoami } from '../../../services/whoami.service';
@@ -135,7 +135,7 @@ function FaqAdmin() {
         </form>
       </ModalPopUp>
 
-      <SidebarAdmin />
+      <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">

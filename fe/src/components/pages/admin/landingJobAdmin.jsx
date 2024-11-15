@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import Overview from '../../fragments/Overview';
-import SidebarAdmin from '../../fragments/SidebarAdmin';
+import Sidebar from '../../fragments/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
+import PopupConfirmation from '../../elements/PopupConfirmation';
 import { createCategoryLandingJob, getCategoryLandingJob } from '../../../services/categoryLandingJob.service';
 import { createTaskLandingJob, deleteTaskLandingJob, getTaskLandingJob, updateTaskLandingJob } from '../../../services/taskLandingJob.service';
 
@@ -17,6 +18,8 @@ function LandingJobAdmin() {
     description: '',
   });
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isPopupDelete, setIsPopupDelete] = useState(false);
+  const [idDelete, setIdDelete] = useState();
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   let index = 1;
@@ -128,17 +131,32 @@ function LandingJobAdmin() {
     }));
   };
 
-  const handleDelete = (id) => {
-    deleteTaskLandingJob(id, (status, res) => {
+  const handleDeleteClick = (id) => {
+    setIdDelete(id);
+    setIsPopupDelete(true);
+  };
+
+  const handleCancel = () => {
+    setIdDelete(null);
+    setIsPopupDelete(false);
+  };
+
+  const handleConfirm = () => {
+    deleteTaskLandingJob(idDelete, (status, res) => {
       if (status) {
+        setIdDelete(null);
         setRefresh(!refresh);
+        setIsPopupDelete(false);
       } else {
         console.log(res);
       }
     });
   };
+
   return (
     <div>
+      {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
+
       <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
         <div className="text-2xl font-semibold mb-6">Landing a Job Input</div>
         <form action="" method="post" className="flex flex-col items-center" onSubmit={handleSubmit} onChange={handleInputChange}>
@@ -192,7 +210,7 @@ function LandingJobAdmin() {
         </form>
       </ModalPopUp>
 
-      <SidebarAdmin />
+      <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
@@ -238,7 +256,7 @@ function LandingJobAdmin() {
                         <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLandingJob)}>
                           Edit
                         </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDelete(taskLandingJob.id)}>
+                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(taskLandingJob.id)}>
                           Delete
                         </button>
                       </td>

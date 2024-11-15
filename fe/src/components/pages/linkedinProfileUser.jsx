@@ -61,7 +61,20 @@ function LinkedinProfileUser() {
             <div className="text-blue-900 font-bold">Progress</div>
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
           </div>
-          <Table th1="No" th2="To-do List" th3="Description" th4="Action">
+          <Table
+            th1="No"
+            th2={
+              <select name="category" id="category">
+                <option value="0" selected>
+                  Category
+                </option>
+                <option value="1">Cats</option>
+                <option value="2">fCats</option>
+                <option value="3">Csdats</option>
+              </select>
+            }
+            th3="To-do List"
+            th4="Action">
             {linkedinProfiles.length > 0 &&
               linkedinProfiles
                 .sort((a, b) => a.id - b.id)

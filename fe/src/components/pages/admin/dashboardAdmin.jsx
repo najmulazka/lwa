@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Overview from '../../fragments/Overview';
-import SidebarAdmin from '../../fragments/SidebarAdmin';
+import Sidebar from '../../fragments/Sidebar';
 import { useEffect, useState } from 'react';
 import { getBooking } from '../../../services/booking.service';
 import { whoami } from '../../../services/whoami.service';
@@ -47,11 +47,11 @@ function DashboardAdmin() {
     //     console.log(res);
     //   }
     // });
-  }, [navigate]);
+  }, []);
 
   return (
     <div>
-      <SidebarAdmin />
+      <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
         <Overview name="" image="" />
         <div className=" py-4 px-16">
