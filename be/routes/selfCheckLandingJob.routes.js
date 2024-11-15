@@ -4,6 +4,6 @@ const { restrict } = require('../middlewares/restrict.middlewares');
 const router = require('express').Router();
 
 router.get('/', restrict, selfCheckLandingJobs);
-router.put('/', restrict, updateSelfCheckLandingJob);
+router.put('/:id', restrict, updateSelfCheckLandingJob);
 
 module.exports = router;

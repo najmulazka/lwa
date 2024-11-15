@@ -11,6 +11,7 @@ import FaqAdmin from '../components/pages/admin/faqAdmin.jsx';
 import LoginAdmin from '../components/pages/admin/loginAdmin.jsx';
 import CallbackPage from '../components/pages/callbackPage.jsx';
 import LandingJobAdmin from '../components/pages/admin/landingJobAdmin.jsx';
+import LinkedinProfileAdmin from '../components/pages/admin/linkdinProfileAdmin.jsx';
 
 const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
   { path: '/admin/testimoni', element: <TestimoniAdmin /> },
   { path: '/admin/faq', element: <FaqAdmin /> },
   { path: '/admin/landing-job', element: <LandingJobAdmin /> },
+  { path: '/admin/linkedin-profile', element: <LinkedinProfileAdmin /> },
 ]);
 
 export default router;

@@ -37,12 +37,11 @@ function LinkedinProfileUser() {
     setLinkedinProfiles(updateLinkedinProfile);
 
     const data = {
-      id: id,
       status: newStatus,
     };
 
     try {
-      updateSelfCheckLinkedinProfile(data, (status) => {
+      updateSelfCheckLinkedinProfile(id, data, (status) => {
         status ? setRefresh(!refresh) : console.log('update gagal');
       });
     } catch (err) {

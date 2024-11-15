@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-export const getSelfCheckLinkedinProfile = (callback) => {
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_URL,
-    headers: {
-      Authorization: `${sessionStorage.getItem('token')}`,
-    },
-  });
+const api = axios.create({
+  baseURL: import.meta.env.VITE_URL,
+  headers: {
+    Authorization: `${sessionStorage.getItem('token')}`,
+  },
+});
 
+export const getSelfCheckLinkedinProfile = (callback) => {
   api
     .get(`/self-check-linkedin-profile`)
     .then((res) => {
@@ -18,16 +18,9 @@ export const getSelfCheckLinkedinProfile = (callback) => {
     });
 };
 
-export const updateSelfCheckLinkedinProfile = (data, callback) => {
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_URL,
-    headers: {
-      Authorization: `${sessionStorage.getItem('token')}`,
-    },
-  });
-
+export const updateSelfCheckLinkedinProfile = (id, data, callback) => {
   api
-    .put(`/self-check-linkedin-profile`, data)
+    .put(`/self-check-linkedin-profile/${id}`, data)
     .then((res) => {
       callback(true, res);
     })

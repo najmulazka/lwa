@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-export const getSelfCheckLandingJob = (callback) => {
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_URL,
-    headers: {
-      Authorization: `${sessionStorage.getItem('token')}`,
-    },
-  });
+const api = axios.create({
+  baseURL: import.meta.env.VITE_URL,
+  headers: {
+    Authorization: `${sessionStorage.getItem('token')}`,
+  },
+});
 
+export const getSelfCheckLandingJob = (callback) => {
   api
     .get(`/self-check-landing-job`)
     .then((res) => {
@@ -18,16 +18,9 @@ export const getSelfCheckLandingJob = (callback) => {
     });
 };
 
-export const updateSelfCheckLandingJob = (data, callback) => {
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_URL,
-    headers: {
-      Authorization: `${sessionStorage.getItem('token')}`,
-    },
-  });
-
+export const updateSelfCheckLandingJob = (id, data, callback) => {
   api
-    .put(`/self-check-landing-job`, data)
+    .put(`/self-check-landing-job/${id}`, data)
     .then((res) => {
       callback(true, res);
     })

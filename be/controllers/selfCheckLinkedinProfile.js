@@ -29,7 +29,8 @@ module.exports = {
 
   updateSelfCheckLinkedinProfile: async (req, res, next) => {
     try {
-      const { id, status } = req.body;
+      const { id } = req.params;
+      const { status } = req.body;
 
       const selfCheckLinkedinProfile = await prisma.selfCheckLinkedinProfile.update({
         where: {
