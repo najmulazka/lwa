@@ -1,18 +1,29 @@
 import { useEffect, useState } from 'react';
 import { usera } from '../../services/whoami.service';
+import { useNavigate } from 'react-router-dom';
 
 function Overview() {
   const [user, setUser] = useState({});
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    usera((status, res) => {
-      if (status) {
-        setUser(res.data.data.user);
-      } else {
-        console.log(res);
+    const fetchData = async () => {
+      try {
+        const data = await usera();
+        setUser(data);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.message);
+        console.log(error);
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
+        }
       }
-    });
-  }, []);
+    };
+
+    fetchData();
+  }, [navigate]);
 
   return (
     <div className="flex flex-row justify-between py-4 px-16 items-center border-b-2 border-gray-200 bg-white">

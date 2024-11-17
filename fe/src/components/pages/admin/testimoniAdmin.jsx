@@ -3,11 +3,17 @@ import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { createTestimoni, deleteTestimoni, getTestimonials, updateTestimoni } from '../../../services/testimoni.service';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../../services/whoami.service';
+// import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
+import PopupConfirmation from '../../elements/PopupConfirmation';
+// import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function TestimoniAdmin() {
   const [testimonials, setTestimonials] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPopupDelete, setIsPopupDelete] = useState(false);
+  const [idDelete, setIdDelete] = useState(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [editData, setEditData] = useState(null);
   const [formData, setFormData] = useState({
@@ -21,29 +27,25 @@ function TestimoniAdmin() {
   let index = 1;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/login-admin');
-    }
-
-    whoami((status, res) => {
-      if (status) {
-        getTestimonials((status, res) => {
-          if (status) {
-            setTestimonials(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
-      } else {
-        if (res.status === 401) {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getTestimonials();
+        setTestimonials(data);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.message);
+        console.log(error);
+        if (err.message.includes('Unauthorized')) {
           navigate('/login-admin');
-        } else {
-          console.log(res);
         }
+      } finally {
+        setIsLoading(false);
       }
-    });
-  }, [navigate, refresh]);
+    };
+
+    fetchData();
+  }, [refresh, navigate]);
 
   useEffect(() => {
     if (editData) {
@@ -77,24 +79,26 @@ function TestimoniAdmin() {
     };
 
     if (editData) {
-      updateTestimoni(editData.id, data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          setEditData(null);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        updateTestimoni(editData.id, data);
+        setRefresh(!refresh);
+        setEditData(null);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     } else {
-      createTestimoni(data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        createTestimoni(data);
+        setRefresh(!refresh);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     }
   };
 
@@ -111,19 +115,27 @@ function TestimoniAdmin() {
     toggleModal();
   };
 
-  const handleDelete = (id) => {
-    deleteTestimoni(id, (status, res) => {
-      if (status) {
-        setRefresh(!refresh);
-      } else {
-        console.log(res);
-        alert('Terjadi kesalahan saat menghapus testimoni.');
-      }
-    });
+  const handleDeleteClick = (id) => {
+    setIdDelete(id);
+    setIsPopupDelete(true);
+  };
+
+  const handleCancel = () => {
+    setIdDelete(null);
+    setIsPopupDelete(false);
+  };
+
+  const handleConfirm = () => {
+    deleteTestimoni(idDelete);
+    setIdDelete(null);
+    setRefresh(!refresh);
+    setIsPopupDelete(false);
   };
 
   return (
     <div>
+      {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
+
       <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
         <div className="text-2xl font-semibold mb-6">Testimoni Input</div>
         <form action="" method="post" onSubmit={handleSubmit} onChange={handleInputChange} className="flex flex-col items-center">
@@ -170,38 +182,42 @@ function TestimoniAdmin() {
               </button>
             </div>
           </div>
-          <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
-            <table className="table w-full border-separate border-spacing-2">
-              <thead>
-                <tr className="text-blue-300">
-                  <th className="w-2 pr-4 pb-2 text-left">No</th>
-                  <th className="w-1/5 pb-2 text-left">Name</th>
-                  <th className="w-2/12 pb-2 text-left">Profession</th>
-                  <th className="pb-2 text-left">Description</th>
-                  <th className="w-40 pb-2 text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {testimonials.length > 0 &&
-                  testimonials.map((testimoni) => (
-                    <tr key={testimoni.id} className="pb-6">
-                      <td className="text-left align-top">{`${index++}.`}</td>
-                      <td className="text-left align-top">{testimoni.name}</td>
-                      <td className="text-left align-top">{testimoni.position}</td>
-                      <td className="text-left align-top">{testimoni.description}</td>
-                      <td className="text-left space-x-2 align-top">
-                        <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(testimoni)}>
-                          Edit
-                        </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDelete(testimoni.id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+          {isLoading ? (
+            <div className="text-center py-10">Loading...</div>
+          ) : (
+            <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
+              <table className="table w-full border-separate border-spacing-2">
+                <thead>
+                  <tr className="text-blue-300">
+                    <th className="w-2 pr-4 pb-2 text-left">No</th>
+                    <th className="w-1/5 pb-2 text-left">Name</th>
+                    <th className="w-2/12 pb-2 text-left">Profession</th>
+                    <th className="pb-2 text-left">Description</th>
+                    <th className="w-40 pb-2 text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {testimonials.length > 0 &&
+                    testimonials.map((testimoni) => (
+                      <tr key={testimoni.id} className="pb-6">
+                        <td className="text-left align-top">{`${index++}.`}</td>
+                        <td className="text-left align-top">{testimoni.name}</td>
+                        <td className="text-left align-top">{testimoni.position}</td>
+                        <td className="text-left align-top">{testimoni.description}</td>
+                        <td className="text-left space-x-2 align-top">
+                          <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(testimoni)}>
+                            Edit
+                          </button>
+                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(testimoni.id)}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

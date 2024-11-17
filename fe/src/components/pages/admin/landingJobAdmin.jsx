@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import Overview from '../../fragments/Overview';
+// import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../../services/whoami.service';
+// import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
 import { createCategoryLandingJob, getCategoryLandingJob } from '../../../services/categoryLandingJob.service';
 import { createTaskLandingJob, deleteTaskLandingJob, getTaskLandingJob, updateTaskLandingJob } from '../../../services/taskLandingJob.service';
+import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function LandingJobAdmin() {
   const [taskLandingJobs, setTaskLandingJobs] = useState([]);
@@ -25,36 +26,36 @@ function LandingJobAdmin() {
   let index = 1;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = CookiesStorage.get(CookiesKey.TokenAdmin);
     if (!token) {
       navigate('/login-admin');
     }
 
-    whoami((status, res) => {
+    // whoami((status, res) => {
+    //   if (status) {
+    getCategoryLandingJob((status, res) => {
       if (status) {
-        getCategoryLandingJob((status, res) => {
-          if (status) {
-            setCategoryLandingJobs(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
-
-        getTaskLandingJob((status, res) => {
-          if (status) {
-            setTaskLandingJobs(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
+        setCategoryLandingJobs(res.data.data);
       } else {
-        if (res.status === 401) {
-          navigate('/login-admin');
-        } else {
-          console.log(res);
-        }
+        console.log(res);
       }
     });
+
+    getTaskLandingJob((status, res) => {
+      if (status) {
+        setTaskLandingJobs(res.data.data);
+      } else {
+        console.log(res);
+      }
+    });
+    //   } else {
+    //     if (res.status === 401) {
+    //       navigate('/login-admin');
+    //     } else {
+    //       console.log(res);
+    //     }
+    //   }
+    // });
   }, [navigate, refresh]);
 
   useEffect(() => {
@@ -212,7 +213,7 @@ function LandingJobAdmin() {
 
       <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
-        <Overview />
+        {/* <Overview /> */}
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">List Landing a Job</div>

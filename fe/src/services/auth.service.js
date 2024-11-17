@@ -7,7 +7,7 @@ export const loginAdmin = async (email, password, navigate) => {
     CookiesStorage.set(CookiesKey.TokenAdmin, response.data.data.token);
     console.log(response);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     navigate('/admin');
   } catch (err) {
