@@ -2,35 +2,18 @@ import { useState } from 'react';
 import { loginAdmin } from '../../../services/auth.service';
 import Nav from '../../elements/nav';
 import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function LoginAdmin() {
-  const [loginFailed, setLoginFailed] = useState('');
+  // const [loginFailed, setLoginFailed] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    const data = {
-      email: event.target.email?.value,
-      password: event.target.password?.value,
-    };
-
-    loginAdmin(data, async (status, res) => {
-      if (status) {
-        try {
-          await new Promise((resolve) => {
-            sessionStorage.setItem('token', res.data.token);
-            resolve();
-          });
-
-          navigate('/admin');
-        } catch (error) {
-          console.error('Error saving token:', error);
-        }
-      } else {
-        setLoginFailed(res.response.data.message);
-        console.log(res.response.data.message);
-      }
-    });
+    await loginAdmin(email, password, navigate);
   };
   return (
     <div className="flex flex-col md:flex-row">
@@ -44,16 +27,16 @@ function LoginAdmin() {
         </div>
 
         <form action="" method="post" onSubmit={handleLogin}>
-          {loginFailed && <p className="text-red-500">{loginFailed}</p>}
+          {/* {loginFailed && <p className="text-red-500">{loginFailed}</p>} */}
           <div className="flex flex-col">
             <label htmlFor="email" className="mb-2">
               Email Address
             </label>
-            <input type="email" name="email" id="email" placeholder="example@gmail.com" className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
+            <input type="email" name="email" id="email" placeholder="example@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
             <label htmlFor="password" className="mb-2">
               Password
             </label>
-            <input type="password" name="password" id="password" placeholder="**********" className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
+            <input type="password" name="password" id="password" placeholder="**********" value={password} onChange={(e) => setPassword(e.target.value)} className="border border-gray-500 w-full rounded-lg mb-6 py-2 px-4" />
           </div>
           <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="submit">
             Sign In Admin

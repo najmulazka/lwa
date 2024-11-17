@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PopupConfirmation from '../elements/PopupConfirmation';
+import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 
 function Sidebar(props) {
   const { role } = props;
@@ -17,7 +18,7 @@ function Sidebar(props) {
 
   const handleConfirm = () => {
     navigate(role === 'admin' ? '/login-admin' : '/');
-    sessionStorage.clear();
+    role === 'admin' ? CookiesStorage.remove(CookiesKey.TokenAdmin) : CookiesStorage.remove(CookiesKey.AuthToken);
   };
 
   const handleCancel = () => {

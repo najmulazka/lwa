@@ -3,7 +3,8 @@ import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { useEffect, useState } from 'react';
 import { getBooking } from '../../../services/booking.service';
-import { whoami } from '../../../services/whoami.service';
+// import { whoami } from '../../../services/whoami.service';
+import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function DashboardAdmin() {
   const [booking, setBooking] = useState([]);
@@ -11,40 +12,28 @@ function DashboardAdmin() {
   let numbering = 1;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = CookiesStorage.get(CookiesKey.TokenAdmin);
     if (!token) {
       navigate('/login-admin');
     }
 
-    whoami((status, res) => {
+    // whoami((status, res) => {
+    //   if (status) {
+    getBooking((status, res) => {
       if (status) {
-        getBooking((status, res) => {
-          if (status) {
-            setBooking(res.data);
-          } else {
-            console.log(res);
-          }
-        });
+        setBooking(res.data);
       } else {
-        if (res.status === 401) {
-          navigate('/login-admin');
-        } else {
-          console.log(res);
-        }
+        console.log(res);
+        // CookiesStorage.remove(CookiesKey.TokenAdmin);
+        // navigate('/login-admin');
       }
     });
-
-    // getBooking((status, res) => {
-    //   console.log(res.status);
-    //   if (status) {
-    //     setBooking(res.data);
-    //   } else {
-    //     // if (res.status === 401 || res.status === 400) {
-    //     //   navigate('/login-admin');
-    //     // } else {
-    //     //   console.log(res);
-    //     // }
-    //     console.log(res);
+    // } else {
+    //     if (res.status === 401) {
+    //       navigate('/login-admin');
+    //     } else {
+    //       console.log(res);
+    //     }
     //   }
     // });
   }, []);

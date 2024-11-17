@@ -1,10 +1,11 @@
 import axiosRetry from 'axios-retry';
 import axios from 'axios';
+import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_URL,
   headers: {
-    Authorization: `${sessionStorage.getItem('token')}`,
+    Authorization: `${CookiesStorage.get(CookiesKey.TokenAdmin)}`,
   },
 });
 
