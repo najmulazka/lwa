@@ -11,13 +11,14 @@ function Overview() {
     const fetchData = async () => {
       try {
         const data = await usera();
+        console.log(data.profilePicture);
         setUser(data);
       } catch (err) {
         console.error(err.message);
         setError(err.message);
         console.log(error);
         if (err.message.includes('Unauthorized')) {
-          navigate('/login-admin');
+          navigate('/login');
         }
       }
     };

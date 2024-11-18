@@ -3,7 +3,7 @@ const { createTestimoni, testimonials, updateTestimoni, deleteTestimoni, testimo
 const { restrictAdmin } = require('../middlewares/restrict.middlewares');
 
 router.post('/', restrictAdmin, createTestimoni);
-router.get('/',restrictAdmin, testimonials);
+router.get('/', testimonials);
 router.get('/:id', testimoniDetail);
 router.put('/:id', restrictAdmin, updateTestimoni);
 router.delete('/:id', restrictAdmin, deleteTestimoni);

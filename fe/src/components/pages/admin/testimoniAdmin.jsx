@@ -67,7 +67,7 @@ function TestimoniAdmin() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       name: event.target.name?.value,
@@ -78,7 +78,7 @@ function TestimoniAdmin() {
 
     if (editData) {
       try {
-        updateTestimoni(editData.id, data);
+        await updateTestimoni(editData.id, data);
         setRefresh(!refresh);
         setEditData(null);
         toggleModal();
@@ -89,7 +89,7 @@ function TestimoniAdmin() {
       }
     } else {
       try {
-        createTestimoni(data);
+        await createTestimoni(data);
         setRefresh(!refresh);
         toggleModal();
       } catch (err) {
@@ -123,8 +123,8 @@ function TestimoniAdmin() {
     setIsPopupDelete(false);
   };
 
-  const handleConfirm = () => {
-    deleteTestimoni(idDelete);
+  const handleConfirm = async() => {
+    await deleteTestimoni(idDelete);
     setIdDelete(null);
     setRefresh(!refresh);
     setIsPopupDelete(false);

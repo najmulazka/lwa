@@ -6,8 +6,8 @@ import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
-import { getSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
-import { getSelfCheckLinkedinProfile } from '../../services/selfCheckLinkedinProfile.service';
+import { getSelfCheckLandingJobs } from '../../services/selfCheckLandingJob.service';
+import { getSelfCheckLinkedinProfiles } from '../../services/selfCheckLinkedinProfile.service';
 
 function DashboardUser() {
   const [landingJobs, setLandingJobs] = useState([]);
@@ -18,35 +18,21 @@ function DashboardUser() {
   const percent = ((landingJobs.filter((data) => data.status === true).length + linkedinProfiles.filter((data) => data.status === true).length) / (landingJobs.length + linkedinProfiles.length)) * 100;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-    }
+    const fetchData = async() => {
+      try {
+        const landingJobs = await getSelfCheckLandingJobs();
+        setLandingJobs(landingJobs);
+        console.log(landingJobs);
 
-    console.log(token);
-    getSelfCheckLandingJob((status, res) => {
-      if (status) {
-        setLandingJobs(res.data.data);
-      } else {
-        if (res.status === 401) {
+        const data = await getSelfCheckLinkedinProfiles();
+        setLinkedinProfiles(data);
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
           navigate('/login');
-        } else {
-          console.log(res.response.data.message);
         }
       }
-    });
-
-    getSelfCheckLinkedinProfile((status, res) => {
-      if (status) {
-        setLinkedinProfiles(res.data.data);
-      } else {
-        if (res.status === 401) {
-          navigate('/login');
-        } else {
-          console.log(res.response.data.message);
-        }
-      }
-    });
+    };
+    fetchData();
   }, [navigate]);
 
   return (

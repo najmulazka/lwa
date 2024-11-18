@@ -4,7 +4,7 @@ import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
-import { getSelfCheckLandingJob, updateSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
+import { getSelfCheckLandingJobs, updateSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
@@ -13,24 +13,22 @@ function LandingJobUser() {
 
   const navigate = useNavigate();
   let index = 1;
-  const token = sessionStorage.getItem('token');
-  !token ? navigate('/login') : '';
 
   useEffect(() => {
-    getSelfCheckLandingJob((status, res) => {
-      if (status) {
-        setLandingJobs(res.data.data);
-      } else {
-        if (res.status === 401) {
+    const fetchData = async () => {
+      try {
+        const data = await getSelfCheckLandingJobs();
+        setLandingJobs(data);
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
           navigate('/login');
-        } else {
-          console.log(res.response.data.message);
         }
       }
-    });
+    };
+    fetchData();
   }, [navigate, refresh]);
 
-  const handleClick = (id, status) => {
+  const handleClick = async (id, status) => {
     const newStatus = !status;
 
     const updateLandingJobs = landingJobs.map((landingJob) => (landingJob.id === id ? { ...landingJob, status: newStatus } : landingJob));
@@ -41,11 +39,12 @@ function LandingJobUser() {
     };
 
     try {
-      updateSelfCheckLandingJob(id, data, (status) => {
-        status ? setRefresh(!refresh) : console.log('update gagal');
-      });
+      await updateSelfCheckLandingJob(id, data);
+      setRefresh(!refresh);
     } catch (err) {
-      console.log(err);
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login');
+      }
       const updateLandingJobs = landingJobs.map((landingJob) => (landingJob.id === id ? { ...landingJob, status: status } : landingJob));
       setLandingJobs(updateLandingJobs);
     }

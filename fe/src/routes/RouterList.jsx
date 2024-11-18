@@ -12,7 +12,7 @@ import LoginAdmin from '../components/pages/admin/loginAdmin.jsx';
 import CallbackPage from '../components/pages/callbackPage.jsx';
 import LandingJobAdmin from '../components/pages/admin/landingJobAdmin.jsx';
 import LinkedinProfileAdmin from '../components/pages/admin/linkdinProfileAdmin.jsx';
-import { Protected } from '../utils/protected.js';
+import { Protected, ProtectedUser } from '../utils/protected.js';
 
 export const RouterList = () => {
   return (
@@ -25,25 +25,25 @@ export const RouterList = () => {
         <Route
           path="/user"
           element={
-            <Protected>
+            <ProtectedUser>
               <DashboardUser />
-            </Protected>
+            </ProtectedUser>
           }
         />
         <Route
           path="/user/landing-job"
           element={
-            <Protected>
+            <ProtectedUser>
               <LandingJobUser />
-            </Protected>
+            </ProtectedUser>
           }
         />
         <Route
           path="/user/linkedin-profile"
           element={
-            <Protected>
+            <ProtectedUser>
               <LinkedinProfileUser />
-            </Protected>
+            </ProtectedUser>
           }
         />
         <Route path="/login-admin" element={<LoginAdmin />} />

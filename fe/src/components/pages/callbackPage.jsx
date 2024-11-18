@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 
 function CallbackPage() {
   const navigate = useNavigate();
@@ -10,10 +11,10 @@ function CallbackPage() {
     const token = urlParams.get('token');
 
     if (token) {
-      sessionStorage.setItem('token', token);
-      console.log(token);
+      CookiesStorage.set(CookiesKey.AuthToken, token);
+
       navigate('/user');
-    } else if (!sessionStorage.getItem('token')) {
+    } else if (!CookiesStorage.get(CookiesKey.AuthToken)) {
       navigate('/login');
     }
   }, [navigate]);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSelfCheckLinkedinProfile, updateSelfCheckLinkedinProfile } from '../../services/selfCheckLinkedinProfile.service';
+import { getSelfCheckLinkedinProfiles, updateSelfCheckLinkedinProfile } from '../../services/selfCheckLinkedinProfile.service';
 import Table from '../elements/Table';
 import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
@@ -13,26 +13,24 @@ function LinkedinProfileUser() {
 
   const navigate = useNavigate();
   let index = 1;
-  const token = sessionStorage.getItem('token');
-  !token ? navigate('/login') : '';
 
   useEffect(() => {
-    getSelfCheckLinkedinProfile((status, res) => {
-      if (status) {
-        setLinkedinProfiles(res.data.data);
-      } else {
-        if (res.status === 401) {
+    const fetchData = async () => {
+      try {
+        const data = await getSelfCheckLinkedinProfiles();
+        setLinkedinProfiles(data);
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
           navigate('/login');
-        } else {
-          console.log(res.response.data.message);
         }
       }
-    });
+    };
+
+    fetchData();
   }, [navigate, refresh]);
 
-  const handleClick = (id, status) => {
+  const handleClick = async (id, status) => {
     const newStatus = !status;
-
     const updateLinkedinProfile = linkedinProfiles.map((linkedinProfile) => (linkedinProfile.id === id ? { ...linkedinProfile, status: newStatus } : linkedinProfile));
     setLinkedinProfiles(updateLinkedinProfile);
 
@@ -41,11 +39,13 @@ function LinkedinProfileUser() {
     };
 
     try {
-      updateSelfCheckLinkedinProfile(id, data, (status) => {
-        status ? setRefresh(!refresh) : console.log('update gagal');
-      });
+      await updateSelfCheckLinkedinProfile(id, data);
+      setRefresh(!refresh);
     } catch (err) {
-      console.log(err);
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login');
+      }
+
       const updateLinkedinProfiles = linkedinProfiles.map((linkedinProfile) => (linkedinProfile.id === id ? { ...linkedinProfile, status: status } : linkedinProfile));
       setLinkedinProfiles(updateLinkedinProfiles);
     }

@@ -28,6 +28,7 @@ function FaqAdmin() {
       setIsLoading(true);
       try {
         const data = await getFaq();
+        console.log(data);
         setFaq(data);
       } catch (err) {
         console.error(err.message);
@@ -70,7 +71,7 @@ function FaqAdmin() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       question: event.target.question?.value,
@@ -79,7 +80,7 @@ function FaqAdmin() {
 
     if (editData) {
       try {
-        updateFaq(editData.id, data);
+        await updateFaq(editData.id, data);
         setRefresh(!refresh);
         setEditData(null);
         toggleModal();
@@ -90,7 +91,7 @@ function FaqAdmin() {
       }
     } else {
       try {
-        createFaq(data);
+        await createFaq(data);
         setRefresh(!refresh);
         toggleModal();
         document.getElementById('question').value = '';
@@ -118,9 +119,9 @@ function FaqAdmin() {
     setIsPopupDelete(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     try {
-      deleteFaq(idDelete);
+      await deleteFaq(idDelete);
       setIdDelete(null);
       setRefresh(!refresh);
       setIsPopupDelete(false);
