@@ -11,7 +11,6 @@ function Overview() {
     const fetchData = async () => {
       try {
         const data = await usera();
-        console.log(data.profilePicture);
         setUser(data);
       } catch (err) {
         console.error(err.message);

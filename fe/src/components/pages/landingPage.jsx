@@ -4,6 +4,9 @@ import Header from '../fragments/Header';
 import Footer from '../fragments/Footer';
 import FaqItem from '../elements/FaqItem';
 import TestimoniItem from '../elements/TestimoniItem';
+import vectorBranding from '../../assets/vectorBranding.svg';
+import vectorStart from '../../assets/vectorStart.svg';
+import vectorTestimoni from '../../assets/vectorTestimoni.svg';
 import { useEffect, useState } from 'react';
 import { getTestimonials } from '../../services/testimoni.service';
 import { getFaq } from '../../services/faq.service';
@@ -38,13 +41,7 @@ function LandingPage() {
             </TestimoniItem>
           ))}
       </Testimoni>
-      <div className=" flex justify-center mb-10">
-        <a href="/booking">
-          <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
-            Consult Now!
-          </button>
-        </a>
-      </div>
+
       <AboutAndi></AboutAndi>
       <Faq>{faq.length > 0 && faq.map((faq) => <FaqItem key={faq.id} question={faq.question} description={faq.description} />)}</Faq>
       <Footer></Footer>
@@ -54,10 +51,10 @@ function LandingPage() {
 
 function Branding() {
   return (
-    <div id="branding" className="py-6 md:py-14 px-8 md:px-24 border">
+    <div id="branding" className="py-6 md:py-14 px-4 md:px-120 border" style={{ backgroundImage: `url(${vectorBranding})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat', backgroundPosition: 'left' }}>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 mb-6 md:mb-0">
-          <div className="mb-3 flex items-center">
+          <div className="mb-3 flex items-center md:text-sm text-xs">
             <a href="https://www.instagram.com/learnwithandi" target="_blank" className="space-x-2">
               <i className="fas fa-arrow-right"></i>
               <span className="text-blue-500">LearnWIthAndi Instagram</span>
@@ -65,12 +62,11 @@ function Branding() {
             </a>
           </div>
 
-          <p className="text-3xl md:text-5xl font-bold mb-3 w-4/5 leading-tight md:leading-tight">Land Your Dream Job in 90 Days with LearnWithAndi</p>
-          <p className="text-sm md:text-lg">Elevating Career Consultation Services for the Modern</p>
-          <p className="mb-8 text-xs md:text-lg">Professional</p>
-          <div className="flex space-x-2">
+          <h1 className="font-bold mb-3 w-4/5 leading-tight md:leading-tight">Land Your Dream Job in 90 Days with LearnWithAndi</h1>
+          <p className="text-xs md:text-base w-4/5 mb-12">Elevating Career Consultation Services for the Modern Professional</p>
+          <div className="flex space-x-2 text-xs md:text-base semibold">
             <a href="/booking">
-              <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+              <button className={`font-bold py-1 px-2 md:py-2 md:px-8 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
                 Consult Now!
               </button>
             </a>
@@ -114,33 +110,33 @@ function Branding() {
 
 function StartConseling() {
   return (
-    <div className="bg-gray-200 py-6 md:py-14 px-8 md:px-24 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-3">How To Start Counseling</h1>
-      <p className="text-center mb-10 md:w-3/5">Starting your career journey with LearnWithAndi is simple. Follow these steps to book a personalized counseling session, anytime and anywhere.</p>
+    <div className="bg-gray-200 py-6 md:py-14 px-4 md:px-120 flex flex-col items-center" style={{ backgroundImage: `url(${vectorStart})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat', backgroundPosition: 'right' }}>
+      <h2 className="font-bold mb-3 text-center">How To Start Counseling</h2>
+      <p className="text-center text-xs md:text-base mb-10 md:w-3/5">Starting your career journey with LearnWithAndi is simple. Follow these steps to book a personalized counseling session, anytime and anywhere.</p>
 
       <div className="md:grid grid-cols-3 space-x-3">
         <div className="flex flex-col items-center md:mb-0 mb-10">
           <div className="bg-amber-200  rounded-lg">
             <img src="/startConseling1.png" alt="image" className="h-60" />
           </div>
-          <h1 className="text-xl text-center mb-2">Book a session</h1>
-          <p className="text-center text-sm">Choose a time that works best for you through the online schedule, with IDR 150,000 per session</p>
+          <h3 className="text-center mb-2 mt-8">Book a session</h3>
+          <p className="text-center text-10 md:text-xs">Choose a time that works best for you through the online schedule, with IDR 150,000 per session</p>
         </div>
 
         <div className="flex flex-col items-center md:mb-0 mb-10">
           <div className="bg-indigo-300  rounded-lg">
             <img src="/startConseling2.png" alt="image" className="h-60" />
           </div>
-          <h1 className="text-xl text-center mb-2">Drop Your CV Via LinkdIn Chat</h1>
-          <p className="text-center text-sm">Send your CV and essential information to provide a better understanding of your background and situation</p>
+          <h3 className="text-center mb-2 mt-8">Drop Your CV Via LinkdIn Chat</h3>
+          <p className="text-center text-10 md:text-xs">Send your CV and essential information to provide a better understanding of your background and situation</p>
         </div>
 
         <div className="flex flex-col items-center md:mb-0 mb-10">
           <div className="bg-amber-200  rounded-lg">
             <img src="/startConseling3.png" alt="image" className="h-60" />
           </div>
-          <h1 className="text-xl text-center mb-2">Join Video Call Session</h1>
-          <p className="text-center text-sm">Join a one-on-one video call with andi to discuss your career goals and challenges</p>
+          <h3 className="text-center mb-2 mt-8">Join Video Call Session</h3>
+          <p className="text-center text-10 md:text-xs">Join a one-on-one video call with andi to discuss your career goals and challenges</p>
         </div>
       </div>
     </div>
@@ -149,8 +145,8 @@ function StartConseling() {
 
 function LayananKonsultasi() {
   return (
-    <div id="services" className="py-6 md:py-14 px-8 md:px-24 flex flex-col">
-      <h1 className="text-3xl font-bold w-full md:w-1/2 leading-tight">Boost Your Career with Comprehensive Consulting Services from LearnWithAndi</h1>
+    <div id="services" className="py-6 md:py-14 px-4 md:px-120 flex flex-col">
+      <h2 className="font-bold w-full md:w-1/2 leading-tight">Boost Your Career with Comprehensive Consulting Services from LearnWithAndi</h2>
       <div className="flex flex-col-reverse md:flex-row ">
         <div className=" flex flex-col mt-14">
           <div className="w-full md:w-4/5">
@@ -171,14 +167,14 @@ function LayananKonsultasi() {
 function ListLayanan(props) {
   const { title, children } = props;
   return (
-    <div className="mb-5 md:mb-10">
+    <div className="mb-5 md:mb-8">
       <div className="border shadow-md inline-block rounded-md py-1 px-2 font-semibold mb-2">
         <div className="inline mr-2">
           <i className="fa-duotone fa-solid fa-square text-gray-500"></i>
         </div>
-        <p className="inline">{title}</p>
+        <h3 className="inline">{title}</h3>
       </div>
-      <div className="text-justify">{children}</div>
+      <div className="text-justify text-xs md:text-base">{children}</div>
     </div>
   );
 }
@@ -186,37 +182,44 @@ function ListLayanan(props) {
 function Testimoni(props) {
   const { children } = props;
   return (
-    <div className="flex flex-col py-6 md:py-14">
-      <div className="text-3xl font-bold mb-10 text-center">What They Say About LearnWithAndi</div>
+    <div className="flex flex-col py-6 px-4 md:px-120 md:py-14" style={{ backgroundImage: `url(${vectorTestimoni})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat', backgroundPosition: 'right' }}>
+      <h2 className="font-bold mb-10 text-center">What They Say About LearnWithAndi</h2>
       <div className="flex justify-center overflow-x-auto space-x-4">{children}</div>
+      <div className=" flex justify-center mt-10">
+        <a href="/booking">
+          <button className={`font-bold py-1 w-36 md:py-2 md:w-48 border border-2 border-black bg-black text-white rounded hover:bg-white hover:text-black`} type="button">
+            Consult Now!
+          </button>
+        </a>
+      </div>
     </div>
   );
 }
 
 function AboutAndi() {
   return (
-    <div id="about" className="flex flex-col md:flex-row items-center md:items-start py-6 md:py-14 px-8 md:px-24">
-      <div className="w-full md:w-1/2 flex md:flex-col flex-col-reverse justify-center md:justify-start mb-4 md:mb-0">
+    <div id="about" className="flex flex-col md:flex-row items-center md:items-start py-6 md:py-14 px-4 md:px-120">
+      <div className="w-full md:w-1/2 flex flex-col justify-center md:justify-start mb-4 md:mb-0">
+        <h2 className="font-bold mb-4 md:hidden text-center">Meet Andi, Your Career Coach!</h2>
         <img src="/about.png" alt="Andi Satriawan Lubis" className="rounded-lg w-full object-cover shadow-lg" />
-
         <div className="mt-6">
-          <p className="text-lg font-bold">Andi Satriawan Lubis</p>
-          <p className="text-gray-600">Career Coach | International Recruiter | 7 Years in Career Development & Partnerships</p>
+          <p className="text-xs md:text-base font-medium">Andi Satriawan Lubis</p>
+          <p className="text-gray-600 text-xs md:text-base ">Career Coach | International Recruiter | 7 Years in Career Development & Partnerships</p>
         </div>
       </div>
 
       <div className="w-full md:w-2/3 md:pl-6 md:pt-10">
-        <h1 className="text-2xl md:text-4xl font-bold mb-4">Meet Andi, Your Career Coach!</h1>
-        <p className="text-gray-700 mb-6 text-justify">
+        <h2 className="font-bold mb-4 hidden md:block">Meet Andi, Your Career Coach!</h2>
+        <p className="text-gray-700 mb-6 text-justify text-xs md:text-base">
           Andi is a dedicated professional with expertise in People Development . Committed to guiding and supporting boot camp students, I share valuable insights and industry knowledge for their growth. Let&apos;s connect and create a
           network of learners and industry experts. Reach out for advice or collaboration opportunities. Together, let&apos;s inspire success!
         </p>
         <div className="space-y-4">
-          <div className="flex space-x-2 border shadow-md p-2 font-semibold rounded-lg ">
+          <div className="flex space-x-2 border shadow-md p-2 rounded-lg text-xs md:text-base font-medium">
             <i className="fas fa-check-circle text-blue-500 mt-1"></i>
             <span className="text-gray-700">7 years experience on Tech Education, Recruitment, and Career Support</span>
           </div>
-          <div className="flex space-x-2 border shadow-md p-2 font-semibold rounded-lg">
+          <div className="flex space-x-2 border shadow-md p-2 rounded-lg text-xs md:text-base font-medium">
             <i className="fas fa-check-circle text-blue-500 mt-1"></i>
             <span className="text-gray-700">Helping more than 1,000 students from 3 big bootcamps to get a job</span>
           </div>
@@ -238,9 +241,9 @@ function AboutAndi() {
 function Faq(props) {
   const { children } = props;
   return (
-    <div className="py-6 md:py-14 px-8 md:px-24 flex flex-col items-center text-center">
-      <h1 className="text-3xl font-bold mb-3">Frequently Asked Questions (FAQ)</h1>
-      <div className="md:w-3/5 md:mb-20 mb-10">
+    <div className="py-6 md:py-14 px-4 md:px-120 flex flex-col items-center text-center">
+      <h2 className="text-3xl font-bold mb-3">Frequently Asked Questions (FAQ)</h2>
+      <div className="md:w-3/5 md:mb-20 mb-10 text-xs md:text-base">
         <p className="text-center">You may have some questions before getting started. Here are answers to some frequently asked questions about LearnWithAndi&apos;s services</p>
       </div>
 

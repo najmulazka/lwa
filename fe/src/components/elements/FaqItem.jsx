@@ -9,9 +9,9 @@ function FaqItem(props) {
         <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>
           <i className="fa-solid fa-chevron-down"></i>
         </span>
-        <p className="text-gray-800 font-medium">{question}</p>
+        <p className="text-gray-800 font-medium text-xs md:text-base">{question}</p>
       </div>
-      {isOpen && <div className="mt-2 text-gray-600 text-left">{description}</div>}
+      {isOpen && <div className="mt-2 text-gray-600 text-left text-xs md:text-base">{description}</div>}
     </div>
   );
 }

@@ -11,12 +11,12 @@ function LoginUser() {
           <img src="/logo.png" alt="" className="h-8 md:h-14 mb-10 md:mb-14" />
         </a>
 
-        <div className="text-3xl md:text-4xl font-bold mb-20 md:mb-14">
+        <h1 className="font-bold mb-20 md:mb-14">
           <span>Login and Continue Your Career Journey with LearnWithAndi!</span>
-        </div>
+        </h1>
 
         {/* <a href="/user"> */}
-        <button className="inline font-bold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
+        <button className="inline text-xs md:text-base font-semibold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
           <i className="fa-brands fa-google text-pink-500"></i>
           <span>Sign In With Google</span>
         </button>
