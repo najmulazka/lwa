@@ -1,53 +1,96 @@
 import axios from 'axios';
 import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_URL,
-  headers: {
-    Authorization: `${CookiesStorage.get(CookiesKey.TokenAdmin)}`,
-  },
-});
+const BASE_URL = import.meta.env.VITE_URL;
 
-export const getTaskLandingJob = (callback) => {
-  api
-    .get(`${import.meta.env.VITE_URL}/task-landing-job`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const getTaskLandingJobs = async () => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/task-landing-job`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const createTaskLandingJob = (data, callback) => {
-  api
-    .post(`${import.meta.env.VITE_URL}/task-landing-job`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const createTaskLandingJob = async (data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/task-landing-job`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const updateTaskLandingJob = (id, data, callback) => {
-  api
-    .put(`${import.meta.env.VITE_URL}/task-landing-job/${id}`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const updateTaskLandingJob = async (id, data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.put(`${BASE_URL}/task-landing-job/${id}`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const deleteTaskLandingJob = (id, callback) => {
-  api
-    .delete(`${import.meta.env.VITE_URL}/task-landing-job/${id}`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const deleteTaskLandingJob = async (id) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.delete(`${BASE_URL}/task-landing-job/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };

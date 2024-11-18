@@ -3,10 +3,8 @@ import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { createTestimoni, deleteTestimoni, getTestimonials, updateTestimoni } from '../../../services/testimoni.service';
 import { useNavigate } from 'react-router-dom';
-// import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
-// import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function TestimoniAdmin() {
   const [testimonials, setTestimonials] = useState([]);

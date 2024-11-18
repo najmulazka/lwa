@@ -1,52 +1,96 @@
 import axios from 'axios';
+import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_URL,
-  headers: {
-    Authorization: `${sessionStorage.getItem('token')}`,
-  },
-});
+const BASE_URL = import.meta.env.VITE_URL;
 
-export const getTaskLinkedinProfile = (callback) => {
-  api
-    .get(`${import.meta.env.VITE_URL}/task-linkedin-profile`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const getTaskLinkedinProfiles = async () => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/task-linkedin-profile`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const createTaskLinkedinProfile = (data, callback) => {
-  api
-    .post(`${import.meta.env.VITE_URL}/task-linkedin-profile`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const createTaskLinkedinProfile = async (data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/task-linkedin-profile`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const updateTaskLinkedinProfile = (id, data, callback) => {
-  api
-    .put(`${import.meta.env.VITE_URL}/task-linkedin-profile/${id}`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const updateTaskLinkedinProfile = async (id, data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.put(`${BASE_URL}/task-linkedin-profile/${id}`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const deleteTaskLinkedinProfile = (id, callback) => {
-  api
-    .delete(`${import.meta.env.VITE_URL}/task-linkedin-profile/${id}`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const deleteTaskLinkedinProfile = async (id) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.delete(`${BASE_URL}/task-linkedin-profile/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };

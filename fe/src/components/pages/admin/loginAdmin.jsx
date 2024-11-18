@@ -2,18 +2,16 @@ import { useState } from 'react';
 import { loginAdmin } from '../../../services/auth.service';
 import Nav from '../../elements/nav';
 import { useNavigate } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
-// import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function LoginAdmin() {
-  // const [loginFailed, setLoginFailed] = useState('');
+  const [loginFailed, setLoginFailed] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    await loginAdmin(email, password, navigate);
+    await loginAdmin(email, password, navigate, setLoginFailed);
   };
   return (
     <div className="flex flex-col md:flex-row">
@@ -27,7 +25,7 @@ function LoginAdmin() {
         </div>
 
         <form action="" method="post" onSubmit={handleLogin}>
-          {/* {loginFailed && <p className="text-red-500">{loginFailed}</p>} */}
+          {loginFailed && <p className="text-red-500">{loginFailed}</p>}
           <div className="flex flex-col">
             <label htmlFor="email" className="mb-2">
               Email Address

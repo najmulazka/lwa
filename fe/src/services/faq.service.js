@@ -1,52 +1,96 @@
 import axios from 'axios';
+import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
-export const getFaq = (callback) => {
-  axios
-    .get(`${import.meta.env.VITE_URL}/faq`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+const BASE_URL = import.meta.env.VITE_URL;
+
+export const getFaq = async () => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/faq`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const api = axios.create({
-  baseURL: import.meta.env.VITE_URL,
-  headers: {
-    Authorization: `${sessionStorage.getItem('token')}`,
-  },
-});
+export const createFaq = async (data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
 
-export const createFaq = (data, callback) => {
-  api
-    .post(`${import.meta.env.VITE_URL}/faq`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/faq`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const updateFaq = (id, data, callback) => {
-  api
-    .put(`${import.meta.env.VITE_URL}/faq/${id}`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const updateFaq = async (id, data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.put(`${BASE_URL}/faq/${id}`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const deleteFaq = (id, callback) => {
-  api
-    .delete(`${import.meta.env.VITE_URL}/faq/${id}`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const deleteFaq = async (id) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.delete(`${BASE_URL}/faq/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };

@@ -1,52 +1,96 @@
 import axios from 'axios';
+import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_URL,
-  headers: {
-    Authorization: `${sessionStorage.getItem('token')}`,
-  },
-});
+const BASE_URL = import.meta.env.VITE_URL;
 
-export const getCategoryLinkedinProfile = (callback) => {
-  api
-    .get(`${import.meta.env.VITE_URL}/category-linkedin-profile`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const getCategoryLinkedinProfiles = async () => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/category-linkedin-profile`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const createCategoryLinkedinProfile = (data, callback) => {
-  api
-    .post(`${import.meta.env.VITE_URL}/category-linkedin-profile`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const createCategoryLinkedinProfile = async (data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/category-linkedin-profile`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const updateCategoryLinkedinProfile = (id, data, callback) => {
-  api
-    .put(`${import.meta.env.VITE_URL}/category-linkedin-profile/${id}`, data)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const updateCategoryLinkedinProfile = async (id, data) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/category-linkedin-profile/${id}`, data, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };
 
-export const deleteCategoryLinkedinProfile = (id, callback) => {
-  api
-    .delete(`${import.meta.env.VITE_URL}/category-linkedin-profile/${id}`)
-    .then((res) => {
-      callback(true, res);
-    })
-    .catch((err) => {
-      callback(false, err);
+export const deleteCategoryLinkedinProfile = async (id) => {
+  const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+  if (!token) {
+    throw new Error('Unauthorized: Token is missing');
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/category-linkedin-profile/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+    return response.data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      CookiesStorage.remove(CookiesKey.TokenAdmin);
+      throw new Error('Unauthorized: Token is invalid');
+    }
+    throw error;
+  }
 };

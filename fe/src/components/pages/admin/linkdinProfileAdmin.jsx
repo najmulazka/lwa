@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
-import { createCategoryLinkedinProfile, getCategoryLinkedinProfile } from '../../../services/categoryLinkedinProfile.service';
-import { createTaskLinkedinProfile, deleteTaskLinkedinProfile, getTaskLinkedinProfile, updateTaskLinkedinProfile } from '../../../services/taskLinkedinProfile.service';
+import { createCategoryLinkedinProfile, getCategoryLinkedinProfiles } from '../../../services/categoryLinkedinProfile.service';
+import { createTaskLinkedinProfile, deleteTaskLinkedinProfile, getTaskLinkedinProfiles, updateTaskLinkedinProfile } from '../../../services/taskLinkedinProfile.service';
 
 function LinkedinProfileAdmin() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
@@ -25,36 +24,22 @@ function LinkedinProfileAdmin() {
   let index = 1;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/login-admin');
-    }
+    const fetchData = async () => {
+      try {
+        const category = await getCategoryLinkedinProfiles();
+        console.log(category);
+        setCategoryLinkedinProfiles(category);
 
-    whoami((status, res) => {
-      if (status) {
-        getCategoryLinkedinProfile((status, res) => {
-          if (status) {
-            setCategoryLinkedinProfiles(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
-
-        getTaskLinkedinProfile((status, res) => {
-          if (status) {
-            setLinkedinProfiles(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
-      } else {
-        if (res.status === 401) {
+        const data = await getTaskLinkedinProfiles();
+        setLinkedinProfiles(data);
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
           navigate('/login-admin');
-        } else {
-          console.log(res);
         }
       }
-    });
+    };
+
+    fetchData();
   }, [navigate, refresh]);
 
   useEffect(() => {
@@ -71,20 +56,19 @@ function LinkedinProfileAdmin() {
   }, [editData, isOpenModal]);
 
   const handleAddCategory = () => {
-    const data = {
-      name: newCategoryLinkedinProfile,
-    };
-    createCategoryLinkedinProfile,
-      (data,
-      (status, res) => {
-        if (status) {
-          setCategoryLinkedinProfiles([...categoryLinkedinProfiles, newCategoryLinkedinProfile]);
-          setNewCategoryLinkedinProfile('');
-          setRefresh(!refresh);
-        } else {
-          console.log(res);
-        }
-      });
+    try {
+      const data = {
+        name: newCategoryLinkedinProfile,
+      };
+      createCategoryLinkedinProfile(data);
+      setCategoryLinkedinProfiles([...categoryLinkedinProfiles, newCategoryLinkedinProfile]);
+      setNewCategoryLinkedinProfile('');
+      setRefresh(!refresh);
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
+      }
+    }
   };
 
   const toggleModal = () => {
@@ -99,24 +83,26 @@ function LinkedinProfileAdmin() {
     };
 
     if (editData) {
-      updateTaskLinkedinProfile(editData.id, data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          setEditData(null);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        updateTaskLinkedinProfile(editData.id, data);
+        setRefresh(!refresh);
+        setEditData(null);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     } else {
-      createTaskLinkedinProfile(data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        createTaskLinkedinProfile(data);
+        setRefresh(!refresh);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     }
   };
 
@@ -144,15 +130,16 @@ function LinkedinProfileAdmin() {
   };
 
   const handleConfirm = () => {
-    deleteTaskLinkedinProfile(idDelete, (status, res) => {
-      if (status) {
-        setIdDelete(null);
-        setRefresh(!refresh);
-        setIsPopupDelete(false);
-      } else {
-        console.log(res);
+    try {
+      deleteTaskLinkedinProfile(idDelete);
+      setIdDelete(null);
+      setRefresh(!refresh);
+      setIsPopupDelete(false);
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
       }
-    });
+    }
   };
   return (
     <div>
@@ -166,7 +153,7 @@ function LinkedinProfileAdmin() {
               <label htmlFor="category" className="font-semibold">
                 Category
               </label>
-              <select name="category" id="category" value={formData.categoryId} className="border border-gray-500 p-2 rounded-md">
+              <select name="category" id="category" value={formData.categoryId} onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })} className="border border-gray-500 p-2 rounded-md">
                 <option value="0" selected>
                   Select Category
                 </option>

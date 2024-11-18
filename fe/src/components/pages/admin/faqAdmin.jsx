@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
-import Overview from '../../fragments/Overview';
+// import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { createFaq, deleteFaq, getFaq, updateFaq } from '../../../services/faq.service';
 import { useNavigate } from 'react-router-dom';
-import { whoami } from '../../../services/whoami.service';
+// import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
+import PopupConfirmation from '../../elements/PopupConfirmation';
 
 function FaqAdmin() {
   const [faq, setFaq] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [idDelete, setIdDelete] = useState(null);
+  const [isPopupDelete, setIsPopupDelete] = useState(false);
+  const [error, setError] = useState(true);
   const [editData, setEditData] = useState();
   const [formData, setFormData] = useState({
     question: '',
@@ -19,29 +24,25 @@ function FaqAdmin() {
   let index = 1;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/login-admin');
-    }
-
-    whoami((status, res) => {
-      if (status) {
-        getFaq((status, res) => {
-          if (status) {
-            setFaq(res.data.data);
-          } else {
-            console.log(res);
-          }
-        });
-      } else {
-        if (res.status === 401) {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getFaq();
+        setFaq(data);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.message);
+        console.log(error);
+        if (err.message.includes('Unauthorized')) {
           navigate('/login-admin');
-        } else {
-          console.log(res);
         }
+      } finally {
+        setIsLoading(false);
       }
-    });
-  }, [navigate, refresh]);
+    };
+
+    fetchData();
+  }, [refresh, navigate]);
 
   useEffect(() => {
     if (editData) {
@@ -77,26 +78,28 @@ function FaqAdmin() {
     };
 
     if (editData) {
-      updateFaq(editData.id, data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          setEditData(null);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        updateFaq(editData.id, data);
+        setRefresh(!refresh);
+        setEditData(null);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     } else {
-      createFaq(data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          toggleModal();
-          document.getElementById('question').value = '';
-          document.getElementById('description').value = '';
-        } else {
-          console.log(res);
+      try {
+        createFaq(data);
+        setRefresh(!refresh);
+        toggleModal();
+        document.getElementById('question').value = '';
+        document.getElementById('description').value = '';
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     }
   };
 
@@ -105,17 +108,33 @@ function FaqAdmin() {
     toggleModal();
   };
 
-  const handleDelete = (id) => {
-    deleteFaq(id, (status, res) => {
-      if (status) {
-        setRefresh(!refresh);
-      } else {
-        res;
-      }
-    });
+  const handleDeleteClick = (id) => {
+    setIdDelete(id);
+    setIsPopupDelete(true);
   };
+
+  const handleCancel = () => {
+    setIdDelete(null);
+    setIsPopupDelete(false);
+  };
+
+  const handleConfirm = () => {
+    try {
+      deleteFaq(idDelete);
+      setIdDelete(null);
+      setRefresh(!refresh);
+      setIsPopupDelete(false);
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
+      }
+    }
+  };
+
   return (
     <div>
+      {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
+
       <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
         <div className="text-2xl font-semibold mb-6">Frequently Asked Questions Input</div>
         <form action="" method="post" onSubmit={handleSubmit} onChange={handleInputChange} className="flex flex-col items-center">
@@ -137,7 +156,7 @@ function FaqAdmin() {
 
       <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
-        <Overview />
+        {/* <Overview /> */}
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">Frequently Asked Questions</div>
@@ -148,36 +167,40 @@ function FaqAdmin() {
               </button>
             </div>
           </div>
-          <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
-            <table className="table w-full border-separate border-spacing-2">
-              <thead>
-                <tr className="text-blue-300">
-                  <th className="w-2 pr-4 pb-2 text-left">No</th>
-                  <th className="w-1/5 pb-2 text-left">title</th>
-                  <th className="pb-2 text-left">Description</th>
-                  <th className="w-40 pb-2 text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {faq.length > 0 &&
-                  faq.map((faq) => (
-                    <tr key={faq.id}>
-                      <td className="text-left align-top">{`${index++}.`}</td>
-                      <td className="text-left align-top">{faq.question}</td>
-                      <td className="text-left align-top">{faq.description}</td>
-                      <td className="text-left space-x-2 align-top align-top">
-                        <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(faq)}>
-                          Edit
-                        </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDelete(faq.id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+          {isLoading ? (
+            <div className="text-center py-10">Loading...</div>
+          ) : (
+            <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
+              <table className="table w-full border-separate border-spacing-2">
+                <thead>
+                  <tr className="text-blue-300">
+                    <th className="w-2 pr-4 pb-2 text-left">No</th>
+                    <th className="w-1/5 pb-2 text-left">title</th>
+                    <th className="pb-2 text-left">Description</th>
+                    <th className="w-40 pb-2 text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {faq.length > 0 &&
+                    faq.map((faq) => (
+                      <tr key={faq.id}>
+                        <td className="text-left align-top">{`${index++}.`}</td>
+                        <td className="text-left align-top">{faq.question}</td>
+                        <td className="text-left align-top">{faq.description}</td>
+                        <td className="text-left space-x-2 align-top align-top">
+                          <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(faq)}>
+                            Edit
+                          </button>
+                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(faq.id)}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

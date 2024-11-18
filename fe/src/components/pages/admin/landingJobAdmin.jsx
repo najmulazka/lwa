@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-// import Overview from '../../fragments/Overview';
+import Overview from '../../fragments/Overview';
 import Sidebar from '../../fragments/Sidebar';
 import { useNavigate } from 'react-router-dom';
-// import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
-import { createCategoryLandingJob, getCategoryLandingJob } from '../../../services/categoryLandingJob.service';
-import { createTaskLandingJob, deleteTaskLandingJob, getTaskLandingJob, updateTaskLandingJob } from '../../../services/taskLandingJob.service';
-import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
+import { createCategoryLandingJob, getCategoryLandingJobs } from '../../../services/categoryLandingJob.service';
+import { getTaskLandingJobs, createTaskLandingJob, updateTaskLandingJob, deleteTaskLandingJob } from '../../../services/taskLandingJob.service';
 
 function LandingJobAdmin() {
   const [taskLandingJobs, setTaskLandingJobs] = useState([]);
@@ -26,36 +24,22 @@ function LandingJobAdmin() {
   let index = 1;
 
   useEffect(() => {
-    const token = CookiesStorage.get(CookiesKey.TokenAdmin);
-    if (!token) {
-      navigate('/login-admin');
-    }
+    const fetchData = async () => {
+      try {
+        const category = await getCategoryLandingJobs();
+        console.log(category);
+        setCategoryLandingJobs(category);
 
-    // whoami((status, res) => {
-    //   if (status) {
-    getCategoryLandingJob((status, res) => {
-      if (status) {
-        setCategoryLandingJobs(res.data.data);
-      } else {
-        console.log(res);
+        const data = await getTaskLandingJobs();
+        setTaskLandingJobs(data);
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
+        }
       }
-    });
+    };
 
-    getTaskLandingJob((status, res) => {
-      if (status) {
-        setTaskLandingJobs(res.data.data);
-      } else {
-        console.log(res);
-      }
-    });
-    //   } else {
-    //     if (res.status === 401) {
-    //       navigate('/login-admin');
-    //     } else {
-    //       console.log(res);
-    //     }
-    //   }
-    // });
+    fetchData();
   }, [navigate, refresh]);
 
   useEffect(() => {
@@ -72,18 +56,20 @@ function LandingJobAdmin() {
   }, [editData, isOpenModal]);
 
   const handleAddCategory = () => {
-    const data = {
-      name: newCategoryLandingJob,
-    };
-    createCategoryLandingJob(data, (status, res) => {
-      if (status) {
-        setCategoryLandingJobs([...categoryLandingJobs, newCategoryLandingJob]);
-        setNewCategoryLandingJob('');
-        setRefresh(!refresh);
-      } else {
-        console.log(res);
+    try {
+      const data = {
+        name: newCategoryLandingJob,
+      };
+
+      createCategoryLandingJob(data);
+      setCategoryLandingJobs([...categoryLandingJobs, newCategoryLandingJob]);
+      setNewCategoryLandingJob('');
+      setRefresh(!refresh);
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
       }
-    });
+    }
   };
 
   const toggleModal = () => {
@@ -98,24 +84,26 @@ function LandingJobAdmin() {
     };
 
     if (editData) {
-      updateTaskLandingJob(editData.id, data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          setEditData(null);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        updateTaskLandingJob(editData.id, data);
+        setRefresh(!refresh);
+        setEditData(null);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     } else {
-      createTaskLandingJob(data, (status, res) => {
-        if (status) {
-          setRefresh(!refresh);
-          toggleModal();
-        } else {
-          console.log(res);
+      try {
+        createTaskLandingJob(data);
+        setRefresh(!refresh);
+        toggleModal();
+      } catch (err) {
+        if (err.message.includes('Unauthorized')) {
+          navigate('/login-admin');
         }
-      });
+      }
     }
   };
 
@@ -143,15 +131,16 @@ function LandingJobAdmin() {
   };
 
   const handleConfirm = () => {
-    deleteTaskLandingJob(idDelete, (status, res) => {
-      if (status) {
-        setIdDelete(null);
-        setRefresh(!refresh);
-        setIsPopupDelete(false);
-      } else {
-        console.log(res);
+    try {
+      deleteTaskLandingJob(idDelete);
+      setIdDelete(null);
+      setRefresh(!refresh);
+      setIsPopupDelete(false);
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
       }
-    });
+    }
   };
 
   return (
@@ -166,7 +155,7 @@ function LandingJobAdmin() {
               <label htmlFor="category" className="font-semibold">
                 Category
               </label>
-              <select name="category" id="category" value={formData.categoryId} className="border border-gray-500 p-2 rounded-md">
+              <select name="category" id="category" value={formData.categoryId} onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })} className="border border-gray-500 p-2 rounded-md">
                 <option value="0" selected>
                   Select Category
                 </option>
@@ -213,7 +202,7 @@ function LandingJobAdmin() {
 
       <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
-        {/* <Overview /> */}
+        <Overview />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">List Landing a Job</div>

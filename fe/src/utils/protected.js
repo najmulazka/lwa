@@ -18,7 +18,7 @@ export const Protected = ({ children }) => {
   useEffect(() => {
     if (FirstLoad) {
       toast.warn('Please Login Now');
-      navigate('/login');
+      navigate('/login/admin');
     }
   }, [FirstLoad]);
 
