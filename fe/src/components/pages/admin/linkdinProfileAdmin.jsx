@@ -6,9 +6,12 @@ import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
 import { createCategoryLinkedinProfile, getCategoryLinkedinProfiles } from '../../../services/categoryLinkedinProfile.service';
 import { createTaskLinkedinProfile, deleteTaskLinkedinProfile, getTaskLinkedinProfiles, updateTaskLinkedinProfile } from '../../../services/taskLinkedinProfile.service';
+import axios from 'axios';
+import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 
 function LinkedinProfileAdmin() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [categoryLinkedinProfiles, setCategoryLinkedinProfiles] = useState([]);
   const [newCategoryLinkedinProfile, setNewCategoryLinkedinProfile] = useState([]);
   const [editData, setEditData] = useState();
@@ -42,6 +45,32 @@ function LinkedinProfileAdmin() {
     fetchData();
   }, [navigate, refresh]);
 
+  const handleCategoryChange = async (event) => {
+    const categoryId = event.target.value;
+    setSelectedCategory(categoryId);
+
+    const BASE_URL = import.meta.env.VITE_URL;
+    const token = CookiesStorage.get(CookiesKey.TokenAdmin);
+
+    if (categoryId !== '0') {
+      try {
+        const response = await axios.get(`${BASE_URL}/task-linkedin-profile?categoryId=${categoryId}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        setLinkedinProfiles(response.data.data);
+        // return response.data.data;
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          CookiesStorage.remove(CookiesKey.TokenAdmin);
+          throw new Error('Unauthorized: Token is invalid');
+        }
+        throw error;
+      }
+    }
+  };
+
   useEffect(() => {
     if (editData) {
       setFormData({
@@ -55,12 +84,12 @@ function LinkedinProfileAdmin() {
     }
   }, [editData, isOpenModal]);
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     try {
       const data = {
         name: newCategoryLinkedinProfile,
       };
-      createCategoryLinkedinProfile(data);
+      await createCategoryLinkedinProfile(data);
       setCategoryLinkedinProfiles([...categoryLinkedinProfiles, newCategoryLinkedinProfile]);
       setNewCategoryLinkedinProfile('');
       setRefresh(!refresh);
@@ -75,7 +104,7 @@ function LinkedinProfileAdmin() {
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       categoryId: event.target.category?.value,
@@ -84,7 +113,7 @@ function LinkedinProfileAdmin() {
 
     if (editData) {
       try {
-        updateTaskLinkedinProfile(editData.id, data);
+        await updateTaskLinkedinProfile(editData.id, data);
         setRefresh(!refresh);
         setEditData(null);
         toggleModal();
@@ -95,7 +124,7 @@ function LinkedinProfileAdmin() {
       }
     } else {
       try {
-        createTaskLinkedinProfile(data);
+        await createTaskLinkedinProfile(data);
         setRefresh(!refresh);
         toggleModal();
       } catch (err) {
@@ -129,9 +158,9 @@ function LinkedinProfileAdmin() {
     setIsPopupDelete(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     try {
-      deleteTaskLinkedinProfile(idDelete);
+      await deleteTaskLinkedinProfile(idDelete);
       setIdDelete(null);
       setRefresh(!refresh);
       setIsPopupDelete(false);
@@ -217,8 +246,8 @@ function LinkedinProfileAdmin() {
                 <tr className="text-blue-300">
                   <th className="w-2 pr-4 pb-2 text-left">No</th>
                   <th className="w-1/5 pb-2 text-left">
-                    <select name="category" id="category">
-                      <option value="0" selected>
+                    <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
+                      <option value="0" disabled>
                         Category
                       </option>
                       {categoryLinkedinProfiles.length > 0 &&

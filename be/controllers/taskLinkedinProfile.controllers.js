@@ -23,7 +23,14 @@ module.exports = {
 
   taskLinkedinProfiles: async (req, res, next) => {
     try {
+      let { categoryId } = req.query;
+      let where = {};
+      if (categoryId) {
+        where.categoryId = Number(categoryId);
+      }
+
       let taskLinkedinProfile = await prisma.taskLinkedinProfile.findMany({
+        where,
         include: {
           categoryLinkedinProfile: true,
         },

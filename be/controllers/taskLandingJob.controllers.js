@@ -41,7 +41,14 @@ module.exports = {
 
   taskLandingJobs: async (req, res, next) => {
     try {
+      let { categoryId } = req.query;
+      let where = {};
+      if (categoryId) {
+        where.categoryId = Number(categoryId);
+      }
+
       let taskLandingJobs = await prisma.taskLandingJob.findMany({
+        where,
         include: {
           categoryLandingJob: true,
         },

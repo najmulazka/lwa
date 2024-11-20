@@ -5,9 +5,12 @@ import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
 import { getSelfCheckLandingJobs, updateSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
+import { CookiesKey, CookiesStorage } from '../../utils/cookies';
+import axios from 'axios';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(0);
   console.log(landingJobs);
   const [refresh, setRefresh] = useState(true);
 
@@ -27,6 +30,32 @@ function LandingJobUser() {
     };
     fetchData();
   }, [navigate, refresh]);
+
+  const handleCategoryChange = async (event) => {
+    const categoryId = event.target.value;
+    setSelectedCategory(categoryId);
+
+    const BASE_URL = import.meta.env.VITE_URL;
+    const token = CookiesStorage.get(CookiesKey.AuthToken);
+
+    if (categoryId !== '0') {
+      try {
+        const response = await axios.get(`${BASE_URL}/self-check-linkedin-profile?categoryId=${categoryId}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        setLandingJobs(response.data.data);
+        // return response.data.data;
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          CookiesStorage.remove(CookiesKey.TokenAdmin);
+          throw new Error('Unauthorized: Token is invalid');
+        }
+        throw error;
+      }
+    }
+  };
 
   const handleClick = async (id, status) => {
     const newStatus = !status;

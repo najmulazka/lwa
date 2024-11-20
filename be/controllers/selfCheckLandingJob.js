@@ -2,11 +2,18 @@ const prisma = require('../libs/prisma.libs');
 
 module.exports = {
   selfCheckLandingJobs: async (req, res, next) => {
+    let { categoryId } = req.query;
+    let where = {
+      userId: req.user.id,
+      ...(categoryId && {
+        taskLandingJob: {
+          categoryId: Number(categoryId),
+        },
+      }),
+    };
     try {
       const selfCheckLandingJobs = await prisma.selfCheckLandingJob.findMany({
-        where: {
-          userId: req.user.id,
-        },
+        where,
         include: {
           users: true,
           taskLandingJob: {

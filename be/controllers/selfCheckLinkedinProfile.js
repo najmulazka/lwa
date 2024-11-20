@@ -2,11 +2,18 @@ const prisma = require('../libs/prisma.libs');
 
 module.exports = {
   selfCheckLinkedinProfile: async (req, res, next) => {
+    let { categoryId } = req.query;
+    let where = {
+      userId: req.user.id,
+      ...(categoryId && {
+        taskLinkedinProfile: {
+          categoryId: Number(categoryId),
+        },
+      }),
+    };
     try {
       const selfCheckLinkedinProfile = await prisma.selfCheckLinkedinProfile.findMany({
-        where: {
-          userId: req.user.id,
-        },
+        where,
         include: {
           users: true,
           taskLinkedinProfile: {
