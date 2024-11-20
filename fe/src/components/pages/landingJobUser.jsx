@@ -75,15 +75,13 @@ function LandingJobUser() {
             th3="To-do List"
             th4="Action">
             {landingJobs.length > 0 &&
-              landingJobs
-                .sort((a, b) => a.id - b.id)
-                .map((landingJob) => (
-                  <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
-                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                      {landingJob.status == true ? 'Done' : 'Nope'}
-                    </button>
-                  </TableRow>
-                ))}
+              landingJobs.map((landingJob) => (
+                <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
+                  <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                    {landingJob.status == true ? 'Done' : 'Nope'}
+                  </button>
+                </TableRow>
+              ))}
           </Table>
         </div>
       </div>

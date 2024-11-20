@@ -32,7 +32,6 @@
 import axios from 'axios';
 import { CookiesKey, CookiesStorage } from '../utils/cookies';
 
-// Konstanta endpoint API
 const BASE_URL = import.meta.env.VITE_URL;
 
 export const getBookings = async () => {
@@ -48,7 +47,7 @@ export const getBookings = async () => {
         Authorization: `${token}`,
       },
     });
-    return response.data; // Sesuaikan dengan struktur data API
+    return response.data; 
   } catch (error) {
     if (error.response && error.response.status === 401) {
       // Token tidak valid

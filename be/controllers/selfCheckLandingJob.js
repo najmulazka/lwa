@@ -15,6 +15,11 @@ module.exports = {
             },
           },
         },
+        orderBy: {
+          taskLandingJob: {
+            categoryId: 'asc',
+          },
+        },
       });
 
       res.status(200).json({
@@ -29,7 +34,7 @@ module.exports = {
 
   updateSelfCheckLandingJob: async (req, res, next) => {
     try {
-      const {id} = req.params
+      const { id } = req.params;
       const { status } = req.body;
 
       const selfCheckLandingJob = await prisma.selfCheckLandingJob.update({

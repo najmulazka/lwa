@@ -45,6 +45,9 @@ module.exports = {
         include: {
           categoryLandingJob: true,
         },
+        orderBy: {
+          categoryId: 'asc',
+        },
       });
 
       res.status(200).json({

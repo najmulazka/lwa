@@ -9,7 +9,7 @@ export const Protected = ({ children }) => {
   const TokenAdmin = CookiesStorage.get(CookiesKey.TokenAdmin);
 
   useEffect(() => {
-    console.log(TokenAdmin, 'ini token');
+    console.log(TokenAdmin, 'ini token admin');
     if (TokenAdmin == undefined) {
       setFirstLoad(true);
     }
@@ -18,7 +18,7 @@ export const Protected = ({ children }) => {
   useEffect(() => {
     if (FirstLoad) {
       toast.warn('Please Login Now');
-      navigate('/login/admin');
+      navigate('/login-admin');
     }
   }, [FirstLoad]);
 
@@ -31,7 +31,7 @@ export const ProtectedUser = ({ children }) => {
   const TokenUser = CookiesStorage.get(CookiesKey.AuthToken);
 
   useEffect(() => {
-    console.log(TokenUser, 'ini token');
+    console.log(TokenUser, 'ini token user');
     if (TokenUser == undefined) {
       setFirstLoad(true);
     }
