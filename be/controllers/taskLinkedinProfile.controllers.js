@@ -34,6 +34,9 @@ module.exports = {
         include: {
           categoryLinkedinProfile: true,
         },
+        orderBy: {
+          categoryId: 'asc',
+        },
       });
 
       res.status(200).json({

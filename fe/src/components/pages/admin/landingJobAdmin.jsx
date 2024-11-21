@@ -52,7 +52,9 @@ function LandingJobAdmin() {
     const BASE_URL = import.meta.env.VITE_URL;
     const token = CookiesStorage.get(CookiesKey.TokenAdmin);
 
-    if (categoryId !== '0') {
+    if (categoryId === '0') {
+      setRefresh(!refresh);
+    } else if (categoryId !== '0') {
       try {
         const response = await axios.get(`${BASE_URL}/task-landing-job?categoryId=${categoryId}`, {
           headers: {
@@ -243,13 +245,13 @@ function LandingJobAdmin() {
             </div>
           </div>
           <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
-            <table className="table w-full border-separate border-spacing-2">
+            <table className="table w-full border-separate border-spacing-y-4 border-spacing-x-2">
               <thead>
                 <tr className="text-blue-300">
-                  <th className="w-2 pr-4 pb-2 text-left">No</th>
-                  <th className="w-1/5 pb-2 text-left">
+                  <th className="w-2 pr-4 text-left">No</th>
+                  <th className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-left">
                     <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
-                      <option value="0" disabled>
+                      <option value="0" selected>
                         Category
                       </option>
                       {categoryLandingJobs.length > 0 &&
@@ -260,16 +262,16 @@ function LandingJobAdmin() {
                         ))}
                     </select>
                   </th>
-                  <th className="pb-2 text-left">To-do List</th>
-                  <th className="w-40 pb-2 text-left">Action</th>
+                  <th className=" text-left">To-do List</th>
+                  <th className="w-40 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {taskLandingJobs.length > 0 &&
                   taskLandingJobs.map((taskLandingJob) => (
-                    <tr key={taskLandingJob.id}>
+                    <tr key={taskLandingJob.id} className=''>
                       <td className="text-left align-top">{`${index++}.`}</td>
-                      <td className="text-left align-top">{taskLandingJob.categoryLandingJob.name}</td>
+                      <td className="text-center align-top bg-blue-100 rounded-lg w-[200px] max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">{taskLandingJob.categoryLandingJob.name}</td>
                       <td className="text-left align-top">{taskLandingJob.description}</td>
                       <td className="text-left space-x-2 align-top align-top">
                         <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLandingJob)}>

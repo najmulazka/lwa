@@ -7,10 +7,12 @@ import Sidebar from '../fragments/Sidebar';
 import { getSelfCheckLandingJobs, updateSelfCheckLandingJob } from '../../services/selfCheckLandingJob.service';
 import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 import axios from 'axios';
+import { getCategoryLandingJobs } from '../../services/categoryLandingJob.service';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [categoryLandingJobs, setCategoryLandingJobs] = useState({});
   console.log(landingJobs);
   const [refresh, setRefresh] = useState(true);
 
@@ -20,6 +22,9 @@ function LandingJobUser() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const category = await getCategoryLandingJobs();
+        setCategoryLandingJobs(category);
+
         const data = await getSelfCheckLandingJobs();
         setLandingJobs(data);
       } catch (err) {
@@ -38,9 +43,11 @@ function LandingJobUser() {
     const BASE_URL = import.meta.env.VITE_URL;
     const token = CookiesStorage.get(CookiesKey.AuthToken);
 
-    if (categoryId !== '0') {
+    if (categoryId === '0') {
+      setRefresh(!refresh);
+    } else if (categoryId !== '0') {
       try {
-        const response = await axios.get(`${BASE_URL}/self-check-linkedin-profile?categoryId=${categoryId}`, {
+        const response = await axios.get(`${BASE_URL}/self-check-landing-job?categoryId=${categoryId}`, {
           headers: {
             Authorization: `${token}`,
           },
@@ -92,11 +99,16 @@ function LandingJobUser() {
           <Table
             th1="No"
             th2={
-              <select name="category" id="category">
+              <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="0" selected>
                   Category
                 </option>
-                <option value="1">Cats</option>
+                {categoryLandingJobs.length > 0 &&
+                  categoryLandingJobs.map((categoryLandingJob) => (
+                    <option key={categoryLandingJob.id} value={categoryLandingJob.id}>
+                      {categoryLandingJob.name}
+                    </option>
+                  ))}
                 <option value="2">fCats</option>
                 <option value="3">Csdats</option>
               </select>

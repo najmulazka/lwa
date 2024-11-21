@@ -24,7 +24,8 @@ function LinkedinProfileAdmin() {
   const [idDelete, setIdDelete] = useState();
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-  let index = 1;
+  let index = 0;
+  let previousCategoryId = null;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +53,9 @@ function LinkedinProfileAdmin() {
     const BASE_URL = import.meta.env.VITE_URL;
     const token = CookiesStorage.get(CookiesKey.TokenAdmin);
 
-    if (categoryId !== '0') {
+    if (categoryId === '0') {
+      setRefresh(!refresh);
+    } else if (categoryId !== '0') {
       try {
         const response = await axios.get(`${BASE_URL}/task-linkedin-profile?categoryId=${categoryId}`, {
           headers: {
@@ -241,13 +244,13 @@ function LinkedinProfileAdmin() {
             </div>
           </div>
           <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
-            <table className="table w-full border-separate border-spacing-2">
+            <table className="table w-full border-separate border-spacing-y-4 border-spacing-x-2">
               <thead>
                 <tr className="text-blue-300">
-                  <th className="w-2 pr-4 pb-2 text-left">No</th>
-                  <th className="w-1/5 pb-2 text-left">
+                  <th className="w-2 pr-4 text-left">No</th>
+                  <th className="w-1/5 text-left">
                     <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
-                      <option value="0" disabled>
+                      <option value="0" selected>
                         Category
                       </option>
                       {categoryLinkedinProfiles.length > 0 &&
@@ -258,27 +261,34 @@ function LinkedinProfileAdmin() {
                         ))}
                     </select>
                   </th>
-                  <th className="pb-2 text-left">To-do List</th>
-                  <th className="w-40 pb-2 text-left">Action</th>
+                  <th className="text-left">To-do List</th>
+                  <th className="w-40 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {linkedinProfiles.length > 0 &&
-                  linkedinProfiles.map((taskLinkedinProfile) => (
-                    <tr key={taskLinkedinProfile.id}>
-                      <td className="text-left align-top">{`${index++}.`}</td>
-                      <td className="text-left align-top">{taskLinkedinProfile.categoryLinkedinProfile.name}</td>
-                      <td className="text-left align-top">{taskLinkedinProfile.description}</td>
-                      <td className="text-left space-x-2 align-top align-top">
-                        <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLinkedinProfile)}>
-                          Edit
-                        </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(taskLinkedinProfile.id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  linkedinProfiles.map((taskLinkedinProfile) => {
+                    const isNewCategory = previousCategoryId !== taskLinkedinProfile.categoryLinkedinProfile.id;
+                    if (isNewCategory) {
+                      index++;
+                      previousCategoryId = taskLinkedinProfile.categoryLinkedinProfile.id;
+                    }
+                    return (
+                      <tr key={taskLinkedinProfile.id}>
+                        <td className="text-left align-top">{isNewCategory ? index : ''}</td>
+                        <td className="text-left align-top">{taskLinkedinProfile.categoryLinkedinProfile.name}</td>
+                        <td className="text-left align-top">{taskLinkedinProfile.description}</td>
+                        <td className="text-left space-x-2 align-top align-top">
+                          <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLinkedinProfile)}>
+                            Edit
+                          </button>
+                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(taskLinkedinProfile.id)}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

@@ -2,21 +2,29 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSelfCheckLinkedinProfiles, updateSelfCheckLinkedinProfile } from '../../services/selfCheckLinkedinProfile.service';
 import Table from '../elements/Table';
-import TableRow from '../elements/TableRow';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
+import { getCategoryLinkedinProfiles } from '../../services/categoryLinkedinProfile.service';
+import { CookiesKey, CookiesStorage } from '../../utils/cookies';
+import axios from 'axios';
 
 function LinkedinProfileUser() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
+  const [categoryLinkedinProfiles, setCategoryLinkedinProfiles] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState(0);
   console.log(linkedinProfiles);
   const [refresh, setRefresh] = useState(true);
 
   const navigate = useNavigate();
-  let index = 1;
+  let index = 0;
+  let previousCategoryId = null;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const category = await getCategoryLinkedinProfiles();
+        setCategoryLinkedinProfiles(category);
+
         const data = await getSelfCheckLinkedinProfiles();
         setLinkedinProfiles(data);
       } catch (err) {
@@ -28,6 +36,34 @@ function LinkedinProfileUser() {
 
     fetchData();
   }, [navigate, refresh]);
+
+  const handleCategoryChange = async (event) => {
+    const categoryId = event.target.value;
+    setSelectedCategory(categoryId);
+
+    const BASE_URL = import.meta.env.VITE_URL;
+    const token = CookiesStorage.get(CookiesKey.AuthToken);
+
+    if (categoryId === '0') {
+      setRefresh(!refresh);
+    } else if (categoryId !== '0') {
+      try {
+        const response = await axios.get(`${BASE_URL}/self-check-linkedin-profile?categoryId=${categoryId}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        setLinkedinProfiles(response.data.data);
+        // return response.data.data;
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          CookiesStorage.remove(CookiesKey.TokenAdmin);
+          throw new Error('Unauthorized: Token is invalid');
+        }
+        throw error;
+      }
+    }
+  };
 
   const handleClick = async (id, status) => {
     const newStatus = !status;
@@ -64,27 +100,47 @@ function LinkedinProfileUser() {
           <Table
             th1="No"
             th2={
-              <select name="category" id="category">
+              <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="0" selected>
                   Category
                 </option>
-                <option value="1">Cats</option>
-                <option value="2">fCats</option>
-                <option value="3">Csdats</option>
+                {categoryLinkedinProfiles.length > 0 &&
+                  categoryLinkedinProfiles.map((categoryLinkedinProfile) => (
+                    <option key={categoryLinkedinProfile.id} value={categoryLinkedinProfile.id}>
+                      {categoryLinkedinProfile.name}
+                    </option>
+                  ))}
               </select>
             }
             th3="To-do List"
             th4="Action">
             {linkedinProfiles.length > 0 &&
               linkedinProfiles
-                .sort((a, b) => a.id - b.id)
-                .map((linkedinProfile) => (
-                  <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
-                    <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                      {linkedinProfile.status == true ? 'Done' : 'Nope'}
-                    </button>
-                  </TableRow>
-                ))}
+                .map((linkedinProfile) => {
+                  const isNewCategory = previousCategoryId !== linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
+                  if (isNewCategory) {
+                    index++;
+                    previousCategoryId = linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
+                  }
+                  return (
+                    <tr key={linkedinProfile.id}>
+                      <td className="text-left">{isNewCategory ? index : ''}</td>
+                      <td className="text-center">{linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name}</td>
+                      <td className="text-left">{linkedinProfile.taskLinkedinProfile.description}</td>
+                      <td className="text-left">
+                        <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                          {linkedinProfile.status == true ? 'Done' : 'Nope'}
+                        </button>
+                      </td>
+                    </tr>
+
+                    // <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
+                    //   <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                    //     {linkedinProfile.status == true ? 'Done' : 'Nope'}
+                    //   </button>
+                    // </TableRow>
+                  );
+                })}
           </Table>
         </div>
       </div>

@@ -9,6 +9,9 @@ export default {
       fontSize: {
         10: '10px',
       },
+      maxWidth: {
+        '200px': '200px',
+      },
     },
   },
   plugins: [
