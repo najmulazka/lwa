@@ -47,7 +47,7 @@ export const updateCategoryLandingJob = async (id, data) => {
   }
 
   try {
-    const response = await axios.post(`${BASE_URL}/category-landing-job/${id}`, data, {
+    const response = await axios.put(`${BASE_URL}/category-landing-job/${id}`, data, {
       headers: {
         Authorization: `${token}`,
       },
@@ -70,7 +70,7 @@ export const deleteCategoryLandingJob = async (id) => {
   }
 
   try {
-    const response = await axios.post(`${BASE_URL}/category-landing-job/${id}`, {
+    const response = await axios.delete(`${BASE_URL}/category-landing-job/${id}`, {
       headers: {
         Authorization: `${token}`,
       },

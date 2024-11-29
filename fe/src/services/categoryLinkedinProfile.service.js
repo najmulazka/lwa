@@ -47,7 +47,7 @@ export const updateCategoryLinkedinProfile = async (id, data) => {
   }
 
   try {
-    const response = await axios.post(`${BASE_URL}/category-linkedin-profile/${id}`, data, {
+    const response = await axios.put(`${BASE_URL}/category-linkedin-profile/${id}`, data, {
       headers: {
         Authorization: `${token}`,
       },
@@ -70,7 +70,7 @@ export const deleteCategoryLinkedinProfile = async (id) => {
   }
 
   try {
-    const response = await axios.post(`${BASE_URL}/category-linkedin-profile/${id}`, {
+    const response = await axios.delete(`${BASE_URL}/category-linkedin-profile/${id}`, {
       headers: {
         Authorization: `${token}`,
       },

@@ -2,7 +2,7 @@ function PopupConfirmation(props) {
   const { type, onConfirm, onCancel } = props;
 
   return (
-    <div className="w-full h-screen fixed z-20 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="w-full h-screen fixed z-30 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-lg font-semibold mb-4">Are you sure you want to {type === 'delete' ? 'delete this data?' : 'Logout?'}</h2>
         <div className="flex justify-end space-x-4">
