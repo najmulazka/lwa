@@ -6,7 +6,7 @@ function Table(props) {
         <thead>
           <tr className="text-blue-300">
             <th className="w-2 pb-2 pr-4 text-left">{th1}</th>
-            <th className="w-32 pb-2 text-left">{th2}</th>
+            <th className="w-1/5 pb-2 text-left">{th2}</th>
             <th className="text-left pb-2 text-left">{th3}</th>
             <th className="w-24 pb-2 text-left">{th4}</th>
           </tr>

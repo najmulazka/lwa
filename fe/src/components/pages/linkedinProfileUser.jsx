@@ -101,17 +101,19 @@ function LinkedinProfileUser() {
     <div>
       {referencesIsOpen && (
         <ModalPopUp isOpen={referencesIsOpen} toggleModal={handleReferences}>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4" onClick={handleReferences}>
             {referencesLinkedinProfiles.length > 0 &&
               referencesLinkedinProfiles.map((reference) => (
                 <div key={reference.fileId} className="flex flex-col items-center">
-                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-96 object-contain" />
+                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-full object-contain" />
                 </div>
               ))}
           </div>
         </ModalPopUp>
       )}
+
       <Sidebar role="user" />
+
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
@@ -127,7 +129,7 @@ function LinkedinProfileUser() {
           <Table
             th1="No"
             th2={
-              <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
+              <select name="category" id="category" className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis text-left" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="0" selected>
                   Category
                 </option>
@@ -151,7 +153,7 @@ function LinkedinProfileUser() {
                 return (
                   <tr key={linkedinProfile.id}>
                     <td className="text-left">{isNewCategory ? index : ''}</td>
-                    <td className="text-center">{linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name}</td>
+                    <td className="text-left">{linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name}</td>
                     <td className="text-left">{linkedinProfile.taskLinkedinProfile.description}</td>
                     <td className="text-left">
                       <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>

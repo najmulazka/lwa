@@ -77,6 +77,11 @@ module.exports = {
         })
       );
 
+      const references = await prisma.referencesLinkedinProfile.findMany();
+      for (const reference of references) {
+        await imagekit.deleteFile(reference.fileId); 
+      }
+
       const del = await prisma.referencesLinkedinProfile.deleteMany();
       if (!del) {
         return res.status(404).json({
@@ -90,10 +95,6 @@ module.exports = {
         data: images,
         skipDuplicates: true,
       });
-
-      console.log(images);
-      console.log(cre);
-
       if (!cre) {
         return res.status(404).json({
           status: false,

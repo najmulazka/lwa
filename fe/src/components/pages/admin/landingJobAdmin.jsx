@@ -404,7 +404,7 @@ function LandingJobAdmin() {
               <thead>
                 <tr className="text-blue-300">
                   <th className="w-2 pr-4 text-left">No</th>
-                  <th className="">
+                  <th className="w-1/5 text-left">
                     <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange} className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis text-left">
                       <option value="0" selected>
                         Category

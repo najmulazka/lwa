@@ -1,7 +1,9 @@
 import Nav from '../elements/nav';
 function LoginUser() {
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_URL}/auth/google`;
+    const { protocol, hostname, port } = window.location;
+    const url = `${protocol}//${hostname}${port ? `:${port}` : ''}`;
+    window.location.href = `${url}/api/v1/auth/google`;
   };
 
   return (

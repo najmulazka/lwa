@@ -277,6 +277,7 @@ function LinkedinProfileAdmin() {
       await updateReferencesLinkedinProfile(formData);
       handleManageReferences();
     } catch (err) {
+      alert('Failed to update references!');
       if (err.message.includes('Unauthorized')) {
         navigate('/login-admin');
       }
@@ -354,7 +355,7 @@ function LinkedinProfileAdmin() {
       {/* Pop Up 2 */}
       {activeModal === 'popup2' && (
         <div className="w-full h-full z-20 fixed bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-8 relative w-1/2">
+          <div className="bg-white rounded-lg p-8 relative max-h-[90vh] w-[65%] overflow-y-auto">
             <div className="flex flex-row items-center space-x-2 mb-6 cursor-pointer">
               <div onClick={() => setActiveModal('popup1')}>a</div>
               <div className="text-2xl font-semibold">Manage Category</div>
@@ -363,7 +364,7 @@ function LinkedinProfileAdmin() {
               <span>Category List</span>
               <span>{categoryLinkedinProfiles.length} Total Category</span>
             </div>
-            <table className="table w-full border-separate border-spacing-y-4 border-spacing-x-2">
+            <table className="table w-full  border-separate border-spacing-y-4 border-spacing-x-2">
               <th>No</th>
               <th className="w-[200px]">Category</th>
               <th>Link Date</th>
@@ -387,7 +388,7 @@ function LinkedinProfileAdmin() {
                   ))}
               </tbody>
             </table>
-            <button onClick={toggleModal} className="absolute -top-3 -right-3 bg-red-600 px-2 text-white rounded-full border-red-600 hover:bg-red-400">
+            <button onClick={toggleModal} className="absolute top-3  right-3 bg-red-600 px-2 text-white rounded-full border-red-600 hover:bg-red-400">
               X
             </button>
           </div>
@@ -436,11 +437,11 @@ function LinkedinProfileAdmin() {
       {/* Pop Up References */}
       {referencesIsOpen && (
         <ModalPopUp isOpen={referencesIsOpen} toggleModal={handleReferences}>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4" onClick={handleReferences}>
             {referencesLinkedinProfiles.length > 0 &&
               referencesLinkedinProfiles.map((reference) => (
                 <div key={reference.fileId} className="flex flex-col items-center">
-                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-96 object-contain" />
+                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-full object-contain" />
                 </div>
               ))}
           </div>

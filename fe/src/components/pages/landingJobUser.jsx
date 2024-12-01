@@ -99,7 +99,7 @@ function LandingJobUser() {
           <Table
             th1="No"
             th2={
-              <select name="category" id="category" value={selectedCategory} onChange={handleCategoryChange}>
+              <select name="category" id="category" className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis text-left" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="0" selected>
                   Category
                 </option>
