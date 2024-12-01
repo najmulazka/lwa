@@ -12,6 +12,7 @@ export const getTestimonials = async () => {
 
   try {
     const response = await axios.get(`${BASE_URL}/testimoni`);
+    console.log(response)
     return response.data.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {

@@ -13,18 +13,31 @@ import { getFaq } from '../../services/faq.service';
 
 function LandingPage() {
   const [testimonials, setTestimonials] = useState([]);
+  console.log(testimonials);
   const [faq, setFaq] = useState([]);
 
   useEffect(() => {
-    getTestimonials((status, res) => {
-      setTestimonials(res.data.data);
-    });
+    const fetchData = async () => {
+      try {
+        const data = await getTestimonials();
+        setTestimonials(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
-    getFaq((status, res) => {
-      setFaq(res.data.data);
-    });
+    const fetchData = async () => {
+      try {
+        const data = await getFaq();
+        setFaq(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
@@ -182,7 +195,7 @@ function ListLayanan(props) {
 function Testimoni(props) {
   const { children } = props;
   return (
-    <div className="flex flex-col py-6 px-4 md:px-120 md:py-14" style={{ backgroundImage: `url(${vectorTestimoni})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat', backgroundPosition: 'right' }}>
+    <div id="testimoni" className="flex flex-col py-6 px-4 md:px-120 md:py-14" style={{ backgroundImage: `url(${vectorTestimoni})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat', backgroundPosition: 'right' }}>
       <h2 className="font-bold mb-10 text-center">What They Say About LearnWithAndi</h2>
       <div className="flex justify-center overflow-x-auto space-x-4">{children}</div>
       <div className=" flex justify-center mt-10">
