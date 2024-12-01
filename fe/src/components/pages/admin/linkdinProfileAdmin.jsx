@@ -8,6 +8,7 @@ import { createCategoryLinkedinProfile, deleteCategoryLinkedinProfile, getCatego
 import { createTaskLinkedinProfile, deleteTaskLinkedinProfile, getTaskLinkedinProfiles, updateTaskLinkedinProfile } from '../../../services/taskLinkedinProfile.service';
 import axios from 'axios';
 import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
+import { getReferencesLinkedinProfile, updateReferencesLinkedinProfile } from '../../../services/referencesLinkedinProfile.service';
 
 function LinkedinProfileAdmin() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
@@ -28,21 +29,28 @@ function LinkedinProfileAdmin() {
   const [activeModal, setActiveModal] = useState(null);
   const [isPopupDelete, setIsPopupDelete] = useState(false);
   const [isPopupDeleteCategory, setIsPopupDeleteCategory] = useState(false);
+  const [referencesIsOpen, setReferencesIsOpen] = useState(false);
+  const [referencesLinkedinProfiles, setReferencesLinkedinProfiles] = useState(null);
+  const [isPopupManageReferences, setIsPopupManageReferences] = useState(false);
   const [idDelete, setIdDelete] = useState();
+  const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   let index = 0;
+  let number = 1;
   let previousCategoryId = null;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const category = await getCategoryLinkedinProfiles();
-        console.log(category);
         setCategoryLinkedinProfiles(category);
 
         const data = await getTaskLinkedinProfiles();
         setLinkedinProfiles(data);
+
+        const references = await getReferencesLinkedinProfile();
+        setReferencesLinkedinProfiles(references);
       } catch (err) {
         if (err.message.includes('Unauthorized')) {
           navigate('/login-admin');
@@ -177,7 +185,6 @@ function LinkedinProfileAdmin() {
     }
   };
 
-
   const handleEdit = (taskLinkedinProfile) => {
     setEditData(taskLinkedinProfile);
     toggleModal();
@@ -236,6 +243,45 @@ function LinkedinProfileAdmin() {
       if (err.message.includes('Unauthorized')) {
         navigate('/login-admin');
       }
+    }
+  };
+
+  const handleReferences = () => {
+    setReferencesIsOpen(!referencesIsOpen);
+  };
+
+  const handleManageReferences = () => {
+    setIsPopupManageReferences(!isPopupManageReferences);
+  };
+
+  const handleFileUpload = (e) => {
+    const uploadedFiles = Array.from(e.target.files).map((file, index) => ({
+      id: Date.now() + index,
+      imageUrl: URL.createObjectURL(file),
+      file,
+    }));
+    setReferencesLinkedinProfiles([...referencesLinkedinProfiles, ...uploadedFiles]);
+  };
+
+  const handleFileDelete = (id) => {
+    setReferencesLinkedinProfiles(referencesLinkedinProfiles.filter((file) => file.id !== id));
+  };
+
+  const handleUpdateReferences = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      referencesLinkedinProfiles.forEach((item) => {
+        formData.append(`image`, item.file);
+      });
+      await updateReferencesLinkedinProfile(formData);
+      handleManageReferences();
+    } catch (err) {
+      if (err.message.includes('Unauthorized')) {
+        navigate('/login-admin');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -387,12 +433,72 @@ function LinkedinProfileAdmin() {
         </div>
       )}
 
+      {/* Pop Up References */}
+      {referencesIsOpen && (
+        <ModalPopUp isOpen={referencesIsOpen} toggleModal={handleReferences}>
+          <div className="grid grid-cols-1 gap-4">
+            {referencesLinkedinProfiles.length > 0 &&
+              referencesLinkedinProfiles.map((reference) => (
+                <div key={reference.fileId} className="flex flex-col items-center">
+                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-96 object-contain" />
+                </div>
+              ))}
+          </div>
+        </ModalPopUp>
+      )}
+
+      {/* Pop Up Manage References */}
+      {isPopupManageReferences && (
+        <ModalPopUp isOpen={isPopupManageReferences} toggleModal={handleManageReferences}>
+          <div className="text-2xl font-semibold text-blue-900 mb-6">Manage References</div>
+          <button className="border border-green-400 text-green-400 px-4 py-1 font-semibold rounded-full mb-6" onClick={() => document.getElementById('fileInput').click()}>
+            Upload Image
+          </button>
+          <input id="fileInput" type="file" multiple accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} />
+          <div className="h-[50vh] border border-gray-300 rounded-lg mb-6 p-4">
+            <div className="flex flex-wrap">
+              {referencesLinkedinProfiles.length > 0 &&
+                referencesLinkedinProfiles.map((reference) => (
+                  <div key={reference.fileId} className="relative mr-6 mb-2 bg-blue-900">
+                    <div className="absolute bg-blue-600 text-white -top-1 -left-1 rounded-full w-4 text-xs text-center">{number++}</div>
+                    <button className="absolute top-1 right-1 bg-red-600 w-4 h-4 text-white text-xs rounded-full border-red-600 hover:bg-red-400" onClick={() => handleFileDelete(reference.id)}>
+                      X
+                    </button>
+                    <img className="h-36" src={reference.imageUrl} alt={`Image with id: ${reference.id}`} />
+                  </div>
+                ))}
+            </div>
+          </div>
+          <div className="flex w-full justify-center">
+            <button className="border text-white bg-black hover:bg-gray-800 px-4 py-2 font-semibold rounded-lg" onClick={handleUpdateReferences}>
+              {loading ? 'loading...' : 'Update References'}
+            </button>
+          </div>
+        </ModalPopUp>
+      )}
+
       <Sidebar role="admin" />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
-            <div className="text-blue-900 font-bold">List Linkedin Profile</div>
+            <div className="flex space-x-4 items-center">
+              <div className="text-blue-900 font-bold">List Linkedin Profile</div>
+              <button className="bg-green-400 px-4 py-1 rounded-full text-white font-semibold" onClick={handleReferences}>
+                References
+              </button>
+              <button className="border border-green-400 text-green-400 px-4 py-1 font-semibold rounded-full" onClick={handleManageReferences}>
+                Manage References
+              </button>
+              {/* <input
+                id="fileInput"
+                type="file"
+                multiple
+                accept="image/*"
+                // onChange={handleFileChange}
+                style={{ display: 'none' }}
+              /> */}
+            </div>
             <div className="space-x-2">
               <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
               <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>

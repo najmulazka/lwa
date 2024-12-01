@@ -7,12 +7,15 @@ import Sidebar from '../fragments/Sidebar';
 import { getCategoryLinkedinProfiles } from '../../services/categoryLinkedinProfile.service';
 import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 import axios from 'axios';
+import ModalPopUp from '../elements/ModalPopUp';
+import { getReferencesLinkedinProfile } from '../../services/referencesLinkedinProfile.service';
 
 function LinkedinProfileUser() {
+  const [referencesLinkedinProfiles, setReferencesLinkedinProfiles] = useState([]);
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
   const [categoryLinkedinProfiles, setCategoryLinkedinProfiles] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(0);
-  console.log(linkedinProfiles);
+  const [referencesIsOpen, setReferencesIsOpen] = useState(false);
   const [refresh, setRefresh] = useState(true);
 
   const navigate = useNavigate();
@@ -24,6 +27,9 @@ function LinkedinProfileUser() {
       try {
         const category = await getCategoryLinkedinProfiles();
         setCategoryLinkedinProfiles(category);
+
+        const references = await getReferencesLinkedinProfile();
+        setReferencesLinkedinProfiles(references);
 
         const data = await getSelfCheckLinkedinProfiles();
         setLinkedinProfiles(data);
@@ -87,14 +93,35 @@ function LinkedinProfileUser() {
     }
   };
 
+  const handleReferences = async () => {
+    setReferencesIsOpen(!referencesIsOpen);
+  };
+
   return (
     <div>
+      {referencesIsOpen && (
+        <ModalPopUp isOpen={referencesIsOpen} toggleModal={handleReferences}>
+          <div className="grid grid-cols-1 gap-4">
+            {referencesLinkedinProfiles.length > 0 &&
+              referencesLinkedinProfiles.map((reference) => (
+                <div key={reference.fileId} className="flex flex-col items-center">
+                  <img src={reference.imageUrl} alt={`Image with fileId: ${reference.fileId}`} className="w-96 object-contain" />
+                </div>
+              ))}
+          </div>
+        </ModalPopUp>
+      )}
       <Sidebar role="user" />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
-            <div className="text-blue-900 font-bold">Progress</div>
+            <div className="flex items-center space-x-4">
+              <div className="text-blue-900 font-bold">Progress</div>
+              <button className="bg-green-400 px-4 rounded-full text-white" onClick={handleReferences}>
+                References
+              </button>
+            </div>
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
           </div>
           <Table
@@ -115,32 +142,31 @@ function LinkedinProfileUser() {
             th3="To-do List"
             th4="Action">
             {linkedinProfiles.length > 0 &&
-              linkedinProfiles
-                .map((linkedinProfile) => {
-                  const isNewCategory = previousCategoryId !== linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
-                  if (isNewCategory) {
-                    index++;
-                    previousCategoryId = linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
-                  }
-                  return (
-                    <tr key={linkedinProfile.id}>
-                      <td className="text-left">{isNewCategory ? index : ''}</td>
-                      <td className="text-center">{linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name}</td>
-                      <td className="text-left">{linkedinProfile.taskLinkedinProfile.description}</td>
-                      <td className="text-left">
-                        <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                          {linkedinProfile.status == true ? 'Done' : 'Nope'}
-                        </button>
-                      </td>
-                    </tr>
+              linkedinProfiles.map((linkedinProfile) => {
+                const isNewCategory = previousCategoryId !== linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
+                if (isNewCategory) {
+                  index++;
+                  previousCategoryId = linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.id;
+                }
+                return (
+                  <tr key={linkedinProfile.id}>
+                    <td className="text-left">{isNewCategory ? index : ''}</td>
+                    <td className="text-center">{linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name}</td>
+                    <td className="text-left">{linkedinProfile.taskLinkedinProfile.description}</td>
+                    <td className="text-left">
+                      <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                        {linkedinProfile.status == true ? 'Done' : 'Nope'}
+                      </button>
+                    </td>
+                  </tr>
 
-                    // <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
-                    //   <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                    //     {linkedinProfile.status == true ? 'Done' : 'Nope'}
-                    //   </button>
-                    // </TableRow>
-                  );
-                })}
+                  // <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
+                  //   <button onClick={() => handleClick(linkedinProfile.id, linkedinProfile.status)} className={`w-full ${linkedinProfile.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                  //     {linkedinProfile.status == true ? 'Done' : 'Nope'}
+                  //   </button>
+                  // </TableRow>
+                );
+              })}
           </Table>
         </div>
       </div>

@@ -57,6 +57,15 @@ CREATE TABLE "TaskLinkedinProfile" (
 );
 
 -- CreateTable
+CREATE TABLE "ReferencesLinkedinProfile" (
+    "id" SERIAL NOT NULL,
+    "fileId" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+
+    CONSTRAINT "ReferencesLinkedinProfile_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "SelfCheckLinkedinProfile" (
     "id" SERIAL NOT NULL,
     "taskId" INTEGER NOT NULL,

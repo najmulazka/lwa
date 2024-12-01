@@ -14,8 +14,8 @@ function DashboardUser() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
   const navigate = useNavigate();
   let index = 1;
-  const addPercentage = (1 / (landingJobs.length + linkedinProfiles.length)) * 100;
-  const percent = ((landingJobs.filter((data) => data.status === true).length + linkedinProfiles.filter((data) => data.status === true).length) / (landingJobs.length + linkedinProfiles.length)) * 100;
+  const addPercentage = ((1 / (landingJobs.length + linkedinProfiles.length)) * 100).toFixed(2);
+  const percent = (((landingJobs.filter((data) => data.status === true).length + linkedinProfiles.filter((data) => data.status === true).length) / (landingJobs.length + linkedinProfiles.length)) * 100).toFixed(2);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -59,7 +59,7 @@ function DashboardUser() {
               </div>
               <div className="flex flex-col md:w-1/2 text-center md:text-left">
                 <span className="mb-2">Youre {percent}% more likely to get the job than other candidates!</span>
-                <span>Aim for {percent < 100 ? percent + 15 : percent}% or higher!</span>
+                <span>Aim for {percent < 100 ? Number(percent) + 15 : percent}% or higher!</span>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ function DashboardUser() {
               .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
               .slice(0, 5)
               .map((landingJob) => (
-                <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.taskName} td3={landingJob.taskLandingJob.description}>
+                <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
                   <button className="w-full bg-green-400 rounded-full py-1 text-white">+{addPercentage}%</button>
                 </TableRow>
               ))}
@@ -82,7 +82,7 @@ function DashboardUser() {
               .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
               .slice(0, 5)
               .map((linkedinProfile) => (
-                <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.taskName} td3={linkedinProfile.taskLinkedinProfile.description}>
+                <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
                   <button className="w-full bg-green-400 rounded-full py-1 text-white">+{addPercentage}%</button>
                 </TableRow>
               ))}
