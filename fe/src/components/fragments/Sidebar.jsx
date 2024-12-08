@@ -35,9 +35,9 @@ function Sidebar(props) {
           { path: '/admin/linkedin-profile', label: 'Linkedin Profile' },
         ]
       : [
-          { path: '/user', label: 'Dashboard' },
-          { path: '/user/landing-job', label: 'Landing a Job' },
-          { path: '/user/linkedin-profile', label: 'Linkedin Profile' },
+          { path: '/user', label: 'Dashboard', icon: '../dashboard-icon.svg' },
+          { path: '/user/landing-job', label: 'Landing a Job', icon: '../landing-job-icon.svg' },
+          { path: '/user/linkedin-profile', label: 'Linkedin Profile', icon: '../linkedin-profile-icon.svg' },
         ];
 
   return (
@@ -51,8 +51,9 @@ function Sidebar(props) {
         </div>
         {links.map((link) => (
           <div className="py-2" key={link.path}>
-            <Link to={link.path} className={isActive(link.path)}>
-              {link.label}
+            <Link to={link.path} className={`flex space-x-2 ${isActive(link.path)}`}>
+              {/* <img src={link.icon} alt={link.label} /> */}
+              <div>{link.label}</div>
             </Link>
           </div>
         ))}

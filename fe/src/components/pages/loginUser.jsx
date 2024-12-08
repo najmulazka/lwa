@@ -16,10 +16,10 @@ function LoginUser() {
         </h1>
 
         {/* <a href="/user"> */}
-        <button className="inline text-xs md:text-base font-semibold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
-          <i className="fa-brands fa-google text-pink-500"></i>
-          <span>Sign In With Google</span>
-        </button>
+          <button className="text-xs md:text-base font-semibold py-1 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg flex items-center justify-center space-x-2 hover:bg-black hover:text-white" type="button" onClick={handleGoogleLogin}>
+            <img src="google-icon.png" alt="" />
+            <span>Sign In With Google</span>
+          </button>
 
         {/* </a> */}
 

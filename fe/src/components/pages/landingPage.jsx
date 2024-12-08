@@ -92,28 +92,15 @@ function Branding() {
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 h-[360px] md:h-[530px] flex flex-col relative">
-          <div className="flex flex-row">
-            <div className="w-1/2 rounded-xl ml-4 md:ml-6 bg-orange-300">
-              <img src="/ilustration1.png" alt="branding1" />
-            </div>
-            <div className="w-1/2">
-              <div className="bg-white px-3 py-1 rounded-md shadow-md mt-10 md:mt-14 inline-flex items-center md:ml-6">
-                <i className="fa-duotone fa-solid fa-square mr-2 text-gray-500"></i>
-                <span>Roasting CV & Linkedin</span>
-              </div>
-            </div>
+        <div className="w-full md:w-1/2 p-8 flex flex-col relative">
+          <img src="/ilustration.png" alt="" />
+          <div className="bg-white absolute right-0 px-2 py-1 rounded-md shadow-md top-10 md:top-14 inline-flex space-x-2">
+            <img src="./roasting-linkedin-icon.png" alt="" />
+            <span>Roasting CV & Linkedin</span>
           </div>
-          <div className="flex flex-row absolute bottom-0">
-            <div className="w-1/2">
-              <div className="bg-white px-3 py-1 rounded-md shadow-md mt-24 inline-flex items-center">
-                <i className="fa-duotone fa-solid fa-square mr-2 text-gray-500"></i>
-                <span>Roasting CV & Linkedin</span>
-              </div>
-            </div>
-            <div className="w-1/2 rounded-xl mr-4 md:mr-10 bg-blue-300">
-              <img src="/ilustration2.png" alt="branding1" />
-            </div>
+          <div className="absolute bg-white px-2 py-1 space-x-2 rounded-md shadow-md bottom-14 left-0 inline-flex items-center">
+            <img src="./career-coaching-icon.png" alt="" />
+            <span>Roasting CV & Linkedin</span>
           </div>
         </div>
       </div>
@@ -163,10 +150,18 @@ function LayananKonsultasi() {
       <div className="flex flex-col-reverse md:flex-row ">
         <div className=" flex flex-col mt-14">
           <div className="w-full md:w-4/5">
-            <ListLayanan title="Train Your Students">Guide students with proven strategies to prepare them for future career challenges.</ListLayanan>
-            <ListLayanan title="Personalized Career Consultation">Career guidance designed to help you craft strategies and achieve your career goals.</ListLayanan>
-            <ListLayanan title="Optimize Your CV for Recruiters">Get support to highlight your experience and skills in the most effective way.</ListLayanan>
-            <ListLayanan title="Job Interview Preparation Consultation">Get tailored support to confidently showcase your skills and experience in the best possible way.</ListLayanan>
+            <ListLayanan icon="train-your-student-icon.png" title="Train Your Students">
+              Guide students with proven strategies to prepare them for future career challenges.
+            </ListLayanan>
+            <ListLayanan icon="personalized-career-consultation-icon.png" title="Personalized Career Consultation">
+              Career guidance designed to help you craft strategies and achieve your career goals.
+            </ListLayanan>
+            <ListLayanan icon="optimize-your-cv-icon.png" title="Optimize Your CV for Recruiters">
+              Get support to highlight your experience and skills in the most effective way.
+            </ListLayanan>
+            <ListLayanan icon="job-interview-preparation-icon.png" title="Job Interview Preparation Consultation">
+              Get tailored support to confidently showcase your skills and experience in the best possible way.
+            </ListLayanan>
           </div>
         </div>
         <div className="mt-5 md:mt-0">
@@ -178,14 +173,14 @@ function LayananKonsultasi() {
 }
 
 function ListLayanan(props) {
-  const { title, children } = props;
+  const { icon, title, children } = props;
   return (
     <div className="mb-5 md:mb-8">
-      <div className="border shadow-md inline-block rounded-md py-1 px-2 font-semibold mb-2">
-        <div className="inline mr-2">
-          <i className="fa-duotone fa-solid fa-square text-gray-500"></i>
+      <div className="flex">
+        <div className="border shadow-md flex space-x-2 rounded-md py-1 px-3 font-semibold mb-2 items-center">
+          <img src={icon} alt="" />
+          <h3 className="">{title}</h3>
         </div>
-        <h3 className="inline">{title}</h3>
       </div>
       <div className="text-justify text-xs md:text-base">{children}</div>
     </div>
@@ -229,11 +224,11 @@ function AboutAndi() {
         </p>
         <div className="space-y-4">
           <div className="flex space-x-2 border shadow-md p-2 rounded-lg text-xs md:text-base font-medium">
-            <i className="fas fa-check-circle text-blue-500 mt-1"></i>
+            <img src="badge-7years-icon.svg" alt="" />
             <span className="text-gray-700">7 years experience on Tech Education, Recruitment, and Career Support</span>
           </div>
           <div className="flex space-x-2 border shadow-md p-2 rounded-lg text-xs md:text-base font-medium">
-            <i className="fas fa-check-circle text-blue-500 mt-1"></i>
+            <img src="1000-student-icon.svg" alt="" />
             <span className="text-gray-700">Helping more than 1,000 students from 3 big bootcamps to get a job</span>
           </div>
         </div>
@@ -266,6 +261,7 @@ function Faq(props) {
 }
 
 ListLayanan.propTypes = {
+  icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
 };
