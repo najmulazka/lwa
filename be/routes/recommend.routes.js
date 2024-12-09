@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { recommend } = require('../controllers/recommend.controllers');
+const { recommend } = require('../controllers/profession.controllers');
+const { restrict } = require('../middlewares/restrict.middlewares');
 
-router.post('/', recommend);
+router.post('/', restrict, recommend);
 
 module.exports = router;
