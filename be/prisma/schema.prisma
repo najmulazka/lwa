@@ -23,6 +23,7 @@ model Users {
   isAdmin                  Boolean                    @default(false)
   SelfCheckLandingJob      SelfCheckLandingJob[]
   SelfCheckLinkedinProfile SelfCheckLinkedinProfile[]
+  SelfCheckProfessions     SelfCheckProfessions[]
 }
 
 model CategoryLandingJob {
@@ -77,6 +78,30 @@ model SelfCheckLinkedinProfile {
   updatedAt           DateTime            @updatedAt
   taskLinkedinProfile TaskLinkedinProfile @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users               Users               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Professions {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  TaskProfessions TaskProfessions[]
+}
+
+model TaskProfessions {
+  id                   Int                    @id @default(autoincrement())
+  professionId         Int
+  description          String
+  SelfCheckProfessions SelfCheckProfessions[]
+  professions          Professions            @relation(fields: [professionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model SelfCheckProfessions {
+  id              Int             @id @default(autoincrement())
+  taskId          Int
+  userId          Int
+  status          Boolean         @default(false)
+  updatedAt       DateTime        @updatedAt
+  taskProfessions TaskProfessions @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users           Users           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model Testimonials {

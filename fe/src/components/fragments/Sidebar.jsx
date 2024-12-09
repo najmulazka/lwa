@@ -28,11 +28,11 @@ function Sidebar(props) {
   const links =
     role === 'admin'
       ? [
-          { path: '/admin', label: 'Dashboard' },
-          { path: '/admin/testimoni', label: 'Testimoni' },
-          { path: '/admin/faq', label: 'FAQ' },
-          { path: '/admin/landing-job', label: 'Landing a Job' },
-          { path: '/admin/linkedin-profile', label: 'Linkedin Profile' },
+          { path: '/admin', label: 'Dashboard', icon: '../dashboard-icon.svg' },
+          { path: '/admin/testimoni', label: 'Testimoni', icon: '../testimoni-icon.svg' },
+          { path: '/admin/faq', label: 'FAQ', icon: '../faq-icon.svg' },
+          { path: '/admin/landing-job', label: 'Landing a Job', icon: '../landing-job-icon.svg' },
+          { path: '/admin/linkedin-profile', label: 'Linkedin Profile', icon: '../linkedin-profile-icon.svg' },
         ]
       : [
           { path: '/user', label: 'Dashboard', icon: '../dashboard-icon.svg' },
@@ -52,7 +52,7 @@ function Sidebar(props) {
         {links.map((link) => (
           <div className="py-2" key={link.path}>
             <Link to={link.path} className={`flex space-x-2 ${isActive(link.path)}`}>
-              {/* <img src={link.icon} alt={link.label} /> */}
+              <img src={link.icon} alt={link.label} />
               <div>{link.label}</div>
             </Link>
           </div>

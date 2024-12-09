@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, OPENAI_API_KEY } = process.env;
 
 app.use(express.json());
 app.use(morgan('dev'));

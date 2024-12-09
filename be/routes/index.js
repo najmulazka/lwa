@@ -10,6 +10,8 @@ const references = require('./referencesLinkedinProfile.routes');
 const categoryLinkedinProfile = require('./categoryLinkedinProfile.routes');
 const selfCheckLandingJob = require('./selfCheckLandingJob.routes');
 const selfCheckLinkedinProfile = require('./selfCheckLinkedinProfile.routes');
+const recommend = require('./recommend.routes');
+const predict = require('./predict.routes');
 
 router.use('/testimoni', testimonials);
 router.use('/faq', faq);
@@ -22,5 +24,7 @@ router.use('/category-linkedin-profile', categoryLinkedinProfile);
 router.use('/task-linkedin-profile', taskLinkedinProfile);
 router.use('/references', references);
 router.use('/self-check-linkedin-profile', selfCheckLinkedinProfile);
+router.use('/recommend', recommend);
+router.use('/predict', predict);
 
 module.exports = router;
