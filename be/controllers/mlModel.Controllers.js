@@ -41,7 +41,7 @@ module.exports = {
         return acc;
       }, {});
 
-      res.json({ profession: dataArray});
+      res.json({ profession: dataArray });
     } catch (error) {
       res.status(500).json({ error: error });
     }

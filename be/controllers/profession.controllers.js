@@ -52,7 +52,7 @@ module.exports = {
         messages: [
           {
             role: 'user',
-            content: `Saya ingin menjadi seorang ${profession}. hal hal apa saja yang perlu saya lakukan dan kuasai? tampilkan dalam bentuk point point saja, jangan ada kata kata lain berikan point point itu dalam 1 paragraf dan pisahkan dengan tanda titik (.) untuk antar point`,
+            content: `skills to become a ${profession}. Write it in bullet points only, no other words, just write the bullet points in 1 paragraph and separate them with a period (.) between them.`,
           },
         ],
         temperature: 0.5,
@@ -77,12 +77,11 @@ module.exports = {
 
         let data = recommends.map((description) => ({
           professionId: newProfession.id,
-          description,
+          description : description.replace(/^[^\w\s]+|[^\w\s]+$/g, '') // hati hati persiapan replace hapus
         }));
 
         await prisma.taskProfessions.createMany({ data });
 
-        //================================================================================
         const taskProfessions = await prisma.taskProfessions.findMany({ where: { professionId: newProfession.id } });
         const selfCheckProfession = await prisma.selfCheckProfessions.findMany({
           where: { userId: req.user.id },
@@ -110,6 +109,76 @@ module.exports = {
       } else {
         res.json('Choices tidak ditemukan atau kosong.');
       }
+    }
+  },
+
+  selfCheckProfessions: async (req, res, next) => {
+    // let { categoryId } = req.query;
+    let where = {
+      userId: req.user.id,
+      // ...(categoryId && {
+      //   taskLinkedinProfile: {
+      //     categoryId: Number(categoryId),
+      //   },
+      // }),
+    };
+    try {
+      const selfCheckProfessions = await prisma.selfCheckProfessions.findMany({
+        where,
+        include: {
+          users: true,
+          taskProfessions: {
+            include: {
+              professions: true,
+            },
+          },
+        },
+        orderBy: {
+          taskProfessions: {
+            id: 'asc',
+          },
+        },
+      });
+
+      res.status(200).json({
+        status: true,
+        message: 'Get All Self Check Professions Successfull',
+        data: selfCheckProfessions,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  updateSelfCheckProfession: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const selfCheckProfession = await prisma.selfCheckProfessions.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          status,
+        },
+      });
+
+      if (!selfCheckProfession) {
+        return res.json(404).json({
+          status: false,
+          message: 'Not Found',
+          data: null,
+        });
+      }
+
+      res.status(200).json({
+        status: true,
+        message: 'Update Self Check Profession Successfull',
+        data: selfCheckProfession,
+      });
+    } catch (err) {
+      next(err);
     }
   },
 };
