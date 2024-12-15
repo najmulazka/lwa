@@ -1,6 +1,6 @@
 function Nav() {
   return (
-    <div className="flex justify-between md:justify-start space-x-1 md:space-x-6 md:text-base text-xs font-medium">
+    <div className="flex justify-between md:justify-start bg-transparent space-x-1 md:space-x-6 md:text-base text-xs font-medium">
       <a href="/" className="hover:text-gray-500">
         Beranda
       </a>

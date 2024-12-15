@@ -4,7 +4,7 @@ function ProgressBar(props) {
   const percentage = (current / total) * 100;
 
   return (
-    <div className="mb-4 w-full">
+    <div className="mb-2 w-full">
       <div className="flex justify-between items-center mb-2">
         <span className="text-gray-800 font-medium">{label}</span>
       </div>

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { recommend, selfCheckProfessions, updateSelfCheckProfession } = require('../controllers/profession.controllers');
+const { recommend, selfCheckProfessions, updateSelfCheckProfession } = require('../controllers/selfCheckProfession.controllers');
 const { restrict } = require('../middlewares/restrict.middlewares');
 
 router.post('/', restrict, recommend);

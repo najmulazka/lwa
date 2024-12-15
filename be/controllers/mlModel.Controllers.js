@@ -41,7 +41,7 @@ module.exports = {
         return acc;
       }, {});
 
-      res.json({ profession: dataArray });
+      res.status(200).json({ status: true, message: 'Ok', data: Object.keys(data).pop() });
     } catch (error) {
       res.status(500).json({ error: error });
     }

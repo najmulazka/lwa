@@ -109,8 +109,6 @@ function LandingJobUser() {
                       {categoryLandingJob.name}
                     </option>
                   ))}
-                <option value="2">fCats</option>
-                <option value="3">Csdats</option>
               </select>
             }
             th3="To-do List"

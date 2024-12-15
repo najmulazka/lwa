@@ -6,6 +6,8 @@ const auth = require('./auth.routes');
 const categoryLandingJob = require('./categoryLandingJob.routes');
 const taskLandingJob = require('./taskLandingJob.routes');
 const taskLinkedinProfile = require('./taskLinkedinProfile.routes');
+const taskProfession = require('./taskProfession.routes');
+const profession = require('./profession.routes');
 const references = require('./referencesLinkedinProfile.routes');
 const categoryLinkedinProfile = require('./categoryLinkedinProfile.routes');
 const selfCheckLandingJob = require('./selfCheckLandingJob.routes');
@@ -24,6 +26,8 @@ router.use('/category-linkedin-profile', categoryLinkedinProfile);
 router.use('/task-linkedin-profile', taskLinkedinProfile);
 router.use('/references', references);
 router.use('/self-check-linkedin-profile', selfCheckLinkedinProfile);
+router.use('/profession', profession);
+router.use('/task-profession', taskProfession);
 router.use('/self-check-profession', selfCheckProfession);
 router.use('/predict', predict);
 

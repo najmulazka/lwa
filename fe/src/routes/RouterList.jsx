@@ -2,9 +2,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from '../components/pages/landingPage.jsx';
 import LoginUser from '../components/pages/loginUser.jsx';
 import Booking from '../components/pages/booking.jsx';
+import DreamJobUser from '../components/pages/dreamJobUser.jsx';
 import DashboardUser from '../components/pages/dashboardUser.jsx';
 import LandingJobUser from '../components/pages/landingJobUser.jsx';
 import LinkedinProfileUser from '../components/pages/linkedinProfileUser.jsx';
+import Profession from '../components/pages/professionUser.jsx';
 import DashboardAdmin from '../components/pages/admin/dashboardAdmin.jsx';
 import TestimoniAdmin from '../components/pages/admin/testimoniAdmin.jsx';
 import FaqAdmin from '../components/pages/admin/faqAdmin.jsx';
@@ -22,6 +24,7 @@ export const RouterList = () => {
         <Route path="/login" element={<LoginUser />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/user/dream-job" element={<DreamJobUser />} />
         <Route
           path="/user"
           element={
@@ -43,6 +46,14 @@ export const RouterList = () => {
           element={
             <ProtectedUser>
               <LinkedinProfileUser />
+            </ProtectedUser>
+          }
+        />
+        <Route
+          path="/user/profession"
+          element={
+            <ProtectedUser>
+              <Profession />
             </ProtectedUser>
           }
         />
