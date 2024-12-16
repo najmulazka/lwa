@@ -24,7 +24,14 @@ export const RouterList = () => {
         <Route path="/login" element={<LoginUser />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/user/dream-job" element={<DreamJobUser />} />
+        <Route
+          path="/user/dream-job"
+          element={
+            <ProtectedUser>
+              <DreamJobUser />
+            </ProtectedUser>
+          }
+        />
         <Route
           path="/user"
           element={

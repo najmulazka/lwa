@@ -4,7 +4,7 @@ import { getSelfCheckProfessions, updateSelfCheckProfession } from '../../servic
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
 
-function LinkedinProfileUser() {
+function ProfessionUser() {
   const [professions, setProfessions] = useState([]);
   const [refresh, setRefresh] = useState(true);
 
@@ -96,4 +96,4 @@ function LinkedinProfileUser() {
   );
 }
 
-export default LinkedinProfileUser;
+export default ProfessionUser;
