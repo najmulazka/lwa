@@ -29,8 +29,8 @@ function Overview() {
     <div className="flex flex-row justify-between py-4 px-16 items-center border-b-2 border-gray-200 bg-white">
       <span className="text-3xl">Overview</span>
       <div className="flex flex-row items-center space-x-2">
-        <span>{user.name}</span>
-        <img src={user.profilePicture} alt="gambar" className="h-10 w-10 rounded-full" />
+        <span>{user.name === undefined ? 'Admin' : user.name}</span>
+        <img src={user.profilePicture === undefined ? '/account-circle.png' : user.profilePicture} alt="gambar" className="h-10 w-10 rounded-full border border-gray-500" />
       </div>
     </div>
   );

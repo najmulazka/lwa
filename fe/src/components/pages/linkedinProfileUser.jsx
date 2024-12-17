@@ -120,8 +120,11 @@ function LinkedinProfileUser() {
           <div className="mb-4 flex justify-between">
             <div className="flex items-center space-x-4">
               <div className="text-blue-900 font-bold">Progress</div>
-              <button className="bg-green-400 px-4 rounded-full text-white" onClick={handleReferences}>
-                References
+              <button className="group bg-green-400 border border-green-400 text-white hover:bg-white hover:text-green-400 px-4 py-1 rounded-full font-semibold flex flex-row space-x-2" onClick={handleReferences}>
+                <div>References</div>
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="group-hover:fill-green-400">
+                  <path d="M12.0003 3.5C17.3924 3.5 21.8784 7.37976 22.8189 12.5C21.8784 17.6202 17.3924 21.5 12.0003 21.5C6.60812 21.5 2.12215 17.6202 1.18164 12.5C2.12215 7.37976 6.60812 3.5 12.0003 3.5ZM12.0003 19.5C16.2359 19.5 19.8603 16.552 20.7777 12.5C19.8603 8.44803 16.2359 5.5 12.0003 5.5C7.7646 5.5 4.14022 8.44803 3.22278 12.5C4.14022 16.552 7.7646 19.5 12.0003 19.5ZM12.0003 17C9.51498 17 7.50026 14.9853 7.50026 12.5C7.50026 10.0147 9.51498 8 12.0003 8C14.4855 8 16.5003 10.0147 16.5003 12.5C16.5003 14.9853 14.4855 17 12.0003 17ZM12.0003 15C13.381 15 14.5003 13.8807 14.5003 12.5C14.5003 11.1193 13.381 10 12.0003 10C10.6196 10 9.50026 11.1193 9.50026 12.5C9.50026 13.8807 10.6196 15 12.0003 15Z" />
+                </svg>
               </button>
             </div>
             <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />

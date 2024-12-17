@@ -77,7 +77,7 @@ module.exports = {
 
         let data = recommends.map((description) => ({
           professionId: newProfession.id,
-          description : description.replace(/^[^\w\s]+|[^\w\s]+$/g, '') // hati hati persiapan replace hapus
+          description: description, // hati hati persiapan replace hapus .replace(/^[^\w\s]+|[^\w\s]+$/g, '')
         }));
 
         await prisma.taskProfessions.createMany({ data });

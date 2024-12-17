@@ -356,8 +356,12 @@ function LinkedinProfileAdmin() {
       {activeModal === 'popup2' && (
         <div className="w-full h-full z-20 fixed bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-8 relative max-h-[90vh] w-[65%] overflow-y-auto">
-            <div className="flex flex-row items-center space-x-2 mb-6 cursor-pointer">
-              <div onClick={() => setActiveModal('popup1')}>a</div>
+            <div className="flex flex-row items-center space-x-2 mb-6">
+              <button onClick={() => setActiveModal('popup1')} className="hover:text-gray-500">
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path>
+                </svg>
+              </button>
               <div className="text-2xl font-semibold">Manage Category</div>
             </div>
             <div className="flex justify-between">
@@ -368,21 +372,28 @@ function LinkedinProfileAdmin() {
               <th>No</th>
               <th className="w-[200px]">Category</th>
               <th>Link Date</th>
-              <th>Action</th>
+              <th className="w-20">Action</th>
               <tbody>
                 {categoryLinkedinProfiles.length > 0 &&
                   categoryLinkedinProfiles.map((categoryLinkedinProfile) => (
                     <tr key={categoryLinkedinProfile.id}>
                       <td className="text-center">{`${index++}.`}</td>
                       <td className="text-center align-top bg-blue-100 rounded-lg w-[200px] max-w-[200px] break-words">{categoryLinkedinProfile.name}</td>
-                      <td className="text-center">{linkedinProfiles.filter((item) => item.categoryId === categoryLinkedinProfile.id).length}</td>
-                      <td className="text-center space-x-2 align-center">
-                        <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEditCategory(categoryLinkedinProfile)}>
-                          Edit
-                        </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(categoryLinkedinProfile.id, 'categoryLandingJob')}>
-                          Delete
-                        </button>
+                      <td className="text-center ">{linkedinProfiles.filter((item) => item.categoryId === categoryLinkedinProfile.id).length}</td>
+                      <td className="text-center">
+                        <div className="space-x-2 flex flex-row">
+                          <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEditCategory(categoryLinkedinProfile)}>
+                            Edit
+                          </button>
+                          <button
+                            className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white flex flex-row space-x-1 items-center"
+                            onClick={() => handleDeleteClick(categoryLinkedinProfile.id, 'categoryLandingJob')}>
+                            <div>Delete</div>
+                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 4V6H15V4H9Z"></path>
+                            </svg>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -485,11 +496,17 @@ function LinkedinProfileAdmin() {
           <div className="mb-4 flex justify-between">
             <div className="flex space-x-4 items-center">
               <div className="text-blue-900 font-bold">List Linkedin Profile</div>
-              <button className="bg-green-400 px-4 py-1 rounded-full text-white font-semibold" onClick={handleReferences}>
-                References
+              <button className="group bg-green-400 border border-green-400 text-white hover:bg-white hover:text-green-400 px-4 py-1 rounded-full font-semibold flex flex-row space-x-2" onClick={handleReferences}>
+                <div>References</div>
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="group-hover:fill-green-400">
+                  <path d="M12.0003 3.5C17.3924 3.5 21.8784 7.37976 22.8189 12.5C21.8784 17.6202 17.3924 21.5 12.0003 21.5C6.60812 21.5 2.12215 17.6202 1.18164 12.5C2.12215 7.37976 6.60812 3.5 12.0003 3.5ZM12.0003 19.5C16.2359 19.5 19.8603 16.552 20.7777 12.5C19.8603 8.44803 16.2359 5.5 12.0003 5.5C7.7646 5.5 4.14022 8.44803 3.22278 12.5C4.14022 16.552 7.7646 19.5 12.0003 19.5ZM12.0003 17C9.51498 17 7.50026 14.9853 7.50026 12.5C7.50026 10.0147 9.51498 8 12.0003 8C14.4855 8 16.5003 10.0147 16.5003 12.5C16.5003 14.9853 14.4855 17 12.0003 17ZM12.0003 15C13.381 15 14.5003 13.8807 14.5003 12.5C14.5003 11.1193 13.381 10 12.0003 10C10.6196 10 9.50026 11.1193 9.50026 12.5C9.50026 13.8807 10.6196 15 12.0003 15Z" />
+                </svg>
               </button>
-              <button className="border border-green-400 text-green-400 px-4 py-1 font-semibold rounded-full" onClick={handleManageReferences}>
-                Manage References
+              <button className="border border-green-400 text-green-400 hover:text-white hover:bg-green-400 px-4 py-1 font-semibold rounded-full bg-white flex flex-row space-x-2" onClick={handleManageReferences}>
+                <span>Manage References</span>
+                <svg width="24" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 3C20.5523 3 21 3.44772 21 4V5.757L19 7.757V5H5V13.1L9 9.1005L13.328 13.429L11.9132 14.8422L9 11.9289L5 15.928V19H15.533L16.2414 19.0012L17.57 17.671L18.8995 19H19V16.242L21 14.242V20C21 20.5523 20.5523 21 20 21H4C3.45 21 3 20.55 3 20V4C3 3.44772 3.44772 3 4 3H20ZM21.7782 7.80761L23.1924 9.22183L15.4142 17L13.9979 16.9979L14 15.5858L21.7782 7.80761ZM15.5 7C16.3284 7 17 7.67157 17 8.5C17 9.32843 16.3284 10 15.5 10C14.6716 10 14 9.32843 14 8.5C14 7.67157 14.6716 7 15.5 7Z"></path>
+                </svg>
               </button>
               {/* <input
                 id="fileInput"
@@ -502,7 +519,7 @@ function LinkedinProfileAdmin() {
             </div>
             <div className="space-x-2">
               <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
-              <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>
+              <button className="rounded-full py-2 px-6 text-center bg-white text-blue-500 hover:text-blue-800 hover:border-blue-800 text-sm border border-blue-500 font-bold" onClick={toggleModal}>
                 Input To-do List
               </button>
             </div>
@@ -542,12 +559,17 @@ function LinkedinProfileAdmin() {
                         <td className="text-left align-top">{isNewCategory ? index : ''}</td>
                         <td className="text-left align-top w-[200px] max-w-[200px] break-words">{taskLinkedinProfile.categoryLinkedinProfile.name}</td>
                         <td className="text-left align-top">{taskLinkedinProfile.description}</td>
-                        <td className="text-left space-x-2 align-top align-top">
+                        <td className="text-left space-x-2 flex flex-row align-top align-top">
                           <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLinkedinProfile)}>
                             Edit
                           </button>
-                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(taskLinkedinProfile.id, 'taskLinkedinProfile')}>
-                            Delete
+                          <button
+                            className="border border-red-500 items-center rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white flex flex-row space-x-1"
+                            onClick={() => handleDeleteClick(taskLinkedinProfile.id, 'taskLinkedinProfile')}>
+                            <div>Delete</div>
+                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 4V6H15V4H9Z"></path>
+                            </svg>
                           </button>
                         </td>
                       </tr>

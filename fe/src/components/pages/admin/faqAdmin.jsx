@@ -188,12 +188,15 @@ function FaqAdmin() {
                         <td className="text-left align-top">{`${index++}.`}</td>
                         <td className="text-left align-top">{faq.question}</td>
                         <td className="text-left align-top">{faq.description}</td>
-                        <td className="text-left space-x-2 align-top align-top">
+                        <td className="text-left space-x-2 align-top align-top flex flex-row">
                           <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(faq)}>
                             Edit
                           </button>
-                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(faq.id)}>
-                            Delete
+                          <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white flex flex-row items-center space-x-1" onClick={() => handleDeleteClick(faq.id)}>
+                            <div>Delete</div>
+                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 4V6H15V4H9Z"></path>
+                            </svg>
                           </button>
                         </td>
                       </tr>

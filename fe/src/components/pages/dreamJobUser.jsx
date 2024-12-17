@@ -65,6 +65,10 @@ function DreamJobUser() {
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      setSelectedCareer('default');
+      customCareer('');
+    }
   };
 
   const handleNo = async () => {
@@ -144,7 +148,13 @@ function DreamJobUser() {
           {selectedCareer === 'other' && <input type="text" placeholder="Type Your Career" className="border border-gray-500 rounded-md p-2" value={customCareer} onChange={(e) => setCustomCareer(e.target.value)} />}
         </div>
 
-        <button className="text-xs md:text-base font-semibold py-1 md:w-1/3 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg bg-black text-white hover:bg-white hover:text-black" type="button" onClick={handleSubmit}>
+        <button
+          className={`text-xs md:text-base font-semibold py-1 md:w-1/3 px-2 md:py-2 md:px-4 border border-2 border-black rounded-lg ${
+            isLoading ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-black text-white hover:bg-white hover:text-black'
+          }`}
+          type="button"
+          onClick={handleSubmit}
+          disabled={isLoading}>
           <span>{isLoading ? 'Loading...' : `Let's Get Started!`}</span>
         </button>
 

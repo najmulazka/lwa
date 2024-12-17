@@ -15,8 +15,14 @@ function DashboardAdmin() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const data = await getBookings();
-        setBooking(data);
+        const storedData = localStorage.getItem('bookingData');
+        if (storedData) {
+          setBooking(JSON.parse(storedData));
+        } else {
+          const data = await getBookings();
+          setBooking(data);
+          localStorage.setItem('bookingData', JSON.stringify(data));
+        }
       } catch (err) {
         console.error(err.message);
         setError(err.message);

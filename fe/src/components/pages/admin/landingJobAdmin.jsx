@@ -307,9 +307,13 @@ function LandingJobAdmin() {
       {/* Pop Up 2 */}
       {activeModal === 'popup2' && (
         <div className="w-full h-full z-20 fixed bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-8 relative w-1/2">
-            <div className="flex flex-row items-center space-x-2 mb-6 cursor-pointer">
-              <div onClick={() => setActiveModal('popup1')}>a</div>
+          <div className="bg-white rounded-lg p-8 relative max-h-[90vh] w-[65%] overflow-y-auto">
+            <div className="flex flex-row items-center space-x-2 mb-6">
+              <button onClick={() => setActiveModal('popup1')} className='hover:text-gray-500'>
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path>
+                </svg>
+              </button>
               <div className="text-2xl font-semibold">Manage Category</div>
             </div>
             <div className="flex justify-between">
@@ -340,7 +344,7 @@ function LandingJobAdmin() {
                   ))}
               </tbody>
             </table>
-            <button onClick={toggleModal} className="absolute -top-3 -right-3 bg-red-600 px-2 text-white rounded-full border-red-600 hover:bg-red-400">
+            <button onClick={toggleModal} className="absolute top-3  right-3 bg-red-600 px-2 text-white rounded-full border-red-600 hover:bg-red-400">
               X
             </button>
           </div>
@@ -428,12 +432,15 @@ function LandingJobAdmin() {
                       <td className="text-left align-top">{`${index++}.`}</td>
                       <td className="text-center align-top bg-blue-100 rounded-lg w-[200px] max-w-[200px] break-words">{taskLandingJob.categoryLandingJob.name}</td>
                       <td className="text-left align-top">{taskLandingJob.description}</td>
-                      <td className="text-left space-x-2 align-top align-top">
+                      <td className="text-left space-x-2 align-top align-top flex flex-row">
                         <button className="border border-green-500 rounded-full px-6 text-green-500 hover:bg-green-500 hover:text-white" onClick={() => handleEdit(taskLandingJob)}>
                           Edit
                         </button>
-                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white" onClick={() => handleDeleteClick(taskLandingJob.id, 'taskLandingJob')}>
-                          Delete
+                        <button className="border border-red-500 rounded-full px-2 text-red-500 hover:bg-red-500 hover:text-white flex flex-row items-center space-x-1" onClick={() => handleDeleteClick(taskLandingJob.id, 'taskLandingJob')}>
+                          <div>Delete</div>
+                          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 4V6H15V4H9Z"></path>
+                          </svg>
                         </button>
                       </td>
                     </tr>
