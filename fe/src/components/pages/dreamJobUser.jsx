@@ -101,7 +101,7 @@ function DreamJobUser() {
     }
   };
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col md:flex-row h-screen ">
       {isOpen && prediction !== '' && customCareer !== '' && (
         <ModalPopUp isOpen={isOpen} toggleModal={toggleModal} className="">
           Do You Mean {prediction}?
@@ -121,6 +121,7 @@ function DreamJobUser() {
           </div>
         </ModalPopUp>
       )}
+
       <div className="flex flex-col px-10 md:px-24 pt-5 md:pt-10 md:w-3/5 h-screen" style={{ backgroundImage: `url(${vectorDreamJob})`, backgroundSize: '25%', backgroundRepeat: 'no-repeat', backgroundPosition: 'left bottom' }}>
         <a href="/">
           <img src="/logo.png" alt="" className="h-8 md:h-14 mb-6 md:mb-8" />

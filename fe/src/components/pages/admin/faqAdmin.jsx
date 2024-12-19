@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 // import { whoami } from '../../../services/whoami.service';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
+import SupportResponsifeMobile from '../../elements/SupportResponsifeMobile';
 
 function FaqAdmin() {
   const [faq, setFaq] = useState([]);
@@ -133,7 +134,7 @@ function FaqAdmin() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
 
       <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
@@ -162,7 +163,7 @@ function FaqAdmin() {
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">Frequently Asked Questions</div>
             <div className="space-x-2">
-              <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
               <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>
                 Input FAQ
               </button>
@@ -207,7 +208,7 @@ function FaqAdmin() {
           )}
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

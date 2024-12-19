@@ -5,6 +5,7 @@ import { createTestimoni, deleteTestimoni, getTestimonials, updateTestimoni } fr
 import { useNavigate } from 'react-router-dom';
 import ModalPopUp from '../../elements/ModalPopUp';
 import PopupConfirmation from '../../elements/PopupConfirmation';
+import SupportResponsifeMobile from '../../elements/SupportResponsifeMobile';
 
 function TestimoniAdmin() {
   const [testimonials, setTestimonials] = useState([]);
@@ -131,7 +132,7 @@ function TestimoniAdmin() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
 
       <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
@@ -174,7 +175,7 @@ function TestimoniAdmin() {
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">List Testimoni</div>
             <div className="space-x-2">
-              <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
               <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>
                 Input Testimoni
               </button>
@@ -221,7 +222,7 @@ function TestimoniAdmin() {
           )}
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

@@ -9,6 +9,7 @@ import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 import axios from 'axios';
 import ModalPopUp from '../elements/ModalPopUp';
 import { getReferencesLinkedinProfile } from '../../services/referencesLinkedinProfile.service';
+import SupportResponsifeMobile from '../elements/SupportResponsifeMobile';
 
 function LinkedinProfileUser() {
   const [referencesLinkedinProfiles, setReferencesLinkedinProfiles] = useState([]);
@@ -98,7 +99,7 @@ function LinkedinProfileUser() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       {referencesIsOpen && (
         <ModalPopUp isOpen={referencesIsOpen} toggleModal={handleReferences}>
           <div className="grid grid-cols-1 gap-4" onClick={handleReferences}>
@@ -127,7 +128,7 @@ function LinkedinProfileUser() {
                 </svg>
               </button>
             </div>
-            <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
           </div>
           <Table
             th1="No"
@@ -175,7 +176,7 @@ function LinkedinProfileUser() {
           </Table>
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

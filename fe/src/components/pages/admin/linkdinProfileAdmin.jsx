@@ -9,6 +9,7 @@ import { createTaskLinkedinProfile, deleteTaskLinkedinProfile, getTaskLinkedinPr
 import axios from 'axios';
 import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 import { getReferencesLinkedinProfile, updateReferencesLinkedinProfile } from '../../../services/referencesLinkedinProfile.service';
+import SupportResponsifeMobile from '../../elements/SupportResponsifeMobile';
 
 function LinkedinProfileAdmin() {
   const [linkedinProfiles, setLinkedinProfiles] = useState([]);
@@ -287,7 +288,7 @@ function LinkedinProfileAdmin() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
       {isPopupDeleteCategory && <PopupConfirmation onConfirm={() => handleConfirmCategory()} onCancel={handleCancel} type="delete" />}
 
@@ -328,7 +329,7 @@ function LinkedinProfileAdmin() {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <div className="flex">&#39;</div>
+                <div className="flex text-white">&#39;</div>
                 <button type="button" className="ml-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" onClick={handleAddCategory}>
                   +
                 </button>
@@ -518,7 +519,7 @@ function LinkedinProfileAdmin() {
               /> */}
             </div>
             <div className="space-x-2">
-              <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
               <button className="rounded-full py-2 px-6 text-center bg-white text-blue-500 hover:text-blue-800 hover:border-blue-800 text-sm border border-blue-500 font-bold" onClick={toggleModal}>
                 Input To-do List
               </button>
@@ -580,7 +581,7 @@ function LinkedinProfileAdmin() {
           </div>
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSelfCheckProfessions, updateSelfCheckProfession } from '../../services/selfCheckProfession.service';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
+import SupportResponsifeMobile from '../elements/SupportResponsifeMobile';
 
 function ProfessionUser() {
   const [professions, setProfessions] = useState([]);
@@ -49,7 +50,7 @@ function ProfessionUser() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       <Sidebar role="user" />
 
       <div className="bg-gray-100 ml-80">
@@ -60,7 +61,7 @@ function ProfessionUser() {
               <div className="text-blue-900 font-bold">Progress</div>
               <div className="border border-green-500 px-4 rounded-sm text-green-500">{professions.length > 0 ? professions[0].taskProfessions.professions.name : 'none'}</div>
             </div>
-            <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
           </div>
 
           <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
@@ -92,7 +93,7 @@ function ProfessionUser() {
           </div>
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

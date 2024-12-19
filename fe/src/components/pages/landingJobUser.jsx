@@ -8,6 +8,7 @@ import { getSelfCheckLandingJobs, updateSelfCheckLandingJob } from '../../servic
 import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 import axios from 'axios';
 import { getCategoryLandingJobs } from '../../services/categoryLandingJob.service';
+import SupportResponsifeMobile from '../elements/SupportResponsifeMobile';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
@@ -87,14 +88,14 @@ function LandingJobUser() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       <Sidebar role="user" />
       <div className="bg-gray-100 ml-80">
         <Overview />
         <div className=" py-4 px-16">
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">Progress</div>
-            <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
           </div>
           <Table
             th1="No"
@@ -124,7 +125,7 @@ function LandingJobUser() {
           </Table>
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 

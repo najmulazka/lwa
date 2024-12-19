@@ -8,6 +8,7 @@ import { createCategoryLandingJob, deleteCategoryLandingJob, getCategoryLandingJ
 import { getTaskLandingJobs, createTaskLandingJob, updateTaskLandingJob, deleteTaskLandingJob } from '../../../services/taskLandingJob.service';
 import { CookiesKey, CookiesStorage } from '../../../utils/cookies';
 import axios from 'axios';
+import SupportResponsifeMobile from '../../elements/SupportResponsifeMobile';
 
 function LandingJobAdmin() {
   const [taskLandingJobs, setTaskLandingJobs] = useState([]);
@@ -239,7 +240,7 @@ function LandingJobAdmin() {
   };
 
   return (
-    <div>
+    <SupportResponsifeMobile>
       {isPopupDelete && <PopupConfirmation onConfirm={() => handleConfirm()} onCancel={handleCancel} type="delete" />}
       {isPopupDeleteCategory && <PopupConfirmation onConfirm={() => handleConfirmCategory()} onCancel={handleCancel} type="delete" />}
 
@@ -280,7 +281,7 @@ function LandingJobAdmin() {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <div className="flex">&#39;</div>
+                <div className="flex text-white">&#39;</div>
                 <button type="button" className="ml-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" onClick={handleAddCategory}>
                   +
                 </button>
@@ -309,7 +310,7 @@ function LandingJobAdmin() {
         <div className="w-full h-full z-20 fixed bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-8 relative max-h-[90vh] w-[65%] overflow-y-auto">
             <div className="flex flex-row items-center space-x-2 mb-6">
-              <button onClick={() => setActiveModal('popup1')} className='hover:text-gray-500'>
+              <button onClick={() => setActiveModal('popup1')} className="hover:text-gray-500">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path>
                 </svg>
@@ -397,7 +398,7 @@ function LandingJobAdmin() {
           <div className="mb-4 flex justify-between">
             <div className="text-blue-900 font-bold">List Landing a Job</div>
             <div className="space-x-2">
-              <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" />
+              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
               <button className="rounded-full py-2 px-6 text-center text-blue-500 text-sm border border-blue-500 bg-white font-bold" onClick={toggleModal}>
                 Input To-do List
               </button>
@@ -450,7 +451,7 @@ function LandingJobAdmin() {
           </div>
         </div>
       </div>
-    </div>
+    </SupportResponsifeMobile>
   );
 }
 
