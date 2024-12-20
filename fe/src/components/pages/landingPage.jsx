@@ -100,7 +100,7 @@ function Branding() {
           </div>
           <div className="absolute bg-white px-2 py-1 space-x-2 rounded-md shadow-md bottom-14 left-0 inline-flex items-center">
             <img src="./career-coaching-icon.png" alt="" />
-            <span>Roasting CV & Linkedin</span>
+            <span>Career Coaching</span>
           </div>
         </div>
       </div>
