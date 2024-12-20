@@ -4,7 +4,7 @@ import { usera } from '../../services/whoami.service';
 
 function Overview() {
   const [user, setUser] = useState({});
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   // const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,9 +13,7 @@ function Overview() {
         const data = await usera();
         setUser(data);
       } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-        console.log(error);
+        err.message;
         // if (err.message.includes('Unauthorized')) {
         //   navigate(3);
         // }
@@ -30,7 +28,8 @@ function Overview() {
       <span className="text-3xl">Overview</span>
       <div className="flex flex-row items-center space-x-2">
         <span>{user.name === undefined ? 'Admin' : user.name}</span>
-        <img src={user.profilePicture === undefined ? '/account-circle.png' : user.profilePicture} alt="gambar" className="h-10 w-10 rounded-full border border-gray-500" />
+        <img src="/account-circle.png" alt="gambar" className="h-10 w-10 rounded-full border border-gray-500" />
+        {/* <img src={user.profilePicture === undefined ? '/account-circle.png' : user.profilePicture} alt="gambar" className="h-10 w-10 rounded-full border border-gray-500" /> */}
       </div>
     </div>
   );

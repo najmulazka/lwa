@@ -1,3 +1,5 @@
+// import PropTypes from 'prop-types';
+
 function CircleProgress(props) {
   const { percentage } = props;
   const radius = 80; // Perbesar radius lingkaran
@@ -15,7 +17,7 @@ function CircleProgress(props) {
           cx="90" // Sesuaikan posisi tengah
           cy="90"
         />
-        <circle stroke="#4ade80" strokeWidth="20" fill="transparent" r={radius} cx="90" cy="90" strokeDasharray={circumference} strokeDashoffset={offset} />
+        <circle stroke="#4ade80" strokeWidth="20" fill="transparent" r={radius} cx="90" cy="90" strokeDasharray={circumference} strokeDashoffset={isNaN(offset) ? 0 : offset} />
       </svg>
       <div className="absolute text-3xl font-bold text-blue-500">{percentage}%</div>
     </div>

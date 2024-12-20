@@ -31,7 +31,7 @@ export const ProtectedUser = ({ children }) => {
   const TokenUser = CookiesStorage.get(CookiesKey.AuthToken);
 
   useEffect(() => {
-    console.log(TokenUser, 'ini token user');
+    // console.log(TokenUser, 'ini token user');
     if (TokenUser == undefined) {
       setFirstLoad(true);
     }
