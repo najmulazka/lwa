@@ -26,6 +26,15 @@ model Users {
   SelfCheckProfessions     SelfCheckProfessions[]
 }
 
+model Booking {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique
+  name      String
+  email     String
+  linkMeet  String
+  startTime DateTime
+}
+
 model CategoryLandingJob {
   id             Int              @id @default(autoincrement())
   name           String           @unique

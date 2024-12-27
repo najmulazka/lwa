@@ -1,8 +1,45 @@
 const { CALENDLY_TOKEN } = process.env;
 const axios = require('axios');
+const prisma = require('../libs/prisma.libs');
+const { format, isBefore } = require('date-fns');
 
 module.exports = {
   getAllBooking: async (req, res) => {
+    try {
+      const bookings = await prisma.booking.findMany();
+
+      const formatDateAndAddStatus = (dateString) => {
+        const startDate = new Date(dateString);
+        const currentDate = new Date();
+        const status = isBefore(startDate, currentDate) ? 'missed' : 'upcoming';
+
+        return {
+          formattedDate: format(startDate, 'dd-MM-yyyy HH:mm:ss'),
+          status,
+        };
+      };
+
+      const formattedBookings = bookings.map((booking) => {
+        const { formattedDate, status } = formatDateAndAddStatus(booking.startTime);
+        return {
+          ...booking,
+          startTime: formattedDate,
+          status: status,
+        };
+      });
+
+      res.status(200).json({
+        status: true,
+        message: 'OK',
+        data: formattedBookings,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getBookingCalendly: async (req, res) => {
     try {
       const response = await axios.get('https://api.calendly.com/scheduled_events', {
         headers: {
@@ -15,77 +52,64 @@ module.exports = {
       });
       const events = response.data.collection;
 
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
       const inviteesData = [];
-
-      // Loop melalui setiap event untuk mengambil invitees
       for (const event of events) {
-        const eventUuid = event.uri.split('/').pop();
+        try {
+          const eventUuid = event.uri.split('/').pop();
+          const inviteesResponse = await axios.get(`https://api.calendly.com/scheduled_events/${eventUuid}/invitees`, {
+            headers: {
+              Authorization: `Bearer ${CALENDLY_TOKEN}`,
+              'Content-Type': 'application/json',
+            },
+          });
 
-        // Mengambil data invitees untuk setiap event
-        const inviteesResponse = await axios.get(`https://api.calendly.com/scheduled_events/${eventUuid}/invitees`, {
-          headers: {
-            Authorization: `Bearer ${CALENDLY_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-        });
+          const invitee = inviteesResponse.data.collection[0];
 
-        // Mengambil nama dan email setiap invitee
-        const invitees = inviteesResponse.data.collection[0];
+          // Tambahkan hasil ke array
+          inviteesData.push({
+            uuid: eventUuid,
+            name: invitee.name,
+            email: invitee.email,
+            linkMeet: event.location.join_url,
+            startTime: event.start_time,
+            // status: '',
+          });
 
-        // konversi waktu
-        const date = new Date(event.start_time);
+          console.log(inviteesData);
 
-        // Konversi ke Waktu Indonesia Barat (WIB) dengan menambah offset 7 jam
-        const options = {
-          timeZone: 'Asia/Jakarta',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        };
-        const start_time = date.toLocaleString('id-ID', options);
-
-        // Menyimpan data invitees untuk setiap event
-        inviteesData.push({
-          name: invitees.name,
-          email: invitees.email,
-          linkMeet: event.location.join_url,
-          startTime: start_time,
-          // endTime: event.end_time,
-          status: 'if else',
-        });
+          // Tunggu 5 detik
+          await delay(5000);
+        } catch (err) {
+          console.error(`Error processing event: ${event.uri}`, err.message);
+        }
       }
 
-      const parseStartTime = (timeStr) => {
-        const [dateStr, timeStrPart] = timeStr.split(', ');
-        const [day, month, year] = dateStr.split('/').map(Number);
-        const [hours, minutes, seconds] = timeStrPart.split('.').map(Number);
+      try {
+        const existingBookings = await prisma.booking.findMany({
+          where: {
+            uuid: {
+              in: inviteesData.map((data) => data.uuid),
+            },
+          },
+          select: { uuid: true },
+        });
 
-        // Mengembalikan objek Date dalam format UTC+7 (WIB)
-        return new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
-      };
+        // Filter data baru yang belum ada di database
+        const newBookings = inviteesData.filter((data) => !existingBookings.some((booking) => booking.uuid === data.uuid));
 
-      // Mengurutkan events berdasarkan startTime
-      inviteesData.sort((a, b) => parseStartTime(b.startTime) - parseStartTime(a.startTime));
-
-      // Mendapatkan waktu saat ini
-      const now = new Date();
-
-      // Menambahkan format startTime yang lebih mudah dibaca dan menentukan status
-      inviteesData.forEach((event) => {
-        const date = parseStartTime(event.startTime);
-        // event.startTime = date.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', hour12: false });
-
-        // Menentukan status
-        event.status = date > now ? 'upcoming' : 'missed';
-      });
-      res.json(inviteesData);
+        if (newBookings.length > 0) {
+          await prisma.booking.createMany({
+            data: newBookings,
+            skipDuplicates: true,
+          });
+        }
+      } catch (error) {
+        console.error('Terjadi kesalahan:', error.message);
+      }
     } catch (error) {
-      console.log(error)
-      // res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 };

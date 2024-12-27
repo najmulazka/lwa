@@ -1,6 +1,4 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-# from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split, cross_val_score

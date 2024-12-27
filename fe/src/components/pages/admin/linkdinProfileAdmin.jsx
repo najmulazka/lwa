@@ -295,7 +295,7 @@ function LinkedinProfileAdmin() {
       {/* Pop Up 1 */}
       {activeModal === 'popup1' && (
         <ModalPopUp isOpen={isOpenModal} toggleModal={toggleModal}>
-          <div className="text-2xl font-semibold mb-6">Linkedin Profile Input</div>
+          <div className="text-2xl font-semibold mb-6">Linkedin Profile {editData ? 'Update' : 'Input'}</div>
           <form action="" method="post" className="flex flex-col items-center" onSubmit={handleSubmit} onChange={handleInputChange}>
             <div className="flex space-x-4 mb-2 w-full justify-between">
               <div className="flex flex-col space-y-2 w-1/2">
@@ -411,8 +411,12 @@ function LinkedinProfileAdmin() {
       {activeModal === 'popup3' && (
         <div className="w-full h-full z-20 fixed bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-8 relative w-1/2">
-            <div className="flex flex-row items-center space-x-2 mb-6 cursor-pointer">
-              <div onClick={() => setActiveModal('popup2')}>a</div>
+            <div className="flex flex-row items-center space-x-2 mb-6">
+              <button onClick={() => setActiveModal('popup2')}>
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path>
+                </svg>
+              </button>
               <div className="text-2xl font-semibold">Manage Category</div>
             </div>
             <form action="" method="post" onSubmit={handleUpdateCategory}>

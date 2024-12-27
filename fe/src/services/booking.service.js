@@ -47,7 +47,7 @@ export const getBookings = async () => {
         Authorization: `${token}`,
       },
     });
-    return response.data; 
+    return response.data.data; 
   } catch (error) {
     if (error.response && error.response.status === 401) {
       // Token tidak valid

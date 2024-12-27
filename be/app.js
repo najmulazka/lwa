@@ -4,7 +4,9 @@ const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const cron = require('node-cron');
 const routes = require('./routes');
+const { getBookingCalendly } = require('./controllers/booking.controllers');
 const { PORT = 3000, OPENAI_API_KEY } = process.env;
 
 app.use(express.json());
@@ -14,6 +16,11 @@ app.use(cors());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
+});
+
+cron.schedule('*/10 * * * *', () => {
+  console.log('a');
+  getBookingCalendly();
 });
 
 app.use('/api/v1', routes);
