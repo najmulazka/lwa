@@ -22,11 +22,20 @@ module.exports = {
             },
           },
         },
-        orderBy: {
-          taskLandingJob: {
-            categoryId: 'asc',
+        orderBy: [
+          {
+            taskLandingJob: {
+              categoryLandingJob: {
+                id: 'asc',
+              },
+            },
           },
-        },
+          {
+            taskLandingJob: {
+              id: 'asc',
+            },
+          },
+        ],
       });
 
       res.status(200).json({

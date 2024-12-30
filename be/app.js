@@ -18,10 +18,10 @@ app.use((req, res, next) => {
   next();
 });
 
-cron.schedule('*/10 * * * *', () => {
+// cron.schedule('*/30 * * * *', () => {
   console.log('a');
   getBookingCalendly();
-});
+// });
 
 app.use('/api/v1', routes);
 

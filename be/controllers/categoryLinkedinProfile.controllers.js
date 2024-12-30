@@ -36,7 +36,7 @@ module.exports = {
 
   categoryLinkedinProfiles: async (req, res, next) => {
     try {
-      const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.findMany();
+      const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.findMany({ orderBy: { id: 'asc' } });
 
       res.status(200).json({
         status: true,

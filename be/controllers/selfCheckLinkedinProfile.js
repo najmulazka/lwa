@@ -22,11 +22,20 @@ module.exports = {
             },
           },
         },
-        orderBy: {
-          taskLinkedinProfile: {
-            categoryId: 'asc',
+        orderBy: [
+          {
+            taskLinkedinProfile: {
+              categoryLinkedinProfile: {
+                id: 'asc',
+              },
+            },
           },
-        },
+          {
+            taskLinkedinProfile: {
+              id: 'asc',
+            },
+          },
+        ],
       });
 
       res.status(200).json({

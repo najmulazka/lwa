@@ -37,7 +37,7 @@ module.exports = {
 
   categoryLandingJobs: async (req, res, next) => {
     try {
-      const categoryLandingJob = await prisma.categoryLandingJob.findMany();
+      const categoryLandingJob = await prisma.categoryLandingJob.findMany({ orderBy: { id: 'asc' } });
 
       res.status(200).json({
         status: true,
