@@ -79,7 +79,7 @@ module.exports = {
 
       const references = await prisma.referencesLinkedinProfile.findMany();
       for (const reference of references) {
-        await imagekit.deleteFile(reference.fileId); 
+        await imagekit.deleteFile(reference.fileId);
       }
 
       const del = await prisma.referencesLinkedinProfile.deleteMany();
@@ -109,6 +109,7 @@ module.exports = {
         data: images,
       });
     } catch (err) {
+      console.log(err.message);
       next(err);
     }
   },
