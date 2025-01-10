@@ -1,4 +1,4 @@
-import Nav from '../elements/nav';
+// import Nav from '../elements/nav';
 
 function Footer() {
   return (
