@@ -1,4 +1,4 @@
-import Nav from '../elements/nav';
+import Nav from '../elements/Nav';
 function LoginUser() {
   const handleGoogleLogin = () => {
     window.location.href = `${import.meta.env.VITE_URL}/auth/google`;
