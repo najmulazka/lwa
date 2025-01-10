@@ -11,8 +11,8 @@ export const CookiesKey = {
 
 const CookiesOptions = {
   path: '/',
-  secure: true,
-  // maxAge: 24 * 60 * 60,
+  // secure: process.env.NODE_ENV === 'production',
+  maxAge: 24 * 60 * 60,
 };
 
 export const CookiesStorage = {
