@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { loginAdmin } from '../../../services/auth.service';
-import Nav from '../../elements/nav';
+import Nav from '../../elements/Nav';
 import { useNavigate } from 'react-router-dom';
 
 function LoginAdmin() {
