@@ -1,5 +1,24 @@
 import axios from 'axios';
 import { CookiesKey, CookiesStorage } from '../utils/cookies';
+const BASE_URL = import.meta.env.VITE_URL;
+
+export const registerUser = async (data) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/register-user`, data);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.err);
+  }
+};
+
+export const loginUser = async (data) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/login-user`, data);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.err);
+  }
+};
 
 export const loginAdmin = async (email, password, navigate, setLoginFailed) => {
   try {

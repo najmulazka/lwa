@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from '../components/pages/landingPage.jsx';
 import LoginUser from '../components/pages/loginUser.jsx';
+import RegisterUser from '../components/pages/registerUser.jsx';
 import Booking from '../components/pages/booking.jsx';
 import DreamJobUser from '../components/pages/dreamJobUser.jsx';
 import DashboardUser from '../components/pages/dashboardUser.jsx';
@@ -22,6 +23,7 @@ export const RouterList = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginUser />} />
+        <Route path="/register" element={<RegisterUser />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/booking" element={<Booking />} />
         <Route
