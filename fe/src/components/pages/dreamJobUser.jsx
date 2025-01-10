@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import vectorDreamJob from '../../assets/vectorDreamJob.svg';
-import Nav from '../elements/nav';
+import Nav from '../elements/Nav';
 import { useNavigate } from 'react-router-dom';
 import { getProfessions, predict } from '../../services/profession.service';
 import { toast } from 'react-toastify';
