@@ -12,11 +12,14 @@ const { PORT = 3000, OPENAI_API_KEY } = process.env;
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(cors());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
 
 // cron.schedule('*/30 * * * *', () => {
 //   console.log('a');
