@@ -14,10 +14,7 @@ passport.use(
       try {
         const taskLandingJobs = await prisma.taskLandingJob.findMany();
         const taskLinkedinProfiles = await prisma.taskLinkedinProfile.findMany();
-        const existUser = await prisma.users.findUnique({ where: { email: profile.emails[0].value } });
-        const existBooking = await prisma.booking.findFirst({ where: { email: profile.emails[0].value } });
 
-        if (existUser || existBooking) {
           let user = await prisma.users.upsert({
             where: { email: profile.emails[0].value },
             update: { name: profile.displayName, profilePicture: profile.photos[0].value, googleId: profile.id },
@@ -72,9 +69,7 @@ passport.use(
           }
 
           done(null, user);
-        } else {
-          done(null, false, { message: 'No matching user or booking found' });
-        }
+        
       } catch (err) {
         done(err, null);
       }
