@@ -1,9 +1,11 @@
 const router = require('express').Router();
-const { googleOauth2, loginAdmin, whoami } = require('../controllers/auth.controllers');
+const { googleOauth2, loginAdmin, whoami, registerUser, loginUser } = require('../controllers/auth.controllers');
 const passport = require('../libs/passport.libs');
 const { restrictAdmin, restrict } = require('../middlewares/restrict.middlewares');
 const { URL } = process.env;
 
+router.post('/login-user', loginUser);
+router.post('/register-user', registerUser);
 router.post('/login', loginAdmin);
 router.get('/whoami', restrictAdmin, whoami);
 router.get('/user', restrict, whoami);
