@@ -54,7 +54,7 @@ module.exports = {
     //   maxAge: 24 * 60 * 60 * 1000,
     // });
 
-    const redirectUrl = `${URL}/callback?token=${token}`;
+    const redirectUrl = `${path}/callback?token=${token}`;
     res.redirect(redirectUrl);
     // res.status(200).json({
     //   status: true,
