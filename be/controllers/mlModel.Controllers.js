@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 // Fungsi untuk menjalankan Python
 const runPython = (text) => {
   return new Promise((resolve, reject) => {
-    const python = spawn('python', ['./python/ml-model.py', text]);
+    const python = spawn('python3', ['./python/ml-model.py', text]);
 
     let result = '';
     python.stdout.on('data', (data) => {
