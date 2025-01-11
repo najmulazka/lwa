@@ -6,7 +6,8 @@ function Booking() {
     <div>
       <Header />
       <div className="calendly-container">
-        <InlineWidget url="https://calendly.com/techacademyapi/30min" />
+        <InlineWidget url="https://calendly.com/andilubis182/60min" />
+        {/* <InlineWidget url="https://calendly.com/techacademyapi/30min" /> */}
       </div>
     </div>
   );
