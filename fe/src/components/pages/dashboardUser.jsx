@@ -81,7 +81,7 @@ function DashboardUser() {
               {landingJobs
                 .filter((data) => data.status === true)
                 .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                .slice(0, 5)
+                .slice(0, 2)
                 .map((landingJob) => (
                   <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
                     <button className="w-full bg-green-400 rounded-full py-1 text-white">+{addPercentage}%</button>
@@ -90,7 +90,7 @@ function DashboardUser() {
               {linkedinProfiles
                 .filter((data) => data.status === true)
                 .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                .slice(0, 5)
+                .slice(0, 2)
                 .map((linkedinProfile) => (
                   <TableRow key={linkedinProfile.id} td1={`${index++}.`} td2={linkedinProfile.taskLinkedinProfile.categoryLinkedinProfile.name} td3={linkedinProfile.taskLinkedinProfile.description}>
                     <button className="w-full bg-green-400 rounded-full py-1 text-white">+{addPercentage}%</button>
