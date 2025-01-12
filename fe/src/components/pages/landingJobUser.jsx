@@ -88,44 +88,46 @@ function LandingJobUser() {
   };
 
   return (
-    <SupportResponsifeMobile>
+    <div>
       <Sidebar role="user" />
-      <div className="bg-gray-100 ml-80">
+      <div className="bg-gray-100 md:ml-80">
         <Overview />
-        <div className=" py-4 px-16">
-          <div className="mb-4 flex justify-between">
-            <div className="text-blue-900 font-bold">Progress</div>
-            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
+        <SupportResponsifeMobile>
+          <div className=" py-4 px-16">
+            <div className="mb-4 flex justify-between">
+              <div className="text-blue-900 font-bold">Progress</div>
+              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
+            </div>
+            <Table
+              th1="No"
+              th2={
+                <select name="category" id="category" className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis text-left" value={selectedCategory} onChange={handleCategoryChange}>
+                  <option value="0" selected>
+                    Category
+                  </option>
+                  {categoryLandingJobs.length > 0 &&
+                    categoryLandingJobs.map((categoryLandingJob) => (
+                      <option key={categoryLandingJob.id} value={categoryLandingJob.id}>
+                        {categoryLandingJob.name}
+                      </option>
+                    ))}
+                </select>
+              }
+              th3="To-do List"
+              th4="Action">
+              {landingJobs.length > 0 &&
+                landingJobs.map((landingJob) => (
+                  <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
+                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {landingJob.status == true ? 'Done' : 'Nope'}
+                    </button>
+                  </TableRow>
+                ))}
+            </Table>
           </div>
-          <Table
-            th1="No"
-            th2={
-              <select name="category" id="category" className="w-[200px] max-w-[200px] overflow-hidden text-ellipsis text-left" value={selectedCategory} onChange={handleCategoryChange}>
-                <option value="0" selected>
-                  Category
-                </option>
-                {categoryLandingJobs.length > 0 &&
-                  categoryLandingJobs.map((categoryLandingJob) => (
-                    <option key={categoryLandingJob.id} value={categoryLandingJob.id}>
-                      {categoryLandingJob.name}
-                    </option>
-                  ))}
-              </select>
-            }
-            th3="To-do List"
-            th4="Action">
-            {landingJobs.length > 0 &&
-              landingJobs.map((landingJob) => (
-                <TableRow key={landingJob.id} td1={`${index++}.`} td2={landingJob.taskLandingJob.categoryLandingJob.name} td3={landingJob.taskLandingJob.description}>
-                  <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
-                    {landingJob.status == true ? 'Done' : 'Nope'}
-                  </button>
-                </TableRow>
-              ))}
-          </Table>
-        </div>
+        </SupportResponsifeMobile>
       </div>
-    </SupportResponsifeMobile>
+    </div>
   );
 }
 

@@ -50,7 +50,7 @@ function LoginUser() {
         </h2>
 
         {loginFailed && <div className="text-red-500 text-center">{loginFailed}</div>}
-        <form action="" method="post" className="flex flex-col space-y-2 md:mb-2" onSubmit={handleSubmit}>
+        <form action="" method="post" className="flex flex-col space-y-2 mb-2" onSubmit={handleSubmit}>
           <input type="email" name="email" id="email" placeholder="email" className="flex w-full px-2 py-1 border border-black rounded-md" />
           <input type="password" name="password" id="password" placeholder="password" className="flex w-full px-2 py-1 border border-black rounded-md" />
           <button type="submit" className="flex w-full justify-center py-2 border text-xl bg-black border-black text-white font-bold rounded-md hover:bg-white hover:text-black">

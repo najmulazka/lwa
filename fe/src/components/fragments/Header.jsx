@@ -37,7 +37,7 @@ function Header() {
         </button>
 
         {/* Navigation Links */}
-        <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:flex md:items-center md:space-x-6 md:text-base text-xs font-medium w-full md:w-auto`}>
+        <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:flex md:items-center mt-4 md:mt-0 md:space-x-6 md:text-base text-xs font-medium w-full md:w-auto`}>
           <div className="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0">
             <a href="/" className="hover:text-gray-500">
               Beranda
@@ -55,7 +55,7 @@ function Header() {
         </div>
 
         {/* Authentication Buttons */}
-        <div className="flex space-x-2 items-center">
+        <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:flex space-x-2 items-center`}>
           {!isLogin ? (
             <>
               <a href="/login">
@@ -71,7 +71,7 @@ function Header() {
             </>
           ) : (
             <>
-              <a href="/Booking" className="font-semibold flex items-center text-orange-500 hover:text-orange-300 py-1 md:py-2 md:px-4 px-2 text-xs md:text-base">
+              <a href="/Booking" className="font-semibold flex items-center text-orange-500 hover:text-orange-300 py-2 md:py-2 md:px-4 text-xs md:text-base">
                 Book Consultation
               </a>
               <a href="/user">
