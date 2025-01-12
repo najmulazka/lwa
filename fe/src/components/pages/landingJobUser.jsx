@@ -97,7 +97,6 @@ function LandingJobUser() {
             <div className="text-blue-900 font-bold">Progress</div>
             {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
           </div>
-          {/* <SupportResponsifeMobile> */}
           <div className="hidden md:block">
             <Table
               th1="No"
