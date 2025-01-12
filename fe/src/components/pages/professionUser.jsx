@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getSelfCheckProfessions, updateSelfCheckProfession } from '../../services/selfCheckProfession.service';
 import Overview from '../fragments/Overview';
 import Sidebar from '../fragments/Sidebar';
-import SupportResponsifeMobile from '../elements/SupportResponsifeMobile';
 
 function ProfessionUser() {
   const [professions, setProfessions] = useState([]);
@@ -11,6 +10,7 @@ function ProfessionUser() {
 
   const navigate = useNavigate();
   let index = 1;
+  let indexMobile = 1;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,16 +55,17 @@ function ProfessionUser() {
 
       <div className="bg-gray-100 md:ml-80">
         <Overview />
-        <SupportResponsifeMobile>
-          <div className=" py-4 px-16">
-            <div className="mb-4 flex justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="text-blue-900 font-bold">Progress</div>
-                <div className="border border-green-500 px-4 rounded-sm text-green-500">{professions.length > 0 ? professions[0].taskProfessions.professions.name : 'none'}</div>
-              </div>
-              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
+        <div className="py-3.5 px-4 md:py-4 md:px-16">
+          <div className="mb-4 flex flex-col md:justify-between">
+            <div className="block md:hidden border border-green-500 py-1 mb-4 text-center justify-center rounded-sm text-green-500">{professions.length > 0 ? professions[0].taskProfessions.professions.name : 'none'}</div>
+            <div className="flex items-center space-x-4">
+              <div className="text-blue-900 font-bold">Progress</div>
+              <div className="hidden md:block border border-green-500 px-4 rounded-sm text-green-500">{professions.length > 0 ? professions[0].taskProfessions.professions.name : 'none'}</div>
             </div>
+            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
+          </div>
 
+          <div className="hidden md:block">
             <div className="bg-white rounded-lg px-5 py-6 flex md:flex-row flex-col items-center">
               <table className="table w-full border-separate border-spacing-y-4 border-spacing-x-2">
                 <thead>
@@ -93,7 +94,25 @@ function ProfessionUser() {
               </table>
             </div>
           </div>
-        </SupportResponsifeMobile>
+
+          <div className="md:hidden block bg-white rounded-lg px-2 py-4">
+            {professions.length > 0 &&
+              professions.map((profession) => (
+                <>
+                  <div className="flex" key={profession.id}>
+                    <div className="flex mr-2">{`${indexMobile++}.`}</div>
+                    <div className="flex items-center text-justify">{profession.taskProfessions.description}</div>
+                  </div>
+
+                  <div className="mb-6 mt-2">
+                    <button onClick={() => handleClick(profession.id, profession.status)} className={`w-full ${profession.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {profession.status == true ? 'Done' : 'Nope'}
+                    </button>
+                  </div>
+                </>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
