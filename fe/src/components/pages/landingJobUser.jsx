@@ -8,7 +8,6 @@ import { getSelfCheckLandingJobs, updateSelfCheckLandingJob } from '../../servic
 import { CookiesKey, CookiesStorage } from '../../utils/cookies';
 import axios from 'axios';
 import { getCategoryLandingJobs } from '../../services/categoryLandingJob.service';
-import SupportResponsifeMobile from '../elements/SupportResponsifeMobile';
 
 function LandingJobUser() {
   const [landingJobs, setLandingJobs] = useState([]);
@@ -19,6 +18,7 @@ function LandingJobUser() {
 
   const navigate = useNavigate();
   let index = 1;
+  let indexMobile = 1;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,12 +92,13 @@ function LandingJobUser() {
       <Sidebar role="user" />
       <div className="bg-gray-100 md:ml-80">
         <Overview />
-        <SupportResponsifeMobile>
-          <div className=" py-4 px-16">
-            <div className="mb-4 flex justify-between">
-              <div className="text-blue-900 font-bold">Progress</div>
-              {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
-            </div>
+        <div className="py-3.5 px-4 md:py-4 md:px-16">
+          <div className="mb-4 flex justify-between">
+            <div className="text-blue-900 font-bold">Progress</div>
+            {/* <input type="text" id="search" className="rounded-full py-2 px-2 text-center text-gray-800 text-sm shadow-md" placeholder="Search for something" /> */}
+          </div>
+          {/* <SupportResponsifeMobile> */}
+          <div className="hidden md:block">
             <Table
               th1="No"
               th2={
@@ -125,7 +126,39 @@ function LandingJobUser() {
                 ))}
             </Table>
           </div>
-        </SupportResponsifeMobile>
+
+          <div className="md:hidden block bg-white rounded-lg px-2 py-4">
+            {
+              <select name="category" id="category" className="mb-4 w-24 overflow-hidden text-ellipsis text-left" value={selectedCategory} onChange={handleCategoryChange}>
+                <option value="0" selected>
+                  Category
+                </option>
+                {categoryLandingJobs.length > 0 &&
+                  categoryLandingJobs.map((categoryLandingJob) => (
+                    <option key={categoryLandingJob.id} value={categoryLandingJob.id}>
+                      {categoryLandingJob.name}
+                    </option>
+                  ))}
+              </select>
+            }
+            {landingJobs.length > 0 &&
+              landingJobs.map((landingJob) => (
+                <>
+                  <div className="flex flex-wrap" key={landingJob.id}>
+                    <div className="flex items-center">{`${indexMobile++}.`}</div>
+                    <div className="text-center mx-2 bg-blue-100 inline p-2 rounded-lg ">{landingJob.taskLandingJob.categoryLandingJob.name}</div>
+                    <div className="flex items-center text-justify">{landingJob.taskLandingJob.description}</div>
+                  </div>
+
+                  <div className="mb-6 mt-2">
+                    <button onClick={() => handleClick(landingJob.id, landingJob.status)} className={`w-full ${landingJob.status == true ? 'bg-green-400' : 'bg-red-400'} rounded-full py-1 text-white`}>
+                      {landingJob.status == true ? 'Done' : 'Nope'}
+                    </button>
+                  </div>
+                </>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
