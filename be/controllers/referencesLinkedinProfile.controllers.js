@@ -7,12 +7,7 @@ module.exports = {
   createReferences: async (req, res, next) => {
     try {
       if (!req.files) {
-        return res.status(400).json({
-          status: false,
-          message: 'Bad Request',
-          err: 'File is required',
-          data: null,
-        });
+        res.sendResponse(400, 'Bad Request', 'File is required', null);
       }
 
       const images = await Promise.all(
@@ -31,11 +26,7 @@ module.exports = {
         skipDuplicates: true,
       });
 
-      res.status(202).json({
-        status: true,
-        message: 'Created',
-        data: images,
-      });
+      res.sendResponse(201, 'Created', null, images);
     } catch (err) {
       next(err);
     }
@@ -45,11 +36,7 @@ module.exports = {
     try {
       let references = await prisma.referencesLinkedinProfile.findMany();
 
-      res.status(202).json({
-        status: true,
-        message: 'Get All Referencess Successfull',
-        data: references,
-      });
+      res.sendResponse(200, 'Get All References Successful', null, references);
     } catch (err) {
       next(err);
     }
@@ -58,12 +45,7 @@ module.exports = {
   updateReferences: async (req, res, next) => {
     try {
       if (!req.files) {
-        return res.status(400).json({
-          status: false,
-          message: 'Bad Request',
-          err: 'File is required',
-          data: null,
-        });
+        return res.sendResponse(200, 'Bad Request', 'File is required', null);
       }
 
       const images = await Promise.all(
@@ -84,11 +66,7 @@ module.exports = {
 
       const del = await prisma.referencesLinkedinProfile.deleteMany();
       if (!del) {
-        return res.status(404).json({
-          status: false,
-          message: 'dont delete',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Can not deleted', null);
       }
 
       const cre = await prisma.referencesLinkedinProfile.createMany({
@@ -96,18 +74,10 @@ module.exports = {
         skipDuplicates: true,
       });
       if (!cre) {
-        return res.status(404).json({
-          status: false,
-          message: 'dont update',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Can not update', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Created',
-        data: images,
-      });
+      res.sendResponse(200, 'Created', null, images);
     } catch (err) {
       console.log(err.message);
       next(err);

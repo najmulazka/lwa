@@ -4,7 +4,7 @@ const prisma = require('../libs/prisma.libs');
 const { format, isBefore } = require('date-fns');
 
 module.exports = {
-  getAllBooking: async (req, res) => {
+  getAllBooking: async (req, res, next) => {
     try {
       const bookings = await prisma.booking.findMany();
 
@@ -28,14 +28,9 @@ module.exports = {
         };
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'OK',
-        data: formattedBookings,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: error.message });
+      res.sendResponse(200, 'OK', null, formattedBookings);
+    } catch (err) {
+      next(err);
     }
   },
 

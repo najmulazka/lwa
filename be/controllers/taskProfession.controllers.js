@@ -12,11 +12,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Task Linkedin Profile Successfull',
-        data: taskProfessions,
-      });
+      res.sendResponse(200, 'Get All Task Linkedin Profile Successful', null, taskProfessions);
     } catch (err) {
       next(err);
     }

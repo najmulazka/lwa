@@ -11,11 +11,7 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: faq,
-      });
+      res.sendResponse(201, 'Created', null, faq);
     } catch (err) {
       next(err);
     }
@@ -25,11 +21,7 @@ module.exports = {
     try {
       let faq = await prisma.faq.findMany();
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Faq Successfull',
-        data: faq,
-      });
+      res.sendResponse(200, 'Get All Faq Successfull', null, faq);
     } catch (err) {
       next(err);
     }
@@ -41,18 +33,10 @@ module.exports = {
       let faq = await prisma.faq.findUnique({ where: { id: Number(id) } });
 
       if (!faq) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Faq Successfull',
-        data: faq,
-      });
+      res.sendResponse(200, 'Get Faq Successful', null, faq);
     } catch (err) {
       next(err);
     }
@@ -68,11 +52,7 @@ module.exports = {
       });
 
       if (!existFaq) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       let faq = await prisma.faq.update({
@@ -83,11 +63,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Faq Sucessfull',
-        data: faq,
-      });
+      res.sendResponse(200, 'Update Faq Successful', null, faq);
     } catch (err) {
       next(err);
     }
@@ -102,22 +78,14 @@ module.exports = {
       });
 
       if (!existFaq) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       await prisma.faq.delete({
         where: { id: Number(id) },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      res.sendResponse(204, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }

@@ -10,12 +10,7 @@ module.exports = {
 
       let userExist = await prisma.users.findUnique({ where: { email } });
       if (userExist) {
-        return res.status(400).json({
-          status: false,
-          message: 'Bad Request',
-          err: 'user has already been used!',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'user has already been used!', null);
       }
 
       let encryptedPassword = await bcrypt.hash(password, 10);
@@ -28,13 +23,7 @@ module.exports = {
       });
 
       let token = jwt.sign({ email: user.email }, JWT_SECRET_KEY);
-
-      return res.status(201).json({
-        status: true,
-        message: 'Created',
-        err: null,
-        data: { name, email, password, token },
-      });
+      res.sendResponse(201, 'Created', null, { name, email, password, token });
     } catch (err) {
       next(err);
     }
@@ -42,25 +31,15 @@ module.exports = {
 
   loginUser: async (req, res, next) => {
     const { email, password } = req.body;
-    const existUser = await prisma.users.findUnique({ where: { email } });
 
+    const existUser = await prisma.users.findUnique({ where: { email } });
     if (!existUser) {
-      return res.status(400).json({
-        status: false,
-        message: 'Bad Request',
-        err: 'Email Or Password Wrong',
-        data: null,
-      });
+      return res.sendResponse(400, 'Bad Request', 'Email Or Password Wrong', null);
     }
 
     let isPasswordCorrect = await bcrypt.compare(password, existUser.password);
-
     if (!isPasswordCorrect) {
-      return res.status(400).json({
-        status: false,
-        message: 'Email Or Password Wrong',
-        data: null,
-      });
+      return res.sendResponse(400, 'Bad Request', 'Email Or Password Wrong', null);
     }
 
     const token = jwt.sign({ id: existUser.id }, JWT_SECRET_KEY);
@@ -111,15 +90,10 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
+      next(err);
     }
 
-    res.status(200).json({
-      status: true,
-      message: 'OK',
-      err: null,
-      data: { existUser, token },
-    });
+    res.sendResponse(200, 'OK', null, { existUser, token });
   },
 
   loginAdmin: async (req, res, next) => {
@@ -127,38 +101,19 @@ module.exports = {
     const existUser = await prisma.users.findUnique({ where: { email } });
 
     if (!existUser || !existUser.isAdmin) {
-      return res.status(400).json({
-        status: false,
-        message: 'Email Or Password Wrong',
-        data: null,
-      });
+      return res.sendResponse(400, 'Bad Request', 'Email Or Password Wrong', null);
     }
 
     if (password !== existUser.password) {
-      return res.status(400).json({
-        status: false,
-        message: 'Email Or Password Wrong',
-        data: null,
-      });
+      return res.sendResponse(400, 'Bad Request', 'Email Or Password Wrong', null);
     }
 
     const token = jwt.sign({ id: existUser.id }, JWT_SECRET_KEY);
-
-    res.status(200).json({
-      status: true,
-      message: 'OK',
-      err: null,
-      data: { existUser, token },
-    });
+    res.sendResponse(200, 'OK', null, { existUser, token });
   },
 
   whoami: async (req, res, next) => {
-    res.status(200).json({
-      status: true,
-      message: 'OK',
-      err: null,
-      data: { user: req.user },
-    });
+    res.sendResponse(200, 'OK', null, { user: req.user });
   },
 
   googleOauth2: async (req, res, next) => {

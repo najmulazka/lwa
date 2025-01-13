@@ -12,11 +12,7 @@ module.exports = {
       });
 
       if (existCategoryLandingJob) {
-        return res.status(400).json({
-          status: false,
-          message: 'Category Name Already',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Category Name Already', null);
       }
 
       const categoryLandingJob = await prisma.categoryLandingJob.create({
@@ -25,11 +21,7 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: categoryLandingJob,
-      });
+      res.sendResponse(201, 'Created', categoryLandingJob, null);
     } catch (err) {
       next(err);
     }
@@ -39,11 +31,7 @@ module.exports = {
     try {
       const categoryLandingJob = await prisma.categoryLandingJob.findMany({ orderBy: { id: 'asc' } });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Task Landing Job Successfull',
-        data: categoryLandingJob,
-      });
+      res.sendResponse(200, 'Get All Task Landing Job Successfull', null, categoryLandingJob);
     } catch (err) {
       next(err);
     }
@@ -59,18 +47,10 @@ module.exports = {
       });
 
       if (!existCategoryLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Detail Task Landing Job Successfull',
-        data: existCategoryLandingJob,
-      });
+      res.sendResponse(200, 'OK', 'Get Detail Task Landing Job Successfull', existCategoryLandingJob);
     } catch (err) {
       next(err);
     }
@@ -87,11 +67,7 @@ module.exports = {
       });
 
       if (!existCategoryLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       const categoryLandingJob = await prisma.categoryLandingJob.update({
@@ -103,11 +79,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Task Landing Job Successfull',
-        data: categoryLandingJob,
-      });
+      return res.sendResponse(200, 'Update Task Landing Job Successfull', null, categoryLandingJob);
     } catch (err) {
       next(err);
     }
@@ -123,11 +95,7 @@ module.exports = {
       });
 
       if (!existCategoryLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       await prisma.categoryLandingJob.delete({
@@ -136,11 +104,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      res.sendResponse(204, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }

@@ -5,11 +5,7 @@ module.exports = {
     try {
       const professions = await prisma.professions.findMany();
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Professions Successfull',
-        data: professions,
-      });
+      res.sendResponse(200, 'Get All Professions Successful', null, professions);
     } catch (err) {
       next(err);
     }

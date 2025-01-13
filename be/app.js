@@ -7,6 +7,9 @@ const cookieParser = require('cookie-parser');
 const cron = require('node-cron');
 const routes = require('./routes');
 const { getBookingCalendly } = require('./controllers/booking.controllers');
+const { notFoundHandler } = require('./middlewares/notfound.middlewares');
+const { errorHandler } = require('./middlewares/error.middlewares');
+const { jsonResponse } = require('./middlewares/jsonResponse.middlewares');
 const { PORT = 3000, OPENAI_API_KEY } = process.env;
 
 app.use(express.json());
@@ -25,8 +28,12 @@ app.use(cors(corsOptions));
 //   console.log('a');
 //   getBookingCalendly();
 // });
+app.use(jsonResponse);
 
 app.use('/api/v1', routes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

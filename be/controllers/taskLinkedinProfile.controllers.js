@@ -11,11 +11,7 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: taskLinkedinProfile,
-      });
+      res.sendResponse(201, 'Created', null, taskLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -39,11 +35,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Task Linkedin Profile Successfull',
-        data: taskLinkedinProfile,
-      });
+      res.sendResponse(200, 'Get All Task Linkedin Profile Successfull', null, taskLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -60,18 +52,10 @@ module.exports = {
       });
 
       if (!taskLinkedinProfile) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Task Linkedin Profile Successfull',
-        data: taskLinkedinProfile,
-      });
+      res.sendResponse(200, 'Get Task Linkedin Profile Successfull', null, taskLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -87,11 +71,7 @@ module.exports = {
       });
 
       if (!existTaskLinkedinProfile) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       let taskLinkedinProfile = await prisma.taskLinkedinProfile.update({
@@ -103,25 +83,12 @@ module.exports = {
       });
 
       if (!taskLinkedinProfile) {
-        return res.status(400).json({
-          status: false,
-          message: 'Bad Request',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Can not update', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Task Linkedin Profile Sucessfull',
-        data: taskLinkedinProfile,
-      });
+      res.sendResponse(200, 'Update Task Linkedin Profile Sucessfull', null, taskLinkedinProfile);
     } catch (err) {
-      return res.status(400).json({
-        status: false,
-        message: err.message,
-        data: null,
-      });
-      // next(err);
+      next(err);
     }
   },
 
@@ -134,22 +101,14 @@ module.exports = {
       });
 
       if (!existTaskLinkedinProfile) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       await prisma.taskLinkedinProfile.delete({
         where: { id: Number(id) },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      return res.sendResponse(204, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }

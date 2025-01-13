@@ -11,11 +11,7 @@ module.exports = {
       });
 
       if (existCategoryLinkedinProfile) {
-        return res.status(400).json({
-          status: false,
-          message: 'Category Name Already',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Category Name Already', null);
       }
 
       const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.create({
@@ -24,11 +20,7 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: categoryLinkedinProfile,
-      });
+      res.sendResponse(201, 'Created', null, categoryLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -38,11 +30,7 @@ module.exports = {
     try {
       const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.findMany({ orderBy: { id: 'asc' } });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Category Linkedin Profile Successfull',
-        data: categoryLinkedinProfile,
-      });
+      res.sendResponse(200, 'Get All Category Linkedin Profile Successfull', null, categoryLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -54,18 +42,10 @@ module.exports = {
       const existCategoryLinkedinProfile = await prisma.categoryLinkedinProfile.findUnique({ where: { id: Number(id) } });
 
       if (!existCategoryLinkedinProfile) {
-        return res.json(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Category Linkedin Profile Successfull',
-        data: existCategoryLinkedinProfile,
-      });
+      res.sendResponse(200, 'Get Category Linkedin Profile Successfull', null, existCategoryLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -78,11 +58,7 @@ module.exports = {
       const existCategoryLinkedinProfile = await prisma.categoryLinkedinProfile.findUnique({ where: { id: Number(id) } });
 
       if (!existCategoryLinkedinProfile) {
-        return res.json(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.update({
@@ -94,11 +70,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Linkedin Profile Successfull',
-        data: categoryLinkedinProfile,
-      });
+      res.sendResponse(200, 'Update Linkedin Profile Successfull', null, categoryLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -110,24 +82,16 @@ module.exports = {
       const existCategoryLinkedinProfile = await prisma.categoryLinkedinProfile.findUnique({ where: { id: Number(id) } });
 
       if (!existCategoryLinkedinProfile) {
-        return res.json(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      const categoryLinkedinProfile = await prisma.categoryLinkedinProfile.delete({
+      await prisma.categoryLinkedinProfile.delete({
         where: {
           id: Number(id),
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      res.sendResponse(204, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }

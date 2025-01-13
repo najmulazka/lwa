@@ -11,11 +11,7 @@ module.exports = {
       });
 
       if (!categoryLandingJob) {
-        return res.status(400).json({
-          status: false,
-          message: 'Error selected category',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Error selected category', null);
       }
 
       const taskLandingJob = await prisma.taskLandingJob.create({
@@ -25,17 +21,9 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: taskLandingJob,
-      });
+      res.sendResponse(201, 'Created', null, taskLandingJob);
     } catch (err) {
-      return res.status(400).json({
-        status: false,
-        message: err.message,
-        data: null,
-      });
+      next(err);
     }
   },
 
@@ -57,11 +45,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Task Landing Job Successfull',
-        data: taskLandingJobs,
-      });
+      res.sendResponse(200, 'Get All Task Landing Job Successfull', null, taskLandingJobs);
     } catch (err) {
       next(err);
     }
@@ -78,18 +62,10 @@ module.exports = {
       });
 
       if (!taskLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Task Landing Job Successfull',
-        data: taskLandingJob,
-      });
+      res.sendResponse(200, 'Get Task Landing Job Successfull', null, taskLandingJob);
     } catch (err) {
       next(err);
     }
@@ -105,11 +81,7 @@ module.exports = {
       });
 
       if (!existTaskLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       let taskLandingJob = await prisma.taskLandingJob.update({
@@ -121,18 +93,10 @@ module.exports = {
       });
 
       if (!taskLandingJob) {
-        return res.status(400).json({
-          status: false,
-          message: 'Bad Request',
-          data: null,
-        });
+        return res.sendResponse(400, 'Bad Request', 'Can not updated', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Task Landing Job Sucessfull',
-        data: taskLandingJob,
-      });
+      res.sendResponse(200, 'Update Task Landing Job Sucessfull', null, taskLandingJob);
     } catch (err) {
       next(err);
     }
@@ -147,22 +111,14 @@ module.exports = {
       });
 
       if (!existTaskLandingJob) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       await prisma.taskLandingJob.delete({
         where: { id: Number(id) },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      res.sendResponse(204, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }

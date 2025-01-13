@@ -38,11 +38,7 @@ module.exports = {
         ],
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Self Check Landing Job Successfull',
-        data: selfCheckLinkedinProfile,
-      });
+      res.sendResponse(200, 'Get All Self Check Landing Job Successfull', null, selfCheckLinkedinProfile);
     } catch (err) {
       next(err);
     }
@@ -62,11 +58,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Self Check Landing Jobs Successfull',
-        data: selfCheckLinkedinProfile,
-      });
+      res.sendResponse(200, 'Update Self Check Landing Jobs Successfull', null, selfCheckLinkedinProfile);
     } catch (err) {
       next(err);
     }

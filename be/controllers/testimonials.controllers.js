@@ -13,11 +13,7 @@ module.exports = {
         },
       });
 
-      res.status(201).json({
-        status: true,
-        message: 'Created',
-        data: testimoni,
-      });
+      res.sendResponse(201, 'Created', null, testimoni);
     } catch (err) {
       next(err);
     }
@@ -27,11 +23,7 @@ module.exports = {
     try {
       let testimonials = await prisma.testimonials.findMany();
 
-      res.status(200).json({
-        status: true,
-        message: 'Get All Testimonials Successfull',
-        data: testimonials,
-      });
+      res.sendResponse(200, 'Get All Testimonials Successful', null, testimonials);
     } catch (err) {
       next(err);
     }
@@ -43,18 +35,10 @@ module.exports = {
       let testimoni = await prisma.testimonials.findUnique({ where: { id: Number(id) } });
 
       if (!testimoni) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
-      res.status(200).json({
-        status: true,
-        message: 'Get Testimoni Successfull',
-        data: testimoni,
-      });
+      res.sendResponse(200, 'Get Testimoni Successfull', null, testimoni);
     } catch (err) {
       next(err);
     }
@@ -70,11 +54,7 @@ module.exports = {
       });
 
       if (!existTestimoni) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       let testimoni = await prisma.testimonials.update({
@@ -87,11 +67,7 @@ module.exports = {
         },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Update Testimoni Sucessfull',
-        data: testimoni,
-      });
+      res.sendResponse(200, 'Update Testimoni Sucessfull', null, testimoni);
     } catch (err) {
       next(err);
     }
@@ -106,22 +82,14 @@ module.exports = {
       });
 
       if (!existTestimoni) {
-        return res.status(404).json({
-          status: false,
-          message: 'Not Found',
-          data: null,
-        });
+        return res.sendResponse(404, 'Bad Request', 'Resource Not Found', null);
       }
 
       await prisma.testimonials.delete({
         where: { id: Number(id) },
       });
 
-      res.status(200).json({
-        status: true,
-        message: 'Deleted',
-        data: null,
-      });
+      res.sendResponse(200, 'Deleted', null, null);
     } catch (err) {
       next(err);
     }
